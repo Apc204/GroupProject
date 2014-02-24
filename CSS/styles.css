@@ -1,0 +1,151 @@
+body {
+	/*background-color: grey;*/
+}
+
+.maindiv {
+  margin-right: auto;
+  margin-left: auto;
+  width: 794px;
+}
+
+.text-div {
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.img-test {
+	position:absolute;
+	width: 100%;
+	height: 220px;
+	margin-left: auto;
+	margin-right: auto;
+	top:-60px;
+	z-index: -1;
+	overflow-y: hidden;
+}
+
+.white-text {
+	color: white;
+	text-align: center;
+	font-size: 60px;
+}
+
+.inner-right {
+	float: right;	
+}
+
+.maze-div {
+	float: left;
+	padding-left: 20px;
+	margin-left: 20px;
+	/*padding-right: 20px;*/
+}
+
+.below-maze-div {
+	float: left;
+}
+
+#code-div {
+	/*padding-left: 20px;*/
+	/*padding-right: 20px;*/
+	float: left;
+	/*border: solid;*/
+}
+
+.inside {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.padding {
+	padding-top: 20px;
+}
+
+.centre {
+	margin-right: auto;
+	margin-left: auto;
+	width: 400px;
+	text-align: center;
+}
+
+.to-reveal {
+	display: none;
+}
+
+#pop-up {
+	display: none;
+	position: absolute;
+	width: 30%;
+	margin-left: 0;
+	margin-right: auto;
+	top: 52px;
+	left: 70%;
+	z-index: 1;	
+}
+
+.help-title {
+	font-size: 30px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+.upload-text {
+	width: 400px;
+}
+
+.bottom-upload {
+	width: 280px;
+}
+
+.console {
+	border: 1px solid;
+	/*border-radius:5px;*/
+	border-color:#C0C0C0;
+}
+
+.vis-div {
+	padding: 20px;
+}
+
+#testdiv {
+	/*border: solid;*/
+}
+
+#form-div {
+	padding-top: 17px;
+}
+
+#code-textarea {
+	overflow: auto;
+}
+
+#student-select {
+	width: 300px;
+}
+
+#chosen-student-div {
+	display: none;
+}
+
+#chosen-student-inner {
+	padding-left: 10px;
+}
