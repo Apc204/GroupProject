@@ -35,6 +35,10 @@ body {
 	float: right;	
 }
 
+.inner-left {
+	float: left;	
+}
+
 .maze-div {
 	float: left;
 	padding-left: 20px;
@@ -47,8 +51,14 @@ body {
 }
 
 #code-div {
-	/*padding-left: 20px;*/
-	/*padding-right: 20px;*/
+	/*margin-left: 20px;*/
+	margin-right: 20px;
+	float: left;
+}
+
+#console-div {
+	/*margin-left: 20px;*/
+	margin-right: 20px;
 	float: left;
 	/*border: solid;*/
 }
@@ -68,10 +78,6 @@ body {
 	margin-left: auto;
 	width: 400px;
 	text-align: center;
-}
-
-.to-reveal {
-	display: none;
 }
 
 #pop-up {
@@ -113,7 +119,7 @@ body {
 }
 
 .bottom-upload {
-	width: 280px;
+	width: 250px;
 }
 
 .console {
@@ -126,8 +132,8 @@ body {
 	padding: 20px;
 }
 
-#testdiv {
-	/*border: solid;*/
+#canvas-div {
+	width: 440px;
 }
 
 #form-div {
@@ -136,6 +142,7 @@ body {
 
 #code-textarea {
 	overflow: auto;
+	resize: none;
 }
 
 #student-select {
@@ -148,4 +155,54 @@ body {
 
 #chosen-student-inner {
 	padding-left: 10px;
+}
+
+.slider {
+	width: 400px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.size-slider {
+	width: 180px;
+}
+
+.maze-button {
+	margin-right: 5px;
+}
+
+#maze-width {
+	width: 200px;
+	padding-right: 10px;
+}
+
+#maze-height {
+	width: 200px;
+}
+
+#maze-size {
+	width: 400px;
+}
+
+.val {
+	width: 100px;
+}
+
+#large-canvas-div {
+	display: none;
+	padding: 20px;
+	padding-top: 30px;
+}
+
+.full-size-options {
+	margin-left: 30px;
+	width: 400px;
+}
+
+#title-no-top {
+	font-size: 35px;
+}
+
+#large-console-div {
+	margin-right: 20px;
 }

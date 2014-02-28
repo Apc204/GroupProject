@@ -3,6 +3,7 @@
 		<title>Maze Visualisation</title>
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
 		<link href="../CSS/styles.css" rel="stylesheet">
+    <link href="../CSS/slider.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -35,10 +36,14 @@
 
     <div id="pop-up" class="well">
       <div class="help-title">Help</div>
-      <br>
+      <br />
       From here you can upload your code and see exactly what it's doing in the maze. You can run it on different speends and on mazes of different sizes. Your code will be displayed as the maze is run, and any errors that are found will be highlighted. 
-      <br><br>
+      <br /><br />
       Click 'Choose File' to choose a file to upload, then click 'Upload code' to submit that code to the server for running. 
+      <br /><br />
+      The maze size and robot speed can be adjusted under 'Maze Options'. Maze size is measured in blocks, with a minimum of 1 and a maximum of 200. Robot delay is the number of milliseconds between each move. 
+      <br /><br />
+      You can save mazes by clicking the 'Save maze' button. This will download a JSON file to your computer. You can later upload this maze to run the robot on again by clicking 'Upload maze'. 
     </div>
 
   	<img src="../jpgs/banner1.jpg" class="img-test">
@@ -46,50 +51,22 @@
       
 			<h1 class="white-text">Maze Visualisation</h1>
 
-      <div class="text-div">  
-
-        <div class="to-hide">
-
-          <h2>Maze Visualiser</h2>
-
-          From here you can upload your code and see exactly what it's doing in the maze. You can run it on different speends and on mazes of different sizes. 
-          Your code will be displayed as the maze is run, and any errors that are found will be highlighted. 
-          <br><br>
-          Click 'Choose File' to choose a file to upload, then click 'Upload code' to submit that code to the server for running. 
-
-          <br><br>
-
-          <div class="centre">
-            <form name="form1">
-              <!-- <input type="file" name="uploadBox"> -->
-
-              <div class="input-group">
-                <span class="input-group-addon btn-file btn-file1">Browse <input type="file" id="uploadBox"></span>
-                <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
-              </div>
-
-              <br>
-              <a id="upload-code-init" class="btn btn-primary">Upload code</a><br><br>
-            </form>
-          </div>
-        </div>
-      </div>  
     </div>
 
-      <div class="to-reveal">
-        
-        <div class="col-sm-6 col-md-4 vis-div" id="testdiv">
-          <textarea id="code-textarea" cols="50">Couldn't find file path</textarea>
+      <div id="hide-full-screen">
+        <div class="col-md-4 vis-div" id="code-div">
+          <textarea id="code-textarea" >To upload a file, click the 'Upload code' button on the right. The code will be displayed here.</textarea>
         </div>
 
-        <div class="col-sm-6 col-md-4 vis-div" id="code-div">
+        <div class="col-md-4 vis-div" id="console-div">
             <div class="console">
-              This will be the console
+              When you upload code to the server, the console's print out will be displayed here.
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-4 vis-div" id="testdiv">
+        <div class="col-md-4 vis-div" id="canvas-div">
           <canvas id="myCanvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
+          
           <div id="form-div">
             <form name="form2">
               <div class="below-maze-div">
@@ -102,9 +79,104 @@
                 <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
               </div>
             </form>
+            <!-- Maze controls -->
+            <br /><h3>Maze Options</h3>
+            <h4>Maze size: </h4>
+
+            <div id="maze-size">
+            
+              <div class="inner-left" id="maze-width">
+
+                Width: <br />
+                <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                <input type="text" id="val-width" class="val" value="20"><br /><br />
+
+              </div>
+
+              <div class="inner-left" id="maze-height">
+
+                  Height: <br />
+                  <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                  <input type="text" id="val-height" class="val" value="20"><br /><br />
+
+              </div>
+
+            </div>
+
+            <h4>Robot delay: </h4>
+
+            <input type="text" id="speed" class="span2 slider" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+            <input type="text" id="val-speed" class="val" value="500"><br /><br />
+
+            <a id="update-maze" class="btn btn-primary maze-button">Update</a>
+            <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
+            <a id="load-maze" class="btn btn-primary maze-button">Upload maze</a>
+            <a id="full-screen" class="btn btn-primary maze-button">Enlarge</a><br><br>
+
           </div>
         </div>
+      </div>
 
+      <div id="large-canvas-div">
+        <div class="console inner-left" id="large-console-div">
+          When you upload code to the server, the console's print out will be displayed here.
+        </div>
+        <div class="inner-left">
+          <canvas id="large-canvas" style="border:1px solid #000000;"></canvas>
+        </div>
+        <div class="inner-left full-size-options">
+          <p id="title-no-top">Maze Options</p>
+            <form name="form2">
+              <div class="below-maze-div">
+                <div class="input-group bottom-upload">
+                  <span class="input-group-addon btn-file btn-file2">Browse <input type="file" id="uploadBox2"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
+                </div>
+              </div>
+              <div class="inner-right">
+                <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
+              </div>
+            </form>
+            <!-- Maze controls -->
+            <br /><h3>Maze Options</h3>
+            <h4>Maze size: </h4>
+
+            <div id="maze-size">
+            
+              <div class="inner-left" id="maze-width">
+
+                Width: <br />
+                <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                <input type="text" id="val-width" class="val" value="20"><br /><br />
+
+              </div>
+
+              <div class="inner-left" id="maze-height">
+
+                  Height: <br />
+                  <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                  <input type="text" id="val-height" class="val" value="20"><br /><br />
+
+              </div>
+
+            </div>
+
+            <h4>Robot delay: </h4>
+
+            <input type="text" id="speed" class="span2 slider" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+            <input type="text" id="val-speed" class="val" value="500"><br /><br />
+
+            <a id="update-maze" class="btn btn-primary maze-button">Update</a>
+            <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
+            <a id="load-maze" class="btn btn-primary maze-button">Upload maze</a>
+            <a id="full-screen" class="btn btn-primary maze-button">Shrink</a><br><br>
+        </div>
       </div>
 
 	</body>
@@ -113,7 +185,6 @@
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   <script src="../JS/mazevisualisation.js"></script>
   <script src="../JS/script.js"></script>
-  <script src="../JS/PrimGenerator.js"></script>
-  <script src="../JS/LoopyGenerator.js"></script>
+  <script src="../JS/bootstrap-slider.js"></script>
 
 </html>

@@ -1,13 +1,89 @@
+var setWidth = 20;
+var setHeight = 20;
+var setSpeed = 500;
+
 $().ready(function () {
 	var width = $(document).width();
 	var height = $(document).height();
-	// var codeWidth = parseInt($('#code-div').css("width")) - 40;
-	var codeWidth = 420;
-	// $('#code-div').css("width", width-470); //400 from the canvas, 25 from the padding, 5 because for some reason it won't work without it
-	// $('#code-textarea').css("width", width-470); //extra 20 px on either side of the text area in the code-div
-	$('#code-textarea').css("width", codeWidth);
-	$('#code-textarea').css("height", height-220);
-	$('.console').css("height", height-220);
+
+	//Calculate div sizes
+	var mazeDivWidth = 400;
+	var bothWidth = width - mazeDivWidth - 80 // -400 for the maze, -40 for 20px padding everywhere
+
+	$('#code-div').css("width", bothWidth/2);
+	$('#code-textarea').css("width", bothWidth/2);
+	$('#code-textarea').css("height", height-200);
+
+	$('#console-div').css("width", bothWidth/2);
+	$('.console').css("width", bothWidth/2);
+	$('.console').css("height", height-200);
+
+	//Initialise sliders
+	$('.slider').slider().on('slide', function(ev){
+		//get the slider value
+		var val = ev.value;
+		//get the name of the question we're working with
+		var name = $(this).attr('id');
+		//assign this value to the correct value box
+		$("#val-"+name).val(val);
+
+		//set variables
+		if (name == 'val-width') {
+			setWidth = val;
+		} else if (name == 'val-height') {
+			setHeight = val;
+		} else if (name == 'val-speed') {
+			setSpeed = val;
+		}
+	});
+
+	//Set full-screen div size for canvas
+	$('#large-canvas').css("height", height-200);
+	$('#large-canvas').css("width", height-200);
+	$('#large-console-div').css("width", width - height - 290);
+
+	//change the slider if the text box value is changed
+	$('.val').keyup(function() {
+		//get the name of the question we're working with. Substring with 4 to remove the val- from the beginning.
+		var name = $(this).attr('id').substring(4);
+		
+		var val = $('#val-'+name).val();
+		$('#'+name).slider('setValue', val);
+
+		//set variables
+		if (name == 'val-width') {
+			setWidth = val;
+		} else if (name == 'val-height') {
+			setHeight = val;
+		} else if (name == 'val-speed') {
+			setSpeed = val;
+		}
+	});
+
+	//check the value if the user inputted something manually
+	$('.val').focusout(function() {
+		//get the name of the question we're working with. Substring with 4 to remove the val- from the beginning.
+		var name = $(this).attr('id').substring(4);
+
+		//get the value
+		var value = $(this).val();
+
+		//Check it's a number
+		if( Math.floor(value) != value || !$.isNumeric(value) || value == "") {
+			$(this).val('');
+			alert("Please enter an integer between 1 and 10.");
+			$(this).focus();
+		} 
+
+		//if it's greater than 10 round it down to 10, and round it up to 0 if it's negative
+		if (value > 10) {
+			$(this).val('10');
+			value = 10;
+		} else if (value < 0) {
+			$(this).val('0');
+			value = 0;
+		}
+	});
 });
 
 $(document).on('change', '.btn-file1 :file', function() {
@@ -48,4 +124,9 @@ $('#upload-code').click(function() {
 
 $('#help-button').click(function () {
 	$('#pop-up').toggle();
+});
+
+$('#full-screen').click(function() {
+	$('#hide-full-screen').hide();
+	$('#large-canvas-div').show();
 });
