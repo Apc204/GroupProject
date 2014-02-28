@@ -58,19 +58,33 @@ function Generator () {
 			imgObj.onload = function()
 			{
 				//var img=document.getElementById(imgtag);
-				ctx.drawImage(imgObj,x*canvasHeight/height,y*canvasWidth/width,canvasHeight/height,canvasWidth/width);
+				console.log("Drawing size "+height+" by "+width+" block.");
+				ctx.drawImage(imgObj,x,y,height,width);
 			}
 	}
 
 	this.findCanvasProperties = function()
 	{
 		if(fullScreen == true)
+		{
 			var c=document.getElementById("large-canvas");
+			canvasWidth = largeCanvasWidth;
+			canvasHeight = largeCanvasHeight;
+			//canvasWidth = c.width;
+			//canvasHeight = c.height;
+			ctx=c.getContext("2d");
+		}
+			
 		else
+		{
 			var c=document.getElementById("myCanvas");
-		ctx=c.getContext("2d");
-		canvasWidth = c.width;
-		canvasHeight = c.height;
+			canvasWidth = c.width;
+			canvasHeight = c.height;
+			ctx=c.getContext("2d");
+		}
+			
+		
+		
 		console.log(canvasHeight);
 		console.log(canvasWidth);
 		return c;
@@ -161,6 +175,8 @@ function Generator () {
 		console.log("drawing maze");
 		c=this.findCanvasProperties();
 		var neighbours = [];
+		blockWidth = canvasWidth/this.newWidth;
+		blockHeight = canvasHeight/this.newHeight+1;
 
 		
 
@@ -168,10 +184,19 @@ function Generator () {
 		{
 			for (var j=0; j<this.newWidth; j++)
 			{
+				posi = i*canvasWidth/this.newWidth;
+				posj = j*canvasHeight/this.newHeight;
 				neighbours=[];
 				if (this.startY == i && this.startX == j)
 				{
 					ctx.fillStyle="#00FF00";
+					console.log("Canvas Height: "+canvasHeight);
+					console.log("Canvas : "+canvasWidth);
+					console.log("Dividing by (height): "+this.newHeight);
+					console.log("Dividing by (width): "+this.newWidth);
+
+					console.log("size of block:"+canvasWidth/this.newWidth);
+					console.log("size of block:"+canvasHeight/this.newHeight);
 					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
 				}
 				else if(this.endY == i && this.endX == j)
@@ -184,19 +209,19 @@ function Generator () {
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth, maze);
 					//console.log(neighbours.length);
 					if (neighbours.length == 4){
-						this.drawMiddleBlock(j,i,this.newHeight,this.newWidth,maze,neighbours);
+						this.drawMiddleBlock(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
 					else if (neighbours.length== 3){
-						this.draw3neighbours(j,i,this.newHeight,this.newWidth,maze,neighbours);
+						this.draw3neighbours(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
 					else if (neighbours.length == 2){
-						this.draw2neighbours(j,i,this.newHeight, this.newWidth, maze,neighbours);
+						this.draw2neighbours(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
 					else if (neighbours.length == 1){
-						this.drawSingleNeighbour(j,i,this.newHeight,this.newWidth,maze,neighbours);
+						this.drawSingleNeighbour(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
 					else {
-						this.drawBlock(j,i,this.newHeight,this.newWidth,maze,neighbours);
+						this.drawBlock(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
 					//(maze)ctx.fillStyle="#0080FF";
 					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
@@ -281,7 +306,6 @@ function Generator () {
 				if (this.isValid(maze,i,j) && this.getWalls(maze,i,j) < 3 && Math.random() > 0.5)
 				{
 					maze[i][j] = this.PASSAGE;
-					console.log("Set a new PASSAGE");
 				}
 			}
 		}
