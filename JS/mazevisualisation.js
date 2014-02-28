@@ -5,6 +5,7 @@ var setSpeed = 500;
 $().ready(function () {
 	var width = $(document).width();
 	var height = $(document).height();
+	fullScreen = false;
 
 	//Calculate div sizes
 	var mazeDivWidth = 400;
@@ -126,8 +127,18 @@ $('#help-button').click(function () {
 	$('#pop-up').toggle();
 });
 
+$('#update-maze').click(function(){
+	var generator = new Generator()
+	var maze = generator.generateLoopy();
+	generator.clearCanvas();
+	generator.drawMaze(Maze);
+})
+
 $('#full-screen').click(function() {
 	$('#hide-full-screen').hide();
 	$('#large-canvas-div').show();
+	fullScreen = true;
+	var generator = new Generator();
+	generator.drawMaze(Maze);
 });
 
