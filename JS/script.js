@@ -18,10 +18,16 @@ window.onload = function()
 
 	//console.log(maze);
 	var jsonMaze = generator.toJSON(maze);
-	var prefix = "[MAZE]";
-	var json = prefix.concat(JSON.stringify(jsonMaze));
+	console.log(jsonMaze);
+	var parsed = JSON.parse(jsonMaze);
+	console.log(parsed);
 
-	console.log(json);
+
+
+	//var prefix = "[MAZE]";
+	//var json = prefix.concat(JSON.stringify(jsonMaze));
+
+	//console.log(json);
 	//connectToSocket(json);
 }
 
@@ -36,13 +42,15 @@ function connectToSocket(jsonMaze)
 	 {
 	    // Web Socket is connected, send data using send()
 	    ws.send(jsonMaze);
-	    ws.send("STEP");
-	    alert("Message is sent...");
+	    	//while (recievedMaze[])
+	    	ws.send("STEP");
+	    	//alert("Message is sent...");
 	 };
 	 ws.onmessage = function (evt) 
 	 { 
 	    var received_msg = evt.data;
 	    alert("Message is received... " + evt.data);
+	    receivedMaze = JSON.parse(evt.data);
 	 };
 	 ws.onclose = function()
 	 { 
