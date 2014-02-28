@@ -68,6 +68,67 @@
           <canvas id="myCanvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
           
           <div id="form-div">
+
+            <div class="maze-option-block-btn">
+
+              <div class="inner-left">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Play</button>
+                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
+                  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span> Stop</button>
+                </div>
+              </div>
+
+              <div class="inner-right">
+                <a id="full-screen" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-fullscreen"></span> Enlarge maze</a>
+              </div>
+
+            </div>
+
+            <h3>Maze Options</h3>
+
+            <div class="maze-option-block">
+
+             <div class="inner-left maze-option-inner">
+                
+                <h4>Maze size: </h4>
+
+                <div class="input-group input-group-sm options-label">
+                  <span class="input-group-addon span-label">Width: </span> 
+                  <input type="text" id="val-width" class="form-control val" value="20">
+                </div>
+
+                <div class="input-group input-group-sm options-label">
+                  <span class="input-group-addon span-label">Height: </span>
+                  <input type="text" id="val-height" class="form-control val" value="20">
+                </div>
+
+              </div>
+
+              <div class="inner-left maze-option-inner">
+
+                <h4>Robot delay: </h4>
+                <input type="text" id="val-speed" class="form-control val" value="500">
+
+              </div>
+
+              <div class="inner-left maze-option-inner">
+
+                <h4>Maze type: </h4>
+
+                <span class="span-label"><input type="radio" name="maze-type" value="primms" checked> Primm's</span><br />
+                <span class="span-label"><input type="radio" name="maze-type" value="loopy"> Loopy</span>
+
+              </div>
+
+            </div>
+
+            <a id="update-maze" class="btn btn-primary maze-button">Update maze</a>
+            <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
+            <a id="load-maze" class="btn btn-primary maze-button">Load maze</a>
+            
+            <h3>Code Options</h3>
+
             <form name="form2">
               <div class="below-maze-div">
                 <div class="input-group bottom-upload">
@@ -79,42 +140,7 @@
                 <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
               </div>
             </form>
-            <!-- Maze controls -->
-            <br /><h3>Maze Options</h3>
-            <h4>Maze size: </h4>
-
-            <div id="maze-size">
-            
-              <div class="inner-left" id="maze-width">
-
-                Width: <br />
-                <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                <input type="text" id="val-width" class="val" value="20"><br /><br />
-
-              </div>
-
-              <div class="inner-left" id="maze-height">
-
-                  Height: <br />
-                  <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                  <input type="text" id="val-height" class="val" value="20"><br /><br />
-
-              </div>
-
-            </div>
-
-            <h4>Robot delay: </h4>
-
-            <input type="text" id="speed" class="span2 slider" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-            <input type="text" id="val-speed" class="val" value="500"><br /><br />
-
-            <a id="update-maze" class="btn btn-primary maze-button">Update</a>
-            <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
-            <a id="load-maze" class="btn btn-primary maze-button">Upload maze</a>
-            <a id="full-screen" class="btn btn-primary maze-button">Enlarge</a><br><br>
+            <br />
 
           </div>
         </div>
@@ -128,20 +154,27 @@
           <canvas id="large-canvas" style="border:1px solid #000000;"></canvas>
         </div>
         <div class="inner-left full-size-options">
-          <p id="title-no-top">Maze Options</p>
-            <form name="form2">
-              <div class="below-maze-div">
-                <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file btn-file2">Browse <input type="file" id="uploadBox2"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
-                </div>
+
+          <p id="title-no-top">Robot Controls</p>
+
+           <div class="maze-option-block-btn">
+
+            <div class="inner-left">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> Play</button>
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> Pause</button>
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span> Stop</button>
               </div>
-              <div class="inner-right">
-                <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
-              </div>
-            </form>
+            </div>
+
+            <div class="inner-right">
+              <a id="full-screen" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-zoom-out"></span> Shrink maze</a>
+            </div>
+
+          </div>
+
+          <h3>Maze Options</h3>
             <!-- Maze controls -->
-            <br /><h3>Maze Options</h3>
             <h4>Maze size: </h4>
 
             <div id="maze-size">
@@ -176,6 +209,18 @@
             <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
             <a id="load-maze" class="btn btn-primary maze-button">Upload maze</a>
             <a id="full-screen" class="btn btn-primary maze-button">Shrink</a><br><br>
+
+            <form name="form2">
+              <div class="below-maze-div">
+                <div class="input-group bottom-upload">
+                  <span class="input-group-addon btn-file btn-file2">Browse <input type="file" id="uploadBox2"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
+                </div>
+              </div>
+              <div class="inner-right">
+                <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
+              </div>
+            </form>
         </div>
       </div>
 

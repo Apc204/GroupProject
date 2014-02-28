@@ -130,3 +130,4 @@ $('#full-screen').click(function() {
 	$('#hide-full-screen').hide();
 	$('#large-canvas-div').show();
 });
+

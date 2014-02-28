@@ -158,7 +158,7 @@ body {
 }
 
 .slider {
-	width: 400px;
+	width: 180px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -171,17 +171,19 @@ body {
 	margin-right: 5px;
 }
 
-#maze-width {
-	width: 200px;
+.maze-option-inner {
+	width: 133px;
 	padding-right: 10px;
 }
 
-#maze-height {
-	width: 200px;
+.maze-option-block {
+	width: 400px;
+	height: 130px;
 }
 
-#maze-size {
+.maze-option-block-btn {
 	width: 400px;
+	height: 30px;
 }
 
 .val {
@@ -200,9 +202,27 @@ body {
 }
 
 #title-no-top {
-	font-size: 35px;
+	font-size: 25px;
 }
 
 #large-console-div {
 	margin-right: 20px;
+}
+
+.options-label {
+	width: 100px;
+	padding-bottom: 10px;
+}
+
+.span-label {
+	width: 60px;
+}
+
+#maze-width {
+	width: 190px;
+	padding-right: 10px;
+}
+
+#maze-height {
+	width: 190px;
 }
