@@ -1,6 +1,8 @@
 var setWidth = 20;
 var setHeight = 20;
 var setSpeed = 500;
+var largeCanvasWidth = 0;
+var largeCanvasHeight = 0;
 
 $().ready(function () {
 	var width = $(document).width();
@@ -41,6 +43,8 @@ $().ready(function () {
 	//Set full-screen div size for canvas
 	$('#large-canvas').css("height", height-200);
 	$('#large-canvas').css("width", height-200);
+	largeCanvasHeight = height - 200;
+	largeCanvasWidth = height - 200;
 	$('#large-console-div').css("width", width - height - 290);
 
 	//change the slider if the text box value is changed
