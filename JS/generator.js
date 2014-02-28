@@ -57,11 +57,27 @@ function Generator () {
 			imgObj.src = "../jpgs/Maze-parts/"+imgtag+".jpg";
 			imgObj.onload = function()
 			{
-				var c=document.getElementById("myCanvas");
-				var ctx=c.getContext("2d");
+				var c=this.findCanvasProperties
 				//var img=document.getElementById(imgtag);
-				ctx.drawImage(imgObj,x*400/height,y*400/width,400/height,400/width);
+				ctx.drawImage(imgObj,x*canvasHeight/height,y*canvasWidth/width,canvasHeight/height,canvasWidth/width);
 			}
+	}
+
+	this.findCanvasProperties = function()
+	{
+		if(fullScreen == true)
+			var c=document.getElementById("large-canvas");
+		else
+			var c=document.getElementById("myCanvas");
+		ctx=c.getContext("2d");
+		canvasWidth = c.width;
+		canvasHeight = c.height;
+		return c;
+	}
+
+	this.clearCanvas = function()
+	{
+		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 	}
 
 	this.draw3neighbours = function(x,y,height,width,maze,neighbours)
@@ -142,8 +158,7 @@ function Generator () {
 	this.drawMaze = function(maze)
 	{
 		console.log("drawing maze");
-		var c=document.getElementById("myCanvas");
-		var ctx=c.getContext("2d");
+		var c=this.findCanvasProperties();
 		var neighbours = [];
 
 		
@@ -156,12 +171,12 @@ function Generator () {
 				if (this.startY == i && this.startX == j)
 				{
 					ctx.fillStyle="#00FF00";
-					ctx.fillRect(j*400/this.newHeight,i*400/this.newWidth,400/this.newHeight+1,400/this.newWidth);
+					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
 				}
 				else if(this.endY == i && this.endX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(j*400/this.newHeight,i*400/this.newWidth,400/this.newHeight+1,400/this.newWidth);
+					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
 				}
 				else if (maze[j][i] == 'X')
 				{
@@ -271,6 +286,7 @@ function Generator () {
 		}
 		console.log("done generating");
 		//maze = this.centerTarget(maze);
+		Maze = maze;
 		return maze;
 	}
 
@@ -373,7 +389,7 @@ function Generator () {
 				document.write(mazeGrid[i][j] + "\t\t\t\t");
 			document.write("<br>");
 		}*/
-
+		Maze = mazeGrid;
 		return mazeGrid;
 	}
 

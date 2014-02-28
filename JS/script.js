@@ -2,9 +2,9 @@
 window.onload = function()
 {
 	
-	var maze = generateAndDraw();
+	var generator = generateAndDraw();
 	//console.log(maze);
-	var jsonMaze = generator.toJSON(maze);
+	var jsonMaze = generator.toJSON(Maze);
 	console.log(jsonMaze);
 	var parsed = JSON.parse(JSON.stringify(jsonMaze));
 	console.log(parsed.startpos.x);
@@ -24,16 +24,16 @@ function generateAndDraw()
 	console.log("1");
 	var generator = new Generator();
 	if (mazeType == "Loopy")
-		var maze = generator.generateLoopy();
+		Maze = generator.generateLoopy();
 	else
-		var maze = generator.generatePrims();
+		Maze = generator.generatePrims();
 
-	//startX = generator.startX;
-	//startY = generator.startY;
-	//endX = generator.endX;
-	//endY = generator.endY;
-	generator.drawMaze(maze);
-	return maze;
+	startX = generator.startX;
+	startY = generator.startY;
+	endX = generator.endX;
+	endY = generator.endY;
+	generator.drawMaze(Maze);
+	return generator;
 }
 
 
@@ -59,7 +59,7 @@ function connectToSocket(jsonMaze, generator)
 	 { 
 	    var received_msg = evt.data;
 	    alert("Message is received... " + evt.data);
-	    receivedMaze = JSON.parse(evt.data);
+	    Maze = JSON.parse(evt.data);
 	    generator.drawMaze(receivedMaze);	
 	 };
 	 ws.onclose = function()
