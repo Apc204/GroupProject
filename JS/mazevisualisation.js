@@ -42,8 +42,11 @@ $().ready(function () {
 	});
 
 	//Set full-screen div size for canvas
-	$('#large-canvas').css("height", height-200);
-	$('#large-canvas').css("width", height-200);
+	//$('#large-canvas').css("height", height-200);
+	//$('#large-canvas').css("width", height-200);
+	var canvas = document.getElementById('large-canvas');
+	canvas.style.width = height - 200 +'px';
+	canvas.style.height = height - 200+'px';
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
 	$('#large-console-div').css("width", width - height - 290);
@@ -145,6 +148,7 @@ $('#full-screen').click(function() {
 	$('#large-canvas-div').show();
 	fullScreen = true;
 	var generator = new Generator();
+	generator.clearCanvas();
 	generator.drawMaze(Maze);
 });
 
