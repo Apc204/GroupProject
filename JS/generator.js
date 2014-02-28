@@ -1,4 +1,4 @@
-function PrimGenerator () {
+function Generator () {
 
 	this.IN = 1;
 	this.FRONTIER = 2;
@@ -8,8 +8,8 @@ function PrimGenerator () {
 	this.SOUTH = 12;
 	this.WEST = 13;
 
-	this.mazeWidth = 20;
-	this.mazeHeight = 20;
+	this.mazeWidth = setWidth;
+	this.mazeHeight = setHeight;
 
 	this.newHeight = (this.mazeHeight*2)+1;
 	this.newWidth = (this.mazeWidth*2)+1;
