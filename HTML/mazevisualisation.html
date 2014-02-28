@@ -95,12 +95,12 @@
 
                 <div class="input-group input-group-sm options-label">
                   <span class="input-group-addon span-label">Width: </span> 
-                  <input type="text" id="val-width" class="form-control val" value="20">
+                  <input type="text" class="form-control val val-width" name="width" value="20">
                 </div>
 
                 <div class="input-group input-group-sm options-label">
                   <span class="input-group-addon span-label">Height: </span>
-                  <input type="text" id="val-height" class="form-control val" value="20">
+                  <input type="text" class="form-control val val-height" name="height" value="20">
                 </div>
 
               </div>
@@ -116,8 +116,8 @@
 
                 <h4>Maze type: </h4>
 
-                <span class="span-label"><input type="radio" name="maze-type" value="primms" checked> Primm's</span><br />
-                <span class="span-label"><input type="radio" name="maze-type" value="loopy"> Loopy</span>
+                <span class="span-label"><input type="radio" class="prims" name="maze-type" checked> Prim's</span><br />
+                <span class="span-label"><input type="radio" class="loopy" name="maze-type"> Loopy</span>
 
               </div>
 
@@ -168,7 +168,7 @@
             </div>
 
             <div class="inner-right">
-              <a id="full-screen" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-zoom-out"></span> Shrink maze</a>
+              <a id="shrink" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-zoom-out"></span> Shrink maze</a>
             </div>
 
           </div>
@@ -184,16 +184,16 @@
                 Width: <br />
                 <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-                <input type="text" id="val-width" class="val" value="20"><br /><br />
+                <input type="text" class="val val-width" name="width" value="20"><br /><br />
 
               </div>
 
               <div class="inner-left" id="maze-height">
 
-                  Height: <br />
-                  <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                Height: <br />
+                <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-                  <input type="text" id="val-height" class="val" value="20"><br /><br />
+                <input type="text" class="val val-height" name="height" value="20"><br /><br />
 
               </div>
 
@@ -201,14 +201,22 @@
 
             <h4>Robot delay: </h4>
 
-            <input type="text" id="speed" class="span2 slider" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+            <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-            <input type="text" id="val-speed" class="val" value="500"><br /><br />
+            <input type="text" id="val-speed" class="speedBox" value="500"><br /><br />
+
+            <h4>Maze type: </h4>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default active prims">Prim's</button>
+              <button type="button" class="btn btn-default loopy">Loopy</button>
+            </div><br /><br />
 
             <a id="update-maze" class="btn btn-primary maze-button">Update</a>
             <a id="save-maze" class="btn btn-primary maze-button">Save maze</a>
-            <a id="load-maze" class="btn btn-primary maze-button">Upload maze</a>
-            <a id="full-screen" class="btn btn-primary maze-button">Shrink</a><br><br>
+            <a id="load-maze" class="btn btn-primary maze-button">Load maze</a>
+
+            <h3>Code Options</h3>
 
             <form name="form2">
               <div class="below-maze-div">

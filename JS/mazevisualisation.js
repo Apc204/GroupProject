@@ -3,6 +3,7 @@ var setHeight = 20;
 var setSpeed = 500;
 var largeCanvasWidth = 0;
 var largeCanvasHeight = 0;
+var prims = true;
 
 $().ready(function () {
 	var width = $(document).width();
@@ -47,13 +48,14 @@ $().ready(function () {
 	largeCanvasWidth = height - 200;
 	$('#large-console-div').css("width", width - height - 290);
 
-	//change the slider if the text box value is changed
+	//change the slider if the text box value is changed, and the slider & textbox on full screen/default screen
 	$('.val').keyup(function() {
 		//get the name of the question we're working with. Substring with 4 to remove the val- from the beginning.
-		var name = $(this).attr('id').substring(4);
+		var name = $(this).attr('name');
 		
-		var val = $('#val-'+name).val();
+		var val = $(this).val();
 		$('#'+name).slider('setValue', val);
+		$('.val-'+name).val(val);
 
 		//set variables
 		if (name == 'val-width') {
@@ -81,8 +83,8 @@ $().ready(function () {
 		} 
 
 		//if it's greater than 10 round it down to 10, and round it up to 0 if it's negative
-		if (value > 10) {
-			$(this).val('10');
+		if (value > 200) {
+			$(this).val('200');
 			value = 10;
 		} else if (value < 0) {
 			$(this).val('0');
@@ -146,3 +148,22 @@ $('#full-screen').click(function() {
 	generator.drawMaze(Maze);
 });
 
+$('#shrink').click(function() {
+	$('#large-canvas-div').hide();
+	$('#hide-full-screen').show();
+	fullScreen = true;
+	var generator = new Generator();
+	generator.drawMaze(Maze);
+});
+
+$('.prims').click(function() {
+	prims = true;
+	$('.prims').addClass("active");
+	$('.loopy').removeClass("active");
+});
+
+$('.loopy').click(function() {
+	prims = false;
+	$('.loopy').addClass("active");
+	$('.prims').removeClass("active");
+});
