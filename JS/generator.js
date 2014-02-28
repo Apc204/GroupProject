@@ -57,7 +57,6 @@ function Generator () {
 			imgObj.src = "../jpgs/Maze-parts/"+imgtag+".jpg";
 			imgObj.onload = function()
 			{
-				var c=this.findCanvasProperties
 				//var img=document.getElementById(imgtag);
 				ctx.drawImage(imgObj,x*canvasHeight/height,y*canvasWidth/width,canvasHeight/height,canvasWidth/width);
 			}
@@ -72,6 +71,8 @@ function Generator () {
 		ctx=c.getContext("2d");
 		canvasWidth = c.width;
 		canvasHeight = c.height;
+		console.log(canvasHeight);
+		console.log(canvasWidth);
 		return c;
 	}
 
@@ -158,7 +159,7 @@ function Generator () {
 	this.drawMaze = function(maze)
 	{
 		console.log("drawing maze");
-		var c=this.findCanvasProperties();
+		c=this.findCanvasProperties();
 		var neighbours = [];
 
 		
