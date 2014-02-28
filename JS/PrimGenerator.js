@@ -25,6 +25,32 @@ function PrimGenerator () {
 	this.PASSAGE = 'O';
 	this.WALL = 'X';
 
+	this.toJSON = function(maze)
+	{
+		var jsonLayout = JSON.stringify(maze);
+		var jsonMaze = {
+		"layout": jsonLayout,
+		"startpos" : {
+			"x": startX,
+			"y": startY
+		},
+		"robotpos" : {
+			"x":startX,
+			"y": startY
+		},
+		"robot-orientation":"NORTH",
+		"finishpos" : {
+			"x" : endX,
+			"y" : endY
+		},
+		"steps":0,
+		"collisions":0,
+		"goal_reached":"false",
+		"runs":0 
+		};
+		return jsonMaze;
+	}
+
 	this.draw= function(imgtag, x, y, height, width)
 	{
 			var imgObj = new Image();

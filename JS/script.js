@@ -1,6 +1,7 @@
 
 window.onload = function()
 {
+	hello();
 	mazeType = "Loopy";
 	console.log("1");
 	if (mazeType == "Loopy")
@@ -8,13 +9,7 @@ window.onload = function()
 		var generator = new PrimGenerator();
 		var maze = generator.generateLoopy();
 	}
-	//LoopyGenerator.prototype = new PrimGenerator();
-	//var generator = new LoopyGenerator();
-	//console.log(generator.PASSAGE);
-	//console.log(PrimGenerator.prototype);
-	//LoopyGenerator.prototype = new PrimGenerator();
-	//console.log(LoopyGenerator.prototype);
-	//var maze = generator.generateMaze();
+
 	startX = generator.startX;
 	startY = generator.startY;
 	endX = generator.endX;
@@ -22,23 +17,7 @@ window.onload = function()
 	generator.drawMaze(maze);
 
 	//console.log(maze);
-	var jsonLayout = JSON.stringify(maze);
-	var jsonMaze = {
-		"layout": jsonLayout,
-		"startpos" : {
-			"x": startX,
-			"y": startY
-		},
-		"robotpos" : {
-			"x":startX,
-			"y": startY
-		},
-		"robot-orientation":"NORTH",
-		"finishpos" : {
-			"x" : endX,
-			"y" : endY
-		} 
-	};
+	var jsonMaze = generator.toJSON(maze);
 	var prefix = "[MAZE]";
 	var json = prefix.concat(JSON.stringify(jsonMaze));
 
