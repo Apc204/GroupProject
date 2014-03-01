@@ -7,6 +7,30 @@ var prims = true;
 
 $().ready(function () {
 
+	//Handle file upload
+
+	var fileInput = document.getElementById('uploadBox');
+	var fileInput2 = document.getElementById('uploadBox2');
+	var fileDisplayArea = $('#code-textarea');
+
+	fileInput.addEventListener('change', function(e) {
+		var file = fileInput.files[0];
+		// var textType = /text.*/;
+
+		// if (file.type.match(textType)) {
+			alert(file.type);
+			var reader = new FileReader();			
+
+			reader.onload = function(e) {
+				fileDisplayArea.val(reader.result);
+			}
+
+			reader.readAsText(file);	
+		// } else {
+			// fileDisplayArea.innerText = "File not supported!";
+		// }
+	});
+
 	var width = $(document).width();
 	var height = $(document).height();
 	fullScreen = false;
