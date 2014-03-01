@@ -33,11 +33,11 @@ $().ready(function () {
 		$(".val-"+name).val(val);
 
 		//set variables
-		if (name == 'val-width') {
+		if (name == 'width') {
 			setWidth = val;
-		} else if (name == 'val-height') {
+		} else if (name == 'height') {
 			setHeight = val;
-		} else if (name == 'val-speed') {
+		} else if (name == 'speed') {
 			setSpeed = val;
 		}
 	});
@@ -46,7 +46,7 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
-	canvas.style.width = height - 200 +'px';
+	canvas.style.width = height - 200+'px';
 	canvas.style.height = height - 200+'px';
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
@@ -62,11 +62,11 @@ $().ready(function () {
 		$('.val-'+name).val(val);
 
 		//set variables
-		if (name == 'val-width') {
+		if (name == 'width') {
 			setWidth = val;
-		} else if (name == 'val-height') {
+		} else if (name == 'height') {
 			setHeight = val;
-		} else if (name == 'val-speed') {
+		} else if (name == 'speed') {
 			setSpeed = val;
 		}
 	});
