@@ -6,6 +6,7 @@ var largeCanvasHeight = 0;
 var prims = true;
 
 $().ready(function () {
+
 	var width = $(document).width();
 	var height = $(document).height();
 	fullScreen = false;
@@ -136,7 +137,7 @@ $('#help-button').click(function () {
 	$('#pop-up').toggle();
 });
 
-$('#update-maze').click(function(){
+$('.update-maze').click(function(){
 	var generator = new Generator()
 	var maze = generator.generateLoopy();
 	generator.clearCanvas();
@@ -171,3 +172,5 @@ $('.loopy').click(function() {
 	$('.loopy').addClass("active");
 	$('.prims').removeClass("active");
 });
+
+
