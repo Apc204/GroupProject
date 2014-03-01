@@ -30,7 +30,7 @@ $().ready(function () {
 		//get the name of the question we're working with
 		var name = $(this).attr('id');
 		//assign this value to the correct value box
-		$("#val-"+name).val(val);
+		$(".val-"+name).val(val);
 
 		//set variables
 		if (name == 'val-width') {
@@ -74,7 +74,7 @@ $().ready(function () {
 	//check the value if the user inputted something manually
 	$('.val').focusout(function() {
 		//get the name of the question we're working with. Substring with 4 to remove the val- from the beginning.
-		var name = $(this).attr('id').substring(4);
+		var name = $(this).attr('name');
 
 		//get the value
 		var value = $(this).val();
