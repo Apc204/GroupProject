@@ -142,18 +142,17 @@ class RobotImpl(object):
         return self.collisions
 
     def jsondump(self):
-        with open("data.json","w") as outfile:
-            data = { "layout":self.maze.maze,
-            "start_pos":{"x":self.start.x,"y":self.start.y},
-            "finish_pos":{"x":self.target.x,"y":self.target.y},
-            "robot_pos":{"x":self.location.x,"y":self.location.y},
-            "robot_orientation":self.heading,
-            "steps":self.steps,
-            "collisions":self.collisions,
-            "goal_reached":(self.location == self.getTargetLocation()),
-            "runs":self.runs
-            }
-            print(data)
+        #with open("data.json","w") as outfile:
+        data = '{ "layout":'+str(self.maze.maze)+','
+        data += '"start_pos":{"x":'+str(self.start.x)+',"y":'+str(self.start.y)+'},'
+        data += '"finish_pos":{"x":'+str(self.target.x)+',"y":'+str(self.target.y)+'},'
+        data += '"robot_pos":{"x":'+str(self.location.x)+',"y":'+str(self.location.y)+'},'
+        data += '"robot_orientation":'+str(self.heading)+','
+        data += '"steps":'+str(self.steps)+','
+        data += '"collisions":'+str(self.collisions)+','
+        data += '"goal_reached":'+str(self.location == self.getTargetLocation()).lower()+','
+        data += '"runs":'+str(self.runs)+'}'
+        print(data)
 
 
 if __name__ == '__main__':
