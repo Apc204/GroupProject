@@ -4,6 +4,9 @@ from IRobot import IRobot
 from maze import Maze, Point
 #from RobotReport import RobotReport
 import json
+import sys
+
+mode = "stepmode"
 
 class RobotImpl(object):
     #trackerGrid = [[]]
@@ -142,6 +145,10 @@ class RobotImpl(object):
         return self.collisions
 
     def jsondump(self):
+        if(mode=="stepmode"):
+            line=""
+            while line != "step\n":
+                line = sys.stdin.readline()
         #with open("data.json","w") as outfile:
         data = '{ "layout":'+str(self.maze.maze)+','
         data += '"start_pos":{"x":'+str(self.start.x)+',"y":'+str(self.start.y)+'},'
