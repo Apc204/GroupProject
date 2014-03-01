@@ -51,6 +51,11 @@ function Generator () {
 		return jsonMaze;
 	}
 
+	this.update = function(maze)
+	{
+		
+	}
+
 	this.draw= function(imgtag, x, y, height, width)
 	{
 			var imgObj = new Image();
