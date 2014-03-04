@@ -11,8 +11,8 @@ function Generator () {
 	this.mazeWidth = setWidth;
 	this.mazeHeight = setHeight;
 
-	this.robotposX = 1;
-	this.robotposY = 1; 
+	robotposX = 1;
+	robotposY = 1; 
 	this.newHeight = (this.mazeHeight*2)+1;
 	this.newWidth = (this.mazeWidth*2)+1;
 	this.startX = 1;
@@ -24,30 +24,31 @@ function Generator () {
 	this.frontierList = [];
 	this.primGrid = [];
 
-	this.PASSAGE = '3001';
-	this.WALL = '3000';
+	this.PASSAGE = 3001;
+	this.WALL = 3000;
 
 	this.toJSON = function(maze)
 	{
-		var jsonLayout = JSON.stringify(maze);
+		var jsonLayout = maze;
+		//jsonLayout = jsonLayout.replace('"','');
 		var jsonMaze = {
 		"layout": jsonLayout,
-		"startpos" : {
+		"start_pos" : {
 			"x": startX,
 			"y": startY
 		},
-		"robotpos" : {
+		"robot_pos" : {
 			"x":startX,
 			"y": startY
 		},
-		"robot-orientation":"NORTH",
-		"finishpos" : {
+		"robot_orientation":1000,
+		"finish_pos" : {
 			"x" : endX,
 			"y" : endY
 		},
 		"steps":0,
 		"collisions":0,
-		"goal_reached":"false",
+		"goal_reached":false,
 		"runs":0 
 		};
 		return jsonMaze;
@@ -55,21 +56,33 @@ function Generator () {
 
 	this.update = function(maze, robotposx, robotposy, oldposx, oldposy, orientation)
 	{
-		c = findCanvasProperties();
-		ctx.clearRect(robotposx*canvasWidth/newWidth, robotposy*canvasHeight/newHeight, canvasHeight/newHeight, canvasWidth/newWidth)
+		c = this.findCanvasProperties();
+		// Clear both old and new squares.
+		ctx.clearRect(robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth)
+		ctx.clearRect(oldposx*canvasWidth/this.newWidth,oldposy*canvasHeight/this.newHeight,canvasHeight/this.newHeight,canvasWidth/this.newWidth);
 		if (orientation == '1000')
 		{
-			draw("robot",robotposx*canvasWidth/newWidth, robotposy*canvasHeight/newHeight, canvasHeight/newHeight, canvasWidth/newWidth,".png");
+			this.draw("RobotUp",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");
 		}
 		else if (orientation == '1001')
 		{
-			
+			this.draw("RobotRight",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
 		}
-		//Fill old position as been before
-		ctx.fillStyle="#b5b5b5";
-		ctx.clearRect(robotposx*canvasWidth/newWidth,robotposy*canvasHeight/newHeight,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
-		ctx.fillRect(robotposx*canvasWidth/newWidth,robotposy*canvasHeight/newHeight,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
-			
+		else if (orientation == '1002')
+		{
+			this.draw("RobotDown",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+		}
+		else if (orientation == '1003')
+		{
+			this.draw("RobotLeft",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+		}
+		//Fill old position as 'been before'
+		//if (robotposx != oldposx && robotposy != oldposy)
+		//{
+			ctx.fillStyle="#b5b5b5";
+			ctx.fillRect(oldposx*canvasWidth/this.newWidth,oldposy*canvasHeight/this.newHeight,canvasHeight/this.newHeight,canvasWidth/this.newWidth);
+		//}
+		
 	}
 
 	this.draw= function(imgtag, x, y, height, width,ext)
@@ -218,7 +231,8 @@ function Generator () {
 
 					console.log("size of block:"+canvasWidth/this.newWidth);
 					console.log("size of block:"+canvasHeight/this.newHeight);
-					this.draw("robot",j*canvasWidth/this.newWidth, i*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");
+					orientation = "1001";
+					this.draw("RobotRight",j*canvasWidth/this.newWidth, i*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");
 					//ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
 				}
 				else if(this.endY == i && this.endX == j)

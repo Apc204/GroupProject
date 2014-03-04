@@ -1,5 +1,5 @@
-var setWidth = 20;
-var setHeight = 20;
+var setWidth = 3;
+var setHeight = 3;
 var setSpeed = 500;
 var largeCanvasWidth = 0;
 var largeCanvasHeight = 0;
