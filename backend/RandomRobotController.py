@@ -22,7 +22,7 @@ class RandomRobotController(IRobotController,object):
         self.robot = robot
     
     def reset(self):
-        self.active = false
+        self.robot.reset()
 
     def getDescription(self):
         return "Random controller (pretty useless)"

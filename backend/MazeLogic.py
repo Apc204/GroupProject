@@ -67,4 +67,10 @@ if __name__ == '__main__':
     #ml.loadController("RandomRobotController.py")
     #ml.setController(RandomRobotController())
     ml.startController()
+    line=""
+    while line != "stop\n":
+        if line == "rerun\n":
+            ml.resetController()
+            ml.startController()
+        line = sys.stdin.readline()
     #ml.robot.jsondump()
