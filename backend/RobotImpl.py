@@ -126,18 +126,25 @@ class RobotImpl(object):
 
         self.jsondump()
 
-    #def reset(self):
+    def reset(self):
     #    robotreport = RobotReport()
     #    robotreport.setRunNumber(self.runs)
     #    robotreport.setSteps(self.steps)
     #    robotreport.setCollisions(self.collisions)
     #    if (self.location == self.getTargetLocation()):
     #        robotreport.setGoalReached(True)
-    #    #self.trackerGrid = [[False for x in range(self.width)] for y in range(self.height)]
-    #    #self.trackerGrid[self.start.x][self.start.y] = True
-    #    self.steps = 0L
-    #    self.collisions = 0L
-    #    self.runs += self.runs + 1
+        #self.trackerGrid = [[False for x in range(self.width)] for y in range(self.height)]
+        #self.trackerGrid[self.start.x][self.start.y] = True
+        for x in range(self.width):
+            for y in range(self.height):
+                if self.maze.getTileType(x,y) == IRobot.BEENBEFORE:
+                    self.maze.setTile(IRobot.PASSAGE,x,y)
+        self.location = self.start
+        self.heading = IRobot.EAST
+        self.maze.setTile(IRobot.BEENBEFORE,self.location)
+        self.steps = 0
+        self.collisions = 0
+        self.runs += 1
 
     def getSteps(self):
         return self.steps
