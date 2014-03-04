@@ -178,7 +178,7 @@
             <!-- Maze controls -->
             <h4>Maze size: </h4>
 
-            <div id="maze-size">
+            <div class="slider-div">
             
               <div class="inner-left" id="maze-width">
 
@@ -200,18 +200,32 @@
 
             </div>
 
-            <h4>Robot delay: </h4>
+            <div class="slider-div">
+            
+              <div class="inner-left" id="maze-width">
 
-            <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                <h4>Robot delay: </h4>
 
-            <input type="text" class="speedBox val-speed" value="500"><br /><br />
+                <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-            <h4>Maze type: </h4>
+                <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
 
-            <div class="btn-group">
-              <button type="button" class="btn btn-default active prims">Prim's</button>
-              <button type="button" class="btn btn-default loopy">Loopy</button>
-            </div><br /><br />
+              </div>
+
+              <div class="inner-left" id="maze-height">
+
+                <h4>Maze type: </h4>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default active prims">Prim's</button>
+                  <button type="button" class="btn btn-default loopy">Loopy</button>
+                </div><br />
+
+              </div>
+
+            </div>
+
+            <br /><br />
 
             <a class="btn btn-primary update-maze maze-button">Update</a>
             <a class="btn btn-primary save-maze maze-button">Save maze</a>

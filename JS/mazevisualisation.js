@@ -70,7 +70,6 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
-	alert(height);
 	canvas.style.width = height - 200+'px';
 	canvas.style.height = height - 200+'px';
 	largeCanvasHeight = height - 200;
