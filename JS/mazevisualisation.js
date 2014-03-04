@@ -31,8 +31,8 @@ $().ready(function () {
 		// }
 	});
 
-	var width = $(document).width();
-	var height = $(document).height();
+	var width = $(window).innerWidth();
+	var height = $(window).innerHeight();
 	fullScreen = false;
 
 	//Calculate div sizes
@@ -70,11 +70,20 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
+	alert(height);
 	canvas.style.width = height - 200+'px';
 	canvas.style.height = height - 200+'px';
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
-	$('#large-console-div').css("width", width - height - 290);
+
+	//see if there's enough space left to display a console
+	var spaceLeft = width - height - 290;
+
+	if (spaceLeft > 200) {
+		$('#large-console-div').css("width", spaceLeft);
+	} else {
+		$('#large-console-div').hide();
+	}
 
 	//change the slider if the text box value is changed, and the slider & textbox on full screen/default screen
 	$('.val').keyup(function() {

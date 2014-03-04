@@ -230,3 +230,7 @@ body {
 .slider-long {
 	width: 400;
 }
+
+.hide {
+	/*display: none;*/
+}
