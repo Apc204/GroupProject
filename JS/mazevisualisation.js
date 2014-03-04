@@ -1,6 +1,6 @@
 var setWidth = 3;
 var setHeight = 3;
-var setSpeed = 500;
+var setSpeed = 1;
 var largeCanvasWidth = 0;
 var largeCanvasHeight = 0;
 var prims = true;
