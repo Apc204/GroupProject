@@ -43,11 +43,11 @@ function connectToSocket(jsonMaze, generator)
 {
 	 alert("WebSocket is supported by your Browser!");
 	 // Let us open a web socket
-	 var ws = new WebSocket("ws://192.168.0.6:8080");
+	 var ws = new WebSocket("ws://localhost:8080");
 	 ws.onopen = function()
 	 {
 	    // Web Socket is connected, send data using send()
-	    ws.send(jsonMaze);    	
+	       	
     	//alert("Message is sent...");
 	 };
 	 ws.onmessage = function (evt) 
@@ -56,8 +56,10 @@ function connectToSocket(jsonMaze, generator)
 	    var received_msg = evt.data;
 	    if (received_msg == "READY")
 	    {
+	    	console.log("Sending Maze");
+	   		ws.send(jsonMaze); 	
 	    	alert("Ready");
-		   	sendSteps(ws)
+		   	sendSteps(ws);
 	    }
 	    else if (received_msg == "CONNECTED")
 	    {
@@ -95,7 +97,7 @@ function connectToSocket(jsonMaze, generator)
 function sendSteps(ws)
 {
 	console.log("Sending Step");
-	setInterval(function() { ws.send("STEP"); }, setSpeed);
+	setInterval(function() { ws.send("STEP"); console.log("sending step ");}, setSpeed);
 			
 }
 

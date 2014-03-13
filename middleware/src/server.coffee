@@ -18,17 +18,19 @@ server.on 'connection', (ws) ->
     start = true
     responding = false
 
+
     ws.on 'error', (err) ->
         console.log err
 
     temp.mkdir 'connection', (err, dir_path) ->
         console.log "directory: #{dir_path}" 
-        ws.send "READY"
+        
         ws.on 'message', (message) ->
             if responding
                 return
             else
-                responding = true
+                console.log message
+                
                 if /^\[MAZE\].*/.test message
                     console.log 'message'
                     message = message[6..]
@@ -38,7 +40,7 @@ server.on 'connection', (ws) ->
                         else
                             console.log "MAZE LOADED"
                             console.log "#{dir_path}/maze.json"
-                            logic = spawn "python", ["../backend/MazeLogic.py", "#{dir_path}/maze.json", "../backend/RandomRobotController.py"]
+                            logic = spawn "python", ["../../backend/MazeLogic.py", "#{dir_path}/maze.json", "../../backend/RandomRobotController.py"]
                             logic.stdout.setEncoding('utf8')
                             logic.stderr.setEncoding('utf8')
                             logic.stdout.on 'data', (data) ->
@@ -53,6 +55,7 @@ server.on 'connection', (ws) ->
                             logic.on 'err', (err) ->
                                 console.log err
                 else if message == "STEP"
+                    responding = true
                     new_maze_data = data_string.split '\n'
                     if new_maze_data.length > 1
                         maze_data = maze_data.concat new_maze_data[..-2]
@@ -75,3 +78,4 @@ server.on 'connection', (ws) ->
                         console.log "NO_DATA"
                         ws.send "NO_DATA"
                 responding = false
+        ws.send "READY"
