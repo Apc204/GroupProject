@@ -4,6 +4,8 @@ var setSpeed = 500;
 var largeCanvasWidth = 0;
 var largeCanvasHeight = 0;
 var prims = true;
+var running = false;
+var paused = false;
 
 $().ready(function () {
 
@@ -101,6 +103,7 @@ $().ready(function () {
 		} else if (name == 'speed') {
 			setSpeed = val;
 		}
+
 	});
 
 	//check the value if the user inputted something manually
@@ -170,10 +173,7 @@ $('#help-button').click(function () {
 });
 
 $('.update-maze').click(function(){
-	var generator = new Generator()
-	var maze = generator.generateLoopy();
-	generator.clearCanvas();
-	generator.drawMaze(Maze);
+	generateAndDraw();
 })
 
 $('#full-screen').click(function() {
@@ -204,5 +204,39 @@ $('.loopy').click(function() {
 	$('.loopy').addClass("active");
 	$('.prims').removeClass("active");
 });
+
+$('#play').click(function() {
+	console.log("clicked play");
+	if (running == false || paused == true)
+	{
+		if(!paused)
+		{
+			console.log("Starting with new Maze");
+		   	ws.send(json);
+		   	sendSteps();
+			running = true;
+		}
+		else
+		{
+			console.log("Resuming.");
+			sendSteps();
+			running = true;
+			paused = false;
+		}
+	}
+	
+});
+
+$('#pause').click(function() {
+	console.log("clicked pause");
+	paused = true;
+});
+
+/*$('#robotdelay').on("change", function(){
+	console.log("hue");
+	//setSpeed = $('#delay').val;
+});*/
+
+
 
 

@@ -1,22 +1,13 @@
-
-var haveReceived = false;
 window.onload = function()
 {
+	running = false;
+	generateAndDraw();
+	connectToSocket();
+}
+
+function updateJson(generator)
+{
 	
-	var generator = generateAndDraw();
-	//console.log(maze);
-	var jsonMaze = generator.toJSON(Maze);
-	console.log(jsonMaze);
-	//var parsed = JSON.parse(JSON.stringify(jsonMaze));
-	//console.log(parsed.startpos.x);
-
-
-
-	var prefix = "[MAZE]";
-	var json = prefix.concat(JSON.stringify(jsonMaze));
-
-	//console.log(json);
-	connectToSocket(json, generator);
 }
 
 function generateAndDraw()
@@ -24,31 +15,25 @@ function generateAndDraw()
 	mazeType = "Loopy";
 	console.log("1");
 	var generator = new Generator();
-	if (mazeType == "Loopy")
+	generator.clearCanvas();
+	if (prims == true)
 		Maze = generator.generateLoopy();
 	else
 		Maze = generator.generatePrims();
-
-	startX = generator.startX;
-	startY = generator.startY;
-	endX = generator.endX;
-	endY = generator.endY;
-	generator.drawMaze(Maze);
-	return generator;
+	var jsonMaze = generator.toJSON(Maze);
+	var prefix = "[MAZE]";
+	json = prefix.concat(JSON.stringify(jsonMaze));
+	setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
 }
 
-
-
-function connectToSocket(jsonMaze, generator)
+function connectToSocket()
 {
-	 alert("WebSocket is supported by your Browser!");
+	 //alert("WebSocket is supported by your Browser!");
 	 // Let us open a web socket
-	 var ws = new WebSocket("ws://localhost:8080");
+	 ws = new WebSocket("ws://localhost:8080");
 	 ws.onopen = function()
 	 {
 	    // Web Socket is connected, send data using send()
-	       	
-    	//alert("Message is sent...");
 	 };
 	 ws.onmessage = function (evt) 
 	 { 
@@ -56,14 +41,11 @@ function connectToSocket(jsonMaze, generator)
 	    var received_msg = evt.data;
 	    if (received_msg == "READY")
 	    {
-	    	console.log("Sending Maze");
-	   		ws.send(jsonMaze); 	
-	    	alert("Ready");
-		   	sendSteps(ws);
+		   	//sendSteps(ws);
 	    }
 	    else if (received_msg == "CONNECTED")
 	    {
-	    	alert("Connected");
+	    	//alert("Connected");
 	    }
 	    else if (received_msg == "NO_DATA")
 	    {
@@ -71,34 +53,43 @@ function connectToSocket(jsonMaze, generator)
 	    }
 	    else
 	    {
-	    	
 	    	fixedJSON = evt.data.replace(/\'/g,"\"");
 	    	fixedJSON = fixedJSON.replace(/False/g,"false");
-	    	console.log(fixedJSON);
+	    	//console.log(fixedJSON);
 	    	oldposy = robotposY;
 	 		oldposx = robotposX;
-	 		oldOrientation = 
 	    	//alert("Message is received... " + evt.data);
 		    newMaze = JSON.parse(fixedJSON);
 		    Maze = newMaze.layout;
 		    robotposY = newMaze.robot_pos.y;
 		    robotposX = newMaze.robot_pos.x;
-		    generator.update(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
-		    haveReceived = true;
+		    //generator.quickUpdate(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
+		    generator = new Generator();
+		    generator.fullUpdate(Maze,robotposX, robotposY, newMaze.robot_orientation);
 	    }
 	 };
 	 ws.onclose = function()
 	 { 
 	    // websocket is closed.
-	    alert("Connection is closed..."); 
+	    //alert("Connection is closed..."); 
 	 };
 }
 
-function sendSteps(ws)
+function sendSteps()
 {
 	console.log("Sending Step");
-	setInterval(function() { ws.send("STEP"); console.log("sending step ");}, setSpeed);
-			
+	var interval = setInterval(
+		function() { 
+			if(!paused && running)
+			{
+				ws.send("STEP"); 
+				console.log("sending step ")
+			}
+			else
+			{
+				clearInterval(interval)
+			}
+		}, setSpeed);
 }
 
 
