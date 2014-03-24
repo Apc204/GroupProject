@@ -1,3 +1,4 @@
+justLoaded = true;
 window.onload = function()
 {
 	running = false;
@@ -16,14 +17,24 @@ function generateAndDraw()
 	console.log("1");
 	var generator = new Generator();
 	generator.clearCanvas();
-	if (prims == true)
+	if (prims == false)
 		Maze = generator.generateLoopy();
 	else
 		Maze = generator.generatePrims();
 	var jsonMaze = generator.toJSON(Maze);
 	var prefix = "[MAZE]";
 	json = prefix.concat(JSON.stringify(jsonMaze));
-	setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
+	if (justLoaded)
+	{
+		setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
+		justLoaded = false;
+	}
+	else
+	{
+		generator.drawMaze(Maze); 
+		generator.drawRobot(1,1,1001);
+	}
+	
 }
 
 function connectToSocket()
@@ -63,9 +74,10 @@ function connectToSocket()
 		    Maze = newMaze.layout;
 		    robotposY = newMaze.robot_pos.y;
 		    robotposX = newMaze.robot_pos.x;
+		    orientation = newMaze.robot_orientation;
 		    //generator.quickUpdate(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
 		    generator = new Generator();
-		    generator.fullUpdate(Maze,robotposX, robotposY, newMaze.robot_orientation);
+		    generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 	    }
 	 };
 	 ws.onclose = function()

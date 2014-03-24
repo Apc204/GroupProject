@@ -111,8 +111,10 @@ function Generator () {
 		if(fullScreen == true)
 		{
 			var c=document.getElementById("large-canvas");
-			canvasWidth = largeCanvasWidth;
-			canvasHeight = largeCanvasHeight;
+			console.log(c.width);
+			console.log(c.height);
+			canvasWidth = c.width;
+			canvasHeight = c.height;
 			//canvasWidth = c.width;
 			//canvasHeight = c.height;
 			ctx=c.getContext("2d");
@@ -319,6 +321,20 @@ function Generator () {
 		return m;
 	}
 
+	this.generate = function()
+	{
+		var maze;
+		if (prims == true)
+		{
+			maze = this.generatePrims();
+		}
+		else
+		{
+			maze = this.generateLoopy()
+		}
+		return maze;
+	}
+
 
 	this.generateLoopy = function()
 	{	
@@ -351,7 +367,8 @@ function Generator () {
 	this.generatePrims = function()
 	{
 		robotposX = 1; // Set initial robot positon, it is then updated with each maze recieved after a step.
-		robotposY = 1; 
+		robotposY = 1;
+		orientation = 1001;
 		if ((this.mazeWidth < 1) || (this.mazeHeight < 1))
 			alert ("Invalid Maze Dimensions");
 		

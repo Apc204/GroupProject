@@ -72,8 +72,11 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
-	canvas.style.width = height - 200+'px';
-	canvas.style.height = height - 200+'px';
+	//canvas.style.width = height - 200+'px';
+	//canvas.style.height = height - 200+'px';
+	canvas.width = height-200;
+	canvas.height = height-200;
+
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
 
@@ -173,7 +176,10 @@ $('#help-button').click(function () {
 });
 
 $('.update-maze').click(function(){
-	generateAndDraw();
+	var generator = new Generator();
+	generator.generate();
+	generator.clearCanvas();
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 })
 
 $('#full-screen').click(function() {
@@ -182,15 +188,15 @@ $('#full-screen').click(function() {
 	fullScreen = true;
 	var generator = new Generator();
 	generator.clearCanvas();
-	generator.drawMaze(Maze);
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 });
 
 $('#shrink').click(function() {
 	$('#large-canvas-div').hide();
 	$('#hide-full-screen').show();
-	fullScreen = true;
+	fullScreen = false;
 	var generator = new Generator();
-	generator.drawMaze(Maze);
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 });
 
 $('.prims').click(function() {
@@ -205,7 +211,7 @@ $('.loopy').click(function() {
 	$('.prims').removeClass("active");
 });
 
-$('#play').click(function() {
+$('.play').click(function() {
 	console.log("clicked play");
 	if (running == false || paused == true)
 	{
@@ -227,15 +233,10 @@ $('#play').click(function() {
 	
 });
 
-$('#pause').click(function() {
+$('.pause').click(function() {
 	console.log("clicked pause");
 	paused = true;
 });
-
-/*$('#robotdelay').on("change", function(){
-	console.log("hue");
-	//setSpeed = $('#delay').val;
-});*/
 
 
 
