@@ -1,9 +1,11 @@
-var setWidth = 20;
-var setHeight = 20;
+var setWidth = 10;
+var setHeight = 10;
 var setSpeed = 500;
 var largeCanvasWidth = 0;
 var largeCanvasHeight = 0;
 var prims = true;
+var running = false;
+var paused = false;
 
 $().ready(function () {
 
@@ -31,8 +33,8 @@ $().ready(function () {
 		// }
 	});
 
-	var width = $(document).width();
-	var height = $(document).height();
+	var width = $(window).innerWidth();
+	var height = $(window).innerHeight();
 	fullScreen = false;
 
 	//Calculate div sizes
@@ -70,11 +72,22 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
-	canvas.style.width = height - 200+'px';
-	canvas.style.height = height - 200+'px';
+	//canvas.style.width = height - 200+'px';
+	//canvas.style.height = height - 200+'px';
+	canvas.width = height-200;
+	canvas.height = height-200;
+
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
-	$('#large-console-div').css("width", width - height - 290);
+
+	//see if there's enough space left to display a console
+	var spaceLeft = width - height - 290;
+
+	if (spaceLeft > 200) {
+		$('#large-console-div').css("width", spaceLeft);
+	} else {
+		$('#large-console-div').hide();
+	}
 
 	//change the slider if the text box value is changed, and the slider & textbox on full screen/default screen
 	$('.val').keyup(function() {
@@ -93,6 +106,7 @@ $().ready(function () {
 		} else if (name == 'speed') {
 			setSpeed = val;
 		}
+
 	});
 
 	//check the value if the user inputted something manually
@@ -162,10 +176,10 @@ $('#help-button').click(function () {
 });
 
 $('.update-maze').click(function(){
-	var generator = new Generator()
-	var maze = generator.generateLoopy();
+	var generator = new Generator();
+	generator.generate();
 	generator.clearCanvas();
-	generator.drawMaze(Maze);
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 })
 
 $('#full-screen').click(function() {
@@ -174,15 +188,15 @@ $('#full-screen').click(function() {
 	fullScreen = true;
 	var generator = new Generator();
 	generator.clearCanvas();
-	generator.drawMaze(Maze);
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 });
 
 $('#shrink').click(function() {
 	$('#large-canvas-div').hide();
 	$('#hide-full-screen').show();
-	fullScreen = true;
+	fullScreen = false;
 	var generator = new Generator();
-	generator.drawMaze(Maze);
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
 });
 
 $('.prims').click(function() {
@@ -196,5 +210,34 @@ $('.loopy').click(function() {
 	$('.loopy').addClass("active");
 	$('.prims').removeClass("active");
 });
+
+$('.play').click(function() {
+	console.log("clicked play");
+	if (running == false || paused == true)
+	{
+		if(!paused)
+		{
+			console.log("Starting with new Maze");
+		   	ws.send(json);
+		   	sendSteps();
+			running = true;
+		}
+		else
+		{
+			console.log("Resuming.");
+			sendSteps();
+			running = true;
+			paused = false;
+		}
+	}
+	
+});
+
+$('.pause').click(function() {
+	console.log("clicked pause");
+	paused = true;
+});
+
+
 
 

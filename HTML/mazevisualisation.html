@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Maze Visualisation</title>
@@ -54,11 +55,11 @@
     </div>
 
       <div id="hide-full-screen">
-        <div class="col-md-4 vis-div" id="code-div">
+        <div class="vis-div" id="code-div">
           <textarea id="code-textarea" >To upload a file, click the 'Upload code' button on the right. The code will be displayed here.</textarea>
         </div>
 
-        <div class="col-md-4 vis-div" id="console-div">
+        <div class="vis-div" id="console-div">
             <div class="console">
               When you upload code to the server, the console's print out will be displayed here.
             </div>
@@ -73,9 +74,9 @@
 
               <div class="inner-left">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default play"><span class="glyphicon glyphicon-play"></span> Play</button>
-                  <button type="button" class="btn btn-default pause"><span class="glyphicon glyphicon-pause"></span> Pause</button>
-                  <button type="button" class="btn btn-default stop"><span class="glyphicon glyphicon-stop"></span> Stop</button>
+                  <button type="button" class="btn btn-default play" id="play"><span class="glyphicon glyphicon-play"></span> Play</button>
+                  <button type="button" class="btn btn-default pause" id="pause"><span class="glyphicon glyphicon-pause"></span> Pause</button>
+                  <button type="button" class="btn btn-default stop" id="stop"><span class="glyphicon glyphicon-stop"></span> Stop</button>
                 </div>
               </div>
 
@@ -95,12 +96,12 @@
 
                 <div class="input-group input-group-sm options-label">
                   <span class="input-group-addon span-label">Width: </span> 
-                  <input type="text" class="form-control val val-width" name="width" value="20">
+                  <input type="text" class="form-control val val-width" name="width" value="10">
                 </div>
 
                 <div class="input-group input-group-sm options-label">
                   <span class="input-group-addon span-label">Height: </span>
-                  <input type="text" class="form-control val val-height" name="height" value="20">
+                  <input type="text" class="form-control val val-height" name="height" value="10">
                 </div>
 
               </div>
@@ -108,7 +109,7 @@
               <div class="inner-left maze-option-inner">
 
                 <h4>Robot delay: </h4>
-                <input type="text" class="form-control val val-speed" value="500">
+                <input type="text" class="form-control val val-speed" value="500" name="speed">
 
               </div>
 
@@ -177,40 +178,54 @@
             <!-- Maze controls -->
             <h4>Maze size: </h4>
 
-            <div id="maze-size">
+            <div class="slider-div">
             
               <div class="inner-left" id="maze-width">
 
                 Width: <br />
-                <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-                <input type="text" class="val val-width" name="width" value="20"><br /><br />
+                <input type="text" class="val val-width" name="width" value="10"><br /><br />
 
               </div>
 
               <div class="inner-left" id="maze-height">
 
                 Height: <br />
-                <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="20" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-                <input type="text" class="val val-height" name="height" value="20"><br /><br />
+                <input type="text" class="val val-height" name="height" value="10"><br /><br />
 
               </div>
 
             </div>
 
-            <h4>Robot delay: </h4>
+            <div class="slider-div">
+            
+              <div class="inner-left" id="maze-width">
 
-            <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                <h4>Robot delay: </h4>
 
-            <input type="text" class="speedBox val-speed" value="500"><br /><br />
+                <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-            <h4>Maze type: </h4>
+                <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
 
-            <div class="btn-group">
-              <button type="button" class="btn btn-default active prims">Prim's</button>
-              <button type="button" class="btn btn-default loopy">Loopy</button>
-            </div><br /><br />
+              </div>
+
+              <div class="inner-left" id="maze-height">
+
+                <h4>Maze type: </h4>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default active prims">Prim's</button>
+                  <button type="button" class="btn btn-default loopy">Loopy</button>
+                </div><br />
+
+              </div>
+
+            </div>
+
+            <br /><br />
 
             <a class="btn btn-primary update-maze maze-button">Update</a>
             <a class="btn btn-primary save-maze maze-button">Save maze</a>

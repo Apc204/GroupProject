@@ -37,6 +37,7 @@ body {
 
 .inner-left {
 	float: left;	
+	/*padding-right: 10px;*/
 }
 
 .maze-div {
@@ -229,4 +230,12 @@ body {
 
 .slider-long {
 	width: 400;
+}
+
+.hide {
+	/*display: none;*/
+}
+
+.slider-div {
+	height: 95px;
 }

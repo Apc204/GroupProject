@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
 from IRobot import IRobot
-from maze import Maze, Point
-#from RobotReport import RobotReport
+from Maze import Maze, Point
+from Reset import ResetException
 import json
+import sys
+
+mode = "stepmode"
 
 class RobotImpl(object):
     #trackerGrid = [[]]
@@ -27,8 +30,6 @@ class RobotImpl(object):
         self.location = self.maze.location
         self.maze.setTile(IRobot.BEENBEFORE, self.maze.start)
         self.heading = self.maze.heading
-        #self.trackerGrid = [[False for x in range(self.width)] for y in range(self.height)]
-        #self.trackerGrid[self.start.x][self.start.y] = True
         self.runs = 0
 
     def getLocationX(self):
@@ -123,18 +124,17 @@ class RobotImpl(object):
 
         self.jsondump()
 
-    #def reset(self):
-    #    robotreport = RobotReport()
-    #    robotreport.setRunNumber(self.runs)
-    #    robotreport.setSteps(self.steps)
-    #    robotreport.setCollisions(self.collisions)
-    #    if (self.location == self.getTargetLocation()):
-    #        robotreport.setGoalReached(True)
-    #    #self.trackerGrid = [[False for x in range(self.width)] for y in range(self.height)]
-    #    #self.trackerGrid[self.start.x][self.start.y] = True
-    #    self.steps = 0L
-    #    self.collisions = 0L
-    #    self.runs += self.runs + 1
+    def reset(self):
+        for x in range(self.width):
+            for y in range(self.height):
+                if self.maze.getTileType(x,y) == IRobot.BEENBEFORE:
+                    self.maze.setTile(IRobot.PASSAGE,x,y)
+        self.location = self.start
+        self.heading = IRobot.EAST
+        self.maze.setTile(IRobot.BEENBEFORE,self.location)
+        self.steps = 0
+        self.collisions = 0
+        self.runs += 1
 
     def getSteps(self):
         return self.steps
@@ -142,8 +142,16 @@ class RobotImpl(object):
         return self.collisions
 
     def jsondump(self):
-        #with open("data.json","w") as outfile:
-        data = '{ "layout":'+str(self.maze.maze)+','
+        if(mode=="stepmode"):
+            line=""
+            while (line != "step\n" and line != "reset\n"):
+                line = sys.stdin.readline()
+        if line == "reset\n":
+            self.reset()
+            self.runs -= 1
+        # maze is transposed when input, so transpose back for outputting
+        m = [[r[col] for r in self.maze.maze] for col in range(len(self.maze.maze[0]))]
+        data = '{ "layout":'+str(m)+','
         data += '"start_pos":{"x":'+str(self.start.x)+',"y":'+str(self.start.y)+'},'
         data += '"finish_pos":{"x":'+str(self.target.x)+',"y":'+str(self.target.y)+'},'
         data += '"robot_pos":{"x":'+str(self.location.x)+',"y":'+str(self.location.y)+'},'
@@ -153,6 +161,9 @@ class RobotImpl(object):
         data += '"goal_reached":'+str(self.location == self.getTargetLocation()).lower()+','
         data += '"runs":'+str(self.runs)+'}'
         print(data)
+
+        if line == "reset\n":
+            raise ResetException("RESET")
 
 
 if __name__ == '__main__':

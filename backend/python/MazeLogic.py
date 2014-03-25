@@ -1,13 +1,15 @@
 #!/usr/bin/python
 
-from maze import Point,Maze
+from Maze import Point,Maze
 from IRobot import IRobot
 from RobotImpl import RobotImpl
 from IRobotController import IRobotController
+from Reset import ResetException
 import json
 import sys
 import os
-from RandomRobotController import RandomRobotController
+import inspect
+#from RandomRobotController import RandomRobotController
 
 testmaze = [[3000,3000,3000,3000,3000],
             [3000,3001,3000,3000,3000],
@@ -20,10 +22,14 @@ class MazeLogic(object):
         self.maze = self.loadMaze(jsonfile)
         self.robot = RobotImpl(self.maze)
         r = self.loadController(sourcefile)
+        #print(r.getDescription())
         self.setController(r)
 
     def startController(self):
+        #try:
         self.controller.start()
+        #except ResetException:
+        #    return
 
     def setController(self,irc):
         self.controller = irc
@@ -49,22 +55,50 @@ class MazeLogic(object):
 
 
     def loadController(self, filename):
+        #print(filename)
         fName = os.path.splitext(filename)
         if(fName[1] == ".py"):
-            execfile(filename)
+            self.execfile(filename)
             #print(filter(lambda x: isinstance(eval(x),type) and issubclass(eval(x),IRobotController) and x!="IRobotController",dir()))
             for x in dir():
                 if(isinstance(eval(x),type)):
                     if(issubclass(eval(x),IRobotController) and x != "IRobotController"):
-                        #print x
-                        r = globals()[x]()
-                        return r
+                        #print(x)
+                        for i in inspect.getmembers(__import__(x)):
+                            if inspect.isclass(i[1]):
+                                if (issubclass(i[1],IRobotController) and i[0]!="IRobotController"):
+                                    r = i[1]()
+                                    #print(r.getDescription())
+                        #r = globals()[x]()
+                                    return r
         else:
             raise RuntimeError("File given is not a Python file")
+
+    def execfile(self,filename,globals=None,locals=None):
+        if globals is None:
+            globals = sys._getframe(1).f_globals
+        if locals is None:
+            locals = sys._getframe(1).f_locals
+        with open(filename,"r") as fh:
+            exec(fh.read()+"\n",globals,locals)
 
 if __name__ == '__main__':
     ml = MazeLogic(sys.argv[1],sys.argv[2])
     #ml.loadController("RandomRobotController.py")
     #ml.setController(RandomRobotController())
-    ml.startController()
+    try:
+        ml.startController()
+        print("END OF EXECUTION")
+    except ResetException as re:
+        print(re)
+    line=""
+    while line != "stop\n":
+        if line == "rerun\n":
+            ml.resetController()
+            try:
+                ml.startController()
+                print("END OF EXECUTION")
+            except ResetException as re:
+                print(re)
+        line = sys.stdin.readline()
     #ml.robot.jsondump()

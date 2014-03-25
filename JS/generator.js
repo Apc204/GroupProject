@@ -3,14 +3,15 @@ function Generator () {
 	this.IN = 1;
 	this.FRONTIER = 2;
 	this.OUT = 3;
-	this.NORTH = 10;
-	this.EAST = 11;
-	this.SOUTH = 12;
-	this.WEST = 13;
+	this.NORTH = 1000;
+	this.EAST = 1001;
+	this.SOUTH = 1002;
+	this.WEST = 1003;
 
 	this.mazeWidth = setWidth;
 	this.mazeHeight = setHeight;
 
+	
 	this.newHeight = (this.mazeHeight*2)+1;
 	this.newWidth = (this.mazeWidth*2)+1;
 	this.startX = 1;
@@ -22,50 +23,87 @@ function Generator () {
 	this.frontierList = [];
 	this.primGrid = [];
 
-	this.PASSAGE = 'O';
-	this.WALL = 'X';
+	this.PASSAGE = 3001;
+	this.WALL = 3000;
+
 
 	this.toJSON = function(maze)
 	{
-		var jsonLayout = JSON.stringify(maze);
+		var jsonLayout = maze;
+		//jsonLayout = jsonLayout.replace('"','');
 		var jsonMaze = {
 		"layout": jsonLayout,
-		"startpos" : {
-			"x": startX,
-			"y": startY
+		"start_pos" : {
+			"x": this.startX,
+			"y": this.startY
 		},
-		"robotpos" : {
-			"x":startX,
-			"y": startY
+		"robot_pos" : {
+			"x": this.startX,
+			"y": this.startY
 		},
-		"robot-orientation":"NORTH",
-		"finishpos" : {
-			"x" : endX,
-			"y" : endY
+		"robot_orientation":1000,
+		"finish_pos" : {
+			"x" : this.endX,
+			"y" : this.endY
 		},
 		"steps":0,
 		"collisions":0,
-		"goal_reached":"false",
+		"goal_reached":false,
 		"runs":0 
 		};
 		return jsonMaze;
 	}
 
-	this.update = function(maze)
+	this.quickUpdate = function(maze, robotposx, robotposy, oldposx, oldposy, orientation)
 	{
+		var c = this.findCanvasProperties();
+		// Clear both old and new squares.
+		this.drawRobot(c,robotposx,robotposy,orientation)
 		
+		//Fill old position as 'been before'
+		//if (robotposx != oldposx && robotposy != oldposy)
+		//{
+			ctx.fillStyle="#b5b5b5";
+			ctx.fillRect(oldposx*canvasWidth/this.newWidth,oldposy*canvasHeight/this.newHeight,canvasHeight/this.newHeight,canvasWidth/this.newWidth);
+		//}
 	}
 
-	this.draw= function(imgtag, x, y, height, width)
+	this.fullUpdate = function(maze, robotposx, robotposy, orientation)
 	{
-			var imgObj = new Image();
-			imgObj.src = "../jpgs/Maze-parts/"+imgtag+".jpg";
-			imgObj.onload = function()
-			{
-				//var img=document.getElementById(imgtag);
-				console.log("Drawing size "+height+" by "+width+" block.");
-				ctx.drawImage(imgObj,x,y,height,width);
-			}
+		var c = this.findCanvasProperties();
+		this.clearCanvas();
+		this.drawMaze(maze);
+		this.drawRobot(robotposx, robotposy, orientation)
+	}
+
+	this.drawRobot = function(robotposx, robotposy, orientation)
+	{
+		var c = this.findCanvasProperties();
+		// Clear square ready to draw robot
+		ctx.clearRect(robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth)
+		// Choose correct sprite depending on orientation
+		if (orientation == '1000')
+		{
+			this.draw("RobotUp",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");
+		}
+		else if (orientation == '1001')
+		{
+			this.draw("RobotRight",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+		}
+		else if (orientation == '1002')
+		{
+			this.draw("RobotDown",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+		}
+		else if (orientation == '1003')
+		{
+			this.draw("RobotLeft",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+		}
+	}
+
+
+	this.draw = function(imgtag, x, y, height, width)
+	{
+		ctx.drawImage(images[imgtag],x,y,height,width);
 	}
 
 	this.findCanvasProperties = function()
@@ -73,8 +111,10 @@ function Generator () {
 		if(fullScreen == true)
 		{
 			var c=document.getElementById("large-canvas");
-			canvasWidth = largeCanvasWidth;
-			canvasHeight = largeCanvasHeight;
+			console.log(c.width);
+			console.log(c.height);
+			canvasWidth = c.width;
+			canvasHeight = c.height;
 			//canvasWidth = c.width;
 			//canvasHeight = c.height;
 			ctx=c.getContext("2d");
@@ -88,15 +128,14 @@ function Generator () {
 			ctx=c.getContext("2d");
 		}
 			
-		
-		
-		console.log(canvasHeight);
-		console.log(canvasWidth);
+		//console.log(canvasHeight);
+		//console.log(canvasWidth);
 		return c;
 	}
 
 	this.clearCanvas = function()
 	{
+		var c = this.findCanvasProperties();
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 	}
 
@@ -164,20 +203,20 @@ function Generator () {
 	{
 		var i = 0;
 		var neighbourWalls = [];
-		if (y < height-1  && maze[x][y+1] == 'X')
+		if (y < height-1  && maze[x][y+1] == '3000')
 			neighbourWalls[i++] = this.SOUTH;
-		if (y != 0 && maze[x][y-1] == 'X')
+		if (y != 0 && maze[x][y-1] == '3000')
 			neighbourWalls[i++] = this.NORTH;
-		if (x < width-1 && maze[x+1][y] == 'X')
+		if (x < width-1 && maze[x+1][y] == '3000')
 			neighbourWalls[i++] = this.EAST;
-		if (x != 0 && maze[x-1][y] == 'X')
+		if (x != 0 && maze[x-1][y] == '3000')
 			neighbourWalls[i++] = this.WEST;
 		return neighbourWalls;
 	}
 
 	this.drawMaze = function(maze)
 	{
-		console.log("drawing maze");
+		this.loadImages();
 		c=this.findCanvasProperties();
 		var neighbours = [];
 		blockWidth = canvasWidth/this.newWidth;
@@ -192,27 +231,15 @@ function Generator () {
 				posi = i*canvasWidth/this.newWidth;
 				posj = j*canvasHeight/this.newHeight;
 				neighbours=[];
-				if (this.startY == i && this.startX == j)
-				{
-					ctx.fillStyle="#00FF00";
-					console.log("Canvas Height: "+canvasHeight);
-					console.log("Canvas : "+canvasWidth);
-					console.log("Dividing by (height): "+this.newHeight);
-					console.log("Dividing by (width): "+this.newWidth);
 
-					console.log("size of block:"+canvasWidth/this.newWidth);
-					console.log("size of block:"+canvasHeight/this.newHeight);
-					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
-				}
-				else if(this.endY == i && this.endX == j)
+				if(this.endY == i && this.endX == j)
 				{
 					ctx.fillStyle="#FF0000";
 					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
 				}
-				else if (maze[j][i] == 'X')
-				{
+				else if (maze[j][i] == 3000)
+				{	
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth, maze);
-					//console.log(neighbours.length);
 					if (neighbours.length == 4){
 						this.drawMiddleBlock(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
 					}
@@ -231,9 +258,13 @@ function Generator () {
 					//(maze)ctx.fillStyle="#0080FF";
 					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
 				}
+				else if (maze[j][i] == 4000)
+				{
+					ctx.fillStyle="#b5b5b5";
+					ctx.fillRect(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours)
+				}
 			}
 		}
-		console.log("done");
 	}
 
 	this.isValid = function(m, x, y)
@@ -290,10 +321,24 @@ function Generator () {
 		return m;
 	}
 
+	this.generate = function()
+	{
+		var maze;
+		if (prims == true)
+		{
+			maze = this.generatePrims();
+		}
+		else
+		{
+			maze = this.generateLoopy()
+		}
+		return maze;
+	}
+
 
 	this.generateLoopy = function()
 	{	
-		var maze = this.generatePrim();
+		var maze = this.generatePrims();
 		var realWidth = (2*this.mazeWidth)+1;
 		var realHeight = (2*this.mazeHeight)+1;
 
@@ -314,15 +359,16 @@ function Generator () {
 				}
 			}
 		}
-		console.log("done generating");
 		//maze = this.centerTarget(maze);
 		Maze = maze;
 		return maze;
 	}
 
-	this.generatePrim = function()
+	this.generatePrims = function()
 	{
-		console.log("Calling incorrect generateMaze");
+		robotposX = 1; // Set initial robot positon, it is then updated with each maze recieved after a step.
+		robotposY = 1;
+		orientation = 1001;
 		if ((this.mazeWidth < 1) || (this.mazeHeight < 1))
 			alert ("Invalid Maze Dimensions");
 		
@@ -445,5 +491,50 @@ function Generator () {
 		
 		return mazeGrid;
 	}
+
+	// Images need to be preloaded to reduce computation
+	this.loadImages = function()
+	{
+		numberLoaded = 0;
+		var imageNames = new Array("AllSides.jpg","Bottom.jpg", "BottomRightCorner.jpg", "BottomLeftCorner.jpg", "Left.jpg", "LeftAndRight.jpg", "Right.jpg", "RobotDown.png", "RobotRight.png",
+									"RobotLeft.png", "RobotUp.png", "Single.jpg", "TBottom.jpg", "TLeft.jpg", "Top.jpg", "TopAndBottom.jpg", "TopLeftCorner.jpg", "TopRightCorner.jpg", "TRight.jpg",
+									"TTop.jpg", "RobotDownRed.png", "RobotLeftRed.png", "RobotRightRed.png","RobotUpRed.png");
+		images = new Object();
+		images["AllSides"] = this.loadSingleImage("AllSides.jpg");
+		images["Bottom"] = this.loadSingleImage("Bottom.jpg");
+		images["BottomRightCorner"] = this.loadSingleImage("BottomRightCorner.jpg");
+		images["BottomLeftCorner"] = this.loadSingleImage("BottomLeftCorner.jpg");
+		images["Left"] = this.loadSingleImage("Left.jpg");
+		images["LeftAndRight"] = this.loadSingleImage("LeftAndRight.jpg");
+		images["Right"] = this.loadSingleImage("Right.jpg");
+		images["RobotDown"] = this.loadSingleImage("RobotDown.png");
+		images["RobotUp"] = this.loadSingleImage("RobotUp.png");
+		images["RobotRight"] = this.loadSingleImage("RobotRight.png");
+		images["RobotLeft"] = this.loadSingleImage("RobotLeft.png");
+		images["Single"] = this.loadSingleImage("Single.jpg");
+		images["TBottom"] = this.loadSingleImage("TBottom.jpg");
+		images["TLeft"] = this.loadSingleImage("TLeft.jpg");
+		images["Top"] = this.loadSingleImage("Top.jpg");
+		images["TopAndBottom"] = this.loadSingleImage("TopAndBottom.jpg");
+		images["TopLeftCorner"] = this.loadSingleImage("TopLeftCorner.jpg");
+		images["TopRightCorner"] = this.loadSingleImage("TopRightCorner.jpg");
+		images["TRight"] = this.loadSingleImage("TRight.jpg");
+		images["TTop"] = this.loadSingleImage("TTop.jpg");
+		images["RobotDownRed"] = this.loadSingleImage("RobotDownRed.png");
+		images["RobotLeftRed"] = this.loadSingleImage("RobotLeftRed.png");
+		images["RobotUpRed"] = this.loadSingleImage("RobotUpRed.png");
+		images["RobotRightRed"] = this.loadSingleImage("RobotRightRed.png");
+	}
+
+	this.loadSingleImage = function(filename)
+	{
+		var imgObj = new Image();
+		imgObj.src = "../jpgs/Maze-parts/"+filename;
+		/*imgObj.onload = function() {
+			numberLoaded++;
+		}*/
+		return imgObj;
+	}
+
 
 }

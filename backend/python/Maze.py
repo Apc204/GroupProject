@@ -22,9 +22,26 @@ class Maze(object):
             self.height = rows
             self.width = mazeCol
         else:
-            self.maze = mazeCol
-            self.height = len(mazeCol[0])
-            self.width = len(mazeCol)
+            # transpose incoming 2D list representation of maze
+            # if maze = 123  then '6' should be maze[2][1]
+            #           456
+            # coming in as [[1,2,3],  would make maze[x][y] refer to row x, col y rather
+            #               [4,5,6]]  than col x, row y as intended
+            # therefore transpose incoming to [[1,4],  so that maze[x][y] refers to
+            #                                  [2,5],  col x and row y
+            #                                  [3,6]]
+
+            #self.maze = list(map(list,zip(*mazeCol)))
+            #for col in self.maze: # zip() returns list of tuples rather than list of lists
+            #    col = list(col)   # so convert the tuples to lists
+            
+            self.maze = [[r[col] for r in mazeCol] for col in range(len(mazeCol[0]))]
+            self.height = len(self.maze[0])
+            self.width = len(self.maze)
+            
+            #self.maze = mazeCol
+            #self.height = len(mazeCol[0])
+            #self.width = len(mazeCol)
         self.start = Point(1,1)
         self.location = Point(1,1)
         self.target = Point(self.width - 2, self.height - 2)
@@ -40,6 +57,8 @@ class Maze(object):
             for column in self.maze:
                 if column[row] == IRobot.PASSAGE:
                     result += "-"
+                elif column[row] == IRobot.BEENBEFORE:
+                    result += "="
                 else:
                     result += "X"
             result += '\n'
@@ -97,6 +116,9 @@ class Maze(object):
         if(newHeading < IRobot.NORTH or newHeading > IRobot.WEST):
             raise RuntimeError("The robot's heading can only be NORTH, SOUTH, EAST or WEST.")
         self.heading = newHeading
+
+    def transpose(self, maze):
+        sdf
 
 if __name__ == "__main__":
     maze = Maze(5,3)

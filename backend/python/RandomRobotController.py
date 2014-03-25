@@ -3,7 +3,7 @@
 from random import choice
 from IRobot import IRobot
 from IRobotController import IRobotController
-from maze import Point
+from Maze import Point
 
 class RandomRobotController(IRobotController,object):
     def __init__(self):
@@ -22,7 +22,7 @@ class RandomRobotController(IRobotController,object):
         self.robot = robot
     
     def reset(self):
-        self.active = false
+        self.robot.reset()
 
     def getDescription(self):
         return "Random controller (pretty useless)"

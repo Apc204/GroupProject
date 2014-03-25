@@ -2,7 +2,7 @@
 
 from random import choice
 from IRobot import IRobot
-from maze import Point
+from Maze import Point
 
 class IRobotController(object):
 
