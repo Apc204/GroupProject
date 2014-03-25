@@ -140,7 +140,7 @@ $().ready(function () {
 			$(this).val('');
 			alert("Please enter an integer between 1 and 10.");
 			$(this).focus();
-		} 
+		}
 
 		//if it's greater than 10 round it down to 10, and round it up to 0 if it's negative
 		if (value > 200) {
@@ -149,6 +149,20 @@ $().ready(function () {
 		} else if (value < 0) {
 			$(this).val('0');
 			value = 0;
+		}
+
+		// Set the value of the text box to the old settings if the changes were not allowed, has no effect if the changes went through.
+		if (name == 'width')
+		{
+			$(this).val(setWidth);
+		}
+		else if (name == 'height')
+		{
+			$(this).val(setHeight);
+		}
+		else if (name == 'speed')
+		{
+			$(this).val(setSpeed);
 		}
 	});
 });
@@ -266,6 +280,13 @@ $('.pause').click(function() {
 });
 
 $('.stop').click(function(){
+
+});
+
+$('#login').click(function(){
+	//var username = $('#username').val();
+	//var password = $('#password').val();
+	console.log("Hello");
 
 });
 
