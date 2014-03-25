@@ -54,6 +54,13 @@ function Generator () {
 		return jsonMaze;
 	}
 
+	this.updateJSON = function()
+	{
+		var jsonMaze = this.toJSON(Maze);
+		var prefix = "[MAZE]";
+		json = prefix.concat(JSON.stringify(jsonMaze));
+	}
+
 	this.quickUpdate = function(maze, robotposx, robotposy, oldposx, oldposy, orientation)
 	{
 		var c = this.findCanvasProperties();
@@ -68,35 +75,43 @@ function Generator () {
 		//}
 	}
 
-	this.fullUpdate = function(maze, robotposx, robotposy, orientation)
+	this.fullUpdate = function(maze, robotposx, robotposy, orientation, oldCollisions)
 	{
 		var c = this.findCanvasProperties();
 		this.clearCanvas();
 		this.drawMaze(maze);
-		this.drawRobot(robotposx, robotposy, orientation)
+		this.drawRobot(robotposx, robotposy, orientation, oldCollisions)
 	}
 
-	this.drawRobot = function(robotposx, robotposy, orientation)
+	this.drawRobot = function(robotposy, robotposx, orientation, oldCollisions)
 	{
 		var c = this.findCanvasProperties();
+		var append = "";
+		var blockWidth = canvasWidth/this.newWidth;
+		var blockHeight = canvasHeight/this.newHeight;
+		// If there has been a collision, prepend "Red" to display the collision sprite.
+		if (oldCollisions != collisions)
+		{
+			append = "Red";
+		}
 		// Clear square ready to draw robot
-		ctx.clearRect(robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth)
+		ctx.clearRect(robotposx*canvasWidth/this.newWidth, robotposy*blockHeight, blockWidth, blockHeight)
 		// Choose correct sprite depending on orientation
 		if (orientation == '1000')
 		{
-			this.draw("RobotUp",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");
+			this.draw("RobotLeft"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);
 		}
 		else if (orientation == '1001')
 		{
-			this.draw("RobotRight",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+			this.draw("RobotDown"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
 		}
 		else if (orientation == '1002')
 		{
-			this.draw("RobotDown",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+			this.draw("RobotRight"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
 		}
 		else if (orientation == '1003')
 		{
-			this.draw("RobotLeft",robotposx*canvasWidth/this.newWidth, robotposy*canvasHeight/this.newHeight, canvasHeight/this.newHeight, canvasWidth/this.newWidth,".png");	
+			this.draw("RobotUp"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
 		}
 	}
 
@@ -219,10 +234,8 @@ function Generator () {
 		this.loadImages();
 		c=this.findCanvasProperties();
 		var neighbours = [];
-		blockWidth = canvasWidth/this.newWidth;
-		blockHeight = canvasHeight/this.newHeight+1;
-
-		
+		var blockWidth = canvasWidth/this.newWidth;
+		var blockHeight = canvasHeight/this.newHeight;
 
 		for (var i=0; i<this.newHeight; i++)
 		{
@@ -235,25 +248,25 @@ function Generator () {
 				if(this.endY == i && this.endX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(j*canvasHeight/this.newHeight,i*canvasWidth/this.newWidth,canvasHeight/this.newHeight+1,canvasWidth/this.newWidth);
+					ctx.fillRect(j*blockHeight,i*blockWidth,blockHeight,blockWidth);
 				}
 				else if (maze[j][i] == 3000)
 				{	
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth, maze);
 					if (neighbours.length == 4){
-						this.drawMiddleBlock(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
+						this.drawMiddleBlock(posj,posi,blockHeight,blockWidth,maze,neighbours);
 					}
 					else if (neighbours.length== 3){
-						this.draw3neighbours(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
+						this.draw3neighbours(posj,posi,blockHeight,blockWidth,maze,neighbours);
 					}
 					else if (neighbours.length == 2){
-						this.draw2neighbours(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
+						this.draw2neighbours(posj,posi,blockHeight,blockWidth,maze,neighbours);
 					}
 					else if (neighbours.length == 1){
-						this.drawSingleNeighbour(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
+						this.drawSingleNeighbour(posj,posi,blockHeight,blockWidth,maze,neighbours);
 					}
 					else {
-						this.drawBlock(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours);
+						this.drawBlock(posj,posi,blockHeight,blockWidth,maze,neighbours);
 					}
 					//(maze)ctx.fillStyle="#0080FF";
 					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
@@ -261,7 +274,7 @@ function Generator () {
 				else if (maze[j][i] == 4000)
 				{
 					ctx.fillStyle="#b5b5b5";
-					ctx.fillRect(posj,posi,canvasHeight/this.newHeight,canvasWidth/this.newWidth,maze,neighbours)
+					ctx.fillRect(posj+2,posi+2,blockHeight-4,blockWidth-4,maze,neighbours);
 				}
 			}
 		}
@@ -368,6 +381,7 @@ function Generator () {
 	{
 		robotposX = 1; // Set initial robot positon, it is then updated with each maze recieved after a step.
 		robotposY = 1;
+		collisions = 0;
 		orientation = 1001;
 		if ((this.mazeWidth < 1) || (this.mazeHeight < 1))
 			alert ("Invalid Maze Dimensions");

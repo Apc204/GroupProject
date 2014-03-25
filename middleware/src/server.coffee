@@ -40,7 +40,7 @@ server.on 'connection', (ws) ->
                         else
                             console.log "MAZE LOADED"
                             console.log "#{dir_path}/maze.json"
-                            logic = spawn "python", ["../../backend/MazeLogic.py", "#{dir_path}/maze.json", "../../backend/RandomRobotController.py"]
+                            logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "../../backend/python/RandomRobotController.py"]
                             logic.stdout.setEncoding('utf8')
                             logic.stderr.setEncoding('utf8')
                             logic.stdout.on 'data', (data) ->

@@ -6,11 +6,6 @@ window.onload = function()
 	connectToSocket();
 }
 
-function updateJson(generator)
-{
-	
-}
-
 function generateAndDraw()
 {
 	mazeType = "Loopy";
@@ -21,9 +16,9 @@ function generateAndDraw()
 		Maze = generator.generateLoopy();
 	else
 		Maze = generator.generatePrims();
-	var jsonMaze = generator.toJSON(Maze);
-	var prefix = "[MAZE]";
-	json = prefix.concat(JSON.stringify(jsonMaze));
+
+	generator.updateJSON();
+
 	if (justLoaded)
 	{
 		setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
@@ -64,20 +59,22 @@ function connectToSocket()
 	    }
 	    else
 	    {
-	    	fixedJSON = evt.data.replace(/\'/g,"\"");
-	    	fixedJSON = fixedJSON.replace(/False/g,"false");
-	    	//console.log(fixedJSON);
-	    	oldposy = robotposY;
-	 		oldposx = robotposX;
+	    	var fixedJSON = evt.data.replace(/\'/g,"\"");
+	    	var fixedJSON = fixedJSON.replace(/False/g,"false");
+	    	console.log(fixedJSON);
+	    	//var oldposy = robotposY;
+	 		//var oldposx = robotposX;
+	 		var oldCollisions = collisions;
 	    	//alert("Message is received... " + evt.data);
-		    newMaze = JSON.parse(fixedJSON);
+		    var newMaze = JSON.parse(fixedJSON);
 		    Maze = newMaze.layout;
 		    robotposY = newMaze.robot_pos.y;
 		    robotposX = newMaze.robot_pos.x;
 		    orientation = newMaze.robot_orientation;
+		    collisions = newMaze.collisions;
 		    //generator.quickUpdate(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
 		    generator = new Generator();
-		    generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+		    generator.fullUpdate(Maze,robotposX, robotposY, orientation, oldCollisions);
 	    }
 	 };
 	 ws.onclose = function()
