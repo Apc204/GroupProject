@@ -30,6 +30,7 @@
           <li><a href="http://www2.warwick.ac.uk/fac/sci/dcs/teaching/modules/cs118/" target="_blank">Coursework Page <span class="glyphicon glyphicon-new-window"></span></a></li> 
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li><a href='#' data-toggle="modal" data-target="#myModal">Login</a></li>
           <li><a href='#' id="help-button">Help</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -51,6 +52,35 @@
 		<div class="maindiv">
       
 			<h1 class="white-text">Maze Visualisation</h1>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Login</h4>
+            </div>
+            <div class="modal-body">
+              <p>Login using your ITS username and password.</p>
+                <div class="input-group login-input">
+                  <span class="input-group-addon span-label">Username: </span> 
+                  <input type="text" class="form-control" name="username">
+                </div><br />
+
+                <div class="input-group login-input">
+                  <span class="input-group-addon span-label">Password: </span>
+                  <input type="password" class="login-input form-control" name="password">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 

@@ -123,6 +123,10 @@ body {
 	width: 250px;
 }
 
+.login-input {
+	width: 200px;
+}
+
 .console {
 	border: 1px solid;
 	/*border-radius:5px;*/
