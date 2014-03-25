@@ -74,8 +74,8 @@ $().ready(function () {
 	var canvas = document.getElementById('large-canvas');
 	//canvas.style.width = height - 200+'px';
 	//canvas.style.height = height - 200+'px';
-	canvas.width = height-200;
-	canvas.height = height-200;
+	canvas.width = height-220;
+	canvas.height = height-220;
 
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
@@ -99,14 +99,32 @@ $().ready(function () {
 		$('.val-'+name).val(val);
 
 		//set variables
-		if (name == 'width') {
-			setWidth = val;
-		} else if (name == 'height') {
-			setHeight = val;
-		} else if (name == 'speed') {
-			setSpeed = val;
+		if (name == 'speed')
+		{
+			if (paused == true || (running == false && paused == false))
+			{
+				setSpeed = val;
+			}
+			else
+			{
+				alert("Pause or stop the run to update robot speed.");
+			}
 		}
-
+		if (name == 'width' || name == 'height')
+		{
+			if (running == false)
+			{
+				if (name == 'width') {
+					setWidth = val;
+				} else if (name == 'height') {
+					setHeight = val;
+				}
+			}
+			else
+			{
+				alert("Stop the run to update maze dimensions.");
+			}
+		}
 	});
 
 	//check the value if the user inputted something manually
@@ -176,11 +194,19 @@ $('#help-button').click(function () {
 });
 
 $('.update-maze').click(function(){
-	var generator = new Generator();
-	generator.generate();
-	generator.clearCanvas();
-	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
-})
+	if (running == false)
+	{
+		var generator = new Generator();
+		generator.generate();
+		generator.updateJSON();
+		generator.clearCanvas();
+		generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+	}
+	else
+	{
+		alert("Please stop the run before generating a new maze.");
+	}
+});
 
 $('#full-screen').click(function() {
 	$('#hide-full-screen').hide();
@@ -221,6 +247,7 @@ $('.play').click(function() {
 		   	ws.send(json);
 		   	sendSteps();
 			running = true;
+			paused = false;
 		}
 		else
 		{
@@ -238,6 +265,9 @@ $('.pause').click(function() {
 	paused = true;
 });
 
+$('.stop').click(function(){
+
+});
 
 
 
