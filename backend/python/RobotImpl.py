@@ -140,10 +140,12 @@ class RobotImpl(object):
         return self.steps
     def getCollisions(self):
         return self.collisions
+    def getRuns(self):
+        return self.runs
 
     def jsondump(self):
+        line=""
         if(mode=="stepmode"):
-            line=""
             while (line != "step\n" and line != "reset\n"):
                 line = sys.stdin.readline()
         if line == "reset\n":
