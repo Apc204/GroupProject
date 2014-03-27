@@ -116,9 +116,9 @@ function Generator () {
 	}
 
 
-	this.draw = function(imgtag, x, y, height, width)
+	this.draw = function(imgtag, x, y, width, height)
 	{
-		ctx.drawImage(images[imgtag],x,y,height,width);
+		ctx.drawImage(images[imgtag],x,y,width,height);
 	}
 
 	this.findCanvasProperties = function()
@@ -154,64 +154,64 @@ function Generator () {
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 	}
 
-	this.draw3neighbours = function(x,y,height,width,maze,neighbours)
+	this.draw3neighbours = function(x,y,width,height,maze,neighbours)
 	{
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.EAST) != -1){
-			this.draw("TTop", x, y, height, width);
+			this.draw("TTop", x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TLeft", x, y, height, width);
+			this.draw("TLeft", x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TRight", x, y, height, width);
+			this.draw("TRight", x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TBottom", x, y, height, width);
+			this.draw("TBottom", x, y, width, height);
 		}
 	}
 
-	this.draw2neighbours = function(x,y,height,width,maze,neighbours)
+	this.draw2neighbours = function(x,y,width,height,maze,neighbours)
 	{
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.SOUTH) != -1 ){
-			this.draw("TopAndBottom",x,y,height,width);
+			this.draw("TopAndBottom",x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("LeftAndRight",x,y,height,width);
+			this.draw("LeftAndRight",x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("BottomRightCorner",x,y,height,width);
+			this.draw("BottomRightCorner",x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.EAST) != -1 ){
-			this.draw("BottomLeftCorner",x,y,height,width);
+			this.draw("BottomLeftCorner",x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.SOUTH) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("TopRightCorner",x,y,height,width);
+			this.draw("TopRightCorner",x,y,width,height);
 		}
 		else if(neighbours.indexOf(this.SOUTH) != -1 && neighbours.indexOf(this.EAST) != -1 ){
-			this.draw("TopLeftCorner",x,y,height,width);
+			this.draw("TopLeftCorner",x,y,width,height);
 		}
 	}
 
-	this.drawSingleNeighbour = function (x,y,height,width,maze,neighbours)
+	this.drawSingleNeighbour = function (x,y,width,height,maze,neighbours)
 	{
 		if (neighbours.indexOf(this.NORTH) != -1)
-			this.draw ("Top",x,y,height,width);
+			this.draw ("Top",x,y,width,height);
 		else if (neighbours.indexOf(this.EAST) != -1)
-			this.draw ("Right",x,y,height,width);
+			this.draw ("Right",x,y,width,height);
 		else if (neighbours.indexOf(this.WEST) != -1)
-			this.draw ("Left",x,y,height,width);
+			this.draw ("Left",x,y,width,height);
 		else if(neighbours.indexOf(this.SOUTH) != -1)
-			this.draw ("Bottom",x,y,height,width);
+			this.draw ("Bottom",x,y,width,height);
 	}
 
-	this.drawBlock = function (x,y,height,width,maze,neighbours)
+	this.drawBlock = function (x,y,width,height,maze,neighbours)
 	{
-		this.draw("Single",x,y,height,width);
+		this.draw("Single",x,y,width,height);
 	}
 
-	this.drawMiddleBlock = function (x,y,height, width,maze,neighbours)
+	this.drawMiddleBlock = function (x,y,width,height,maze,neighbours)
 	{
-		this.draw("AllSides",x,y,height,width);
+		this.draw("AllSides",x,y,width,height);
 	}
 
 	this.checkTile = function(x,y, height, width, maze)
@@ -236,37 +236,39 @@ function Generator () {
 		var neighbours = [];
 		var blockWidth = canvasWidth/this.newWidth;
 		var blockHeight = canvasHeight/this.newHeight;
+		console.log("Block Width: "+blockWidth);
+		console.log("Block Height: "+blockHeight);
 
 		for (var i=0; i<this.newHeight; i++)
 		{
 			for (var j=0; j<this.newWidth; j++)
 			{
-				posi = i*canvasWidth/this.newWidth;
-				posj = j*canvasHeight/this.newHeight;
+				posi = i*canvasHeight/this.newHeight;
+				posj = j*canvasWidth/this.newWidth;
 				neighbours=[];
 
 				if(this.endY == i && this.endX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(j*blockHeight,i*blockWidth,blockHeight,blockWidth);
+					ctx.fillRect(j*blockHeight,i*blockWidth,blockWidth,blockHeight);
 				}
 				else if (maze[j][i] == 3000)
 				{	
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth, maze);
 					if (neighbours.length == 4){
-						this.drawMiddleBlock(posj,posi,blockHeight,blockWidth,maze,neighbours);
+						this.drawMiddleBlock(posj,posi,blockWidth,blockHeight,maze,neighbours);
 					}
 					else if (neighbours.length== 3){
-						this.draw3neighbours(posj,posi,blockHeight,blockWidth,maze,neighbours);
+						this.draw3neighbours(posj,posi,blockWidth,blockHeight,maze,neighbours);
 					}
 					else if (neighbours.length == 2){
-						this.draw2neighbours(posj,posi,blockHeight,blockWidth,maze,neighbours);
+						this.draw2neighbours(posj,posi,blockWidth,blockHeight,maze,neighbours);
 					}
 					else if (neighbours.length == 1){
-						this.drawSingleNeighbour(posj,posi,blockHeight,blockWidth,maze,neighbours);
+						this.drawSingleNeighbour(posj,posi,blockWidth,blockHeight,maze,neighbours);
 					}
 					else {
-						this.drawBlock(posj,posi,blockHeight,blockWidth,maze,neighbours);
+						this.drawBlock(posj,posi,blockWidth,blockHeight,maze,neighbours);
 					}
 					//(maze)ctx.fillStyle="#0080FF";
 					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
@@ -274,7 +276,7 @@ function Generator () {
 				else if (maze[j][i] == 4000)
 				{
 					ctx.fillStyle="#b5b5b5";
-					ctx.fillRect(posj+2,posi+2,blockHeight-4,blockWidth-4,maze,neighbours);
+					ctx.fillRect(posj+2,posi+2,blockWidth-4,blockHeight-4,maze,neighbours);
 				}
 			}
 		}

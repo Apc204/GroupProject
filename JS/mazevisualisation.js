@@ -14,6 +14,7 @@ $().ready(function () {
 	var fileInput = document.getElementById('uploadBox');
 	var fileInput2 = document.getElementById('uploadBox2');
 	var fileDisplayArea = $('#code-textarea');
+	$('#logout-button').hide();
 
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
@@ -283,12 +284,37 @@ $('.stop').click(function(){
 
 });
 
-$('#login').click(function(){
-	//var username = $('#username').val();
-	//var password = $('#password').val();
-	console.log("Hello");
+$('.login').click(function(){
+	var username = $('.login-username').val();
+	var password = $('.login-password').val();
+	
+	request = $.ajax({
+        url: "../PHP/login.php",
+        type: "post",
+        data: {username: username, password: password}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	console.log(response);
+    	console.log("Response: "+response);
+    	console.log("Status: "+textStatus);
+    	console.log("jqXHR: "+jqXHR);
+    	var parsedResponse = JSON.parse(response);
+    	if (parsedResponse.Succeeded == true)
+    	{
+    		$('#login-button').hide();
+    		$('#logout-button').show();
+    		$('#myModal').modal('hide')
+    	}
+    	else
+    	{
+    		alert("Wrong username and/or password.");
+    	}
+    	
+    	//$('#help-button').show();
+
+    });
 
 });
 
-
-
+$
