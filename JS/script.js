@@ -22,13 +22,15 @@ function generateAndDraw()
 	if (justLoaded)
 	{
 		generator.loadImages();
+		//generator.drawRobot(robotposX, robotposY, orientation);
+		//generator.drawRobot(1,1,1001);
 		//setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
 		justLoaded = false;
 	}
 	else
 	{
-		generator.drawMaze(Maze); 
-		generator.drawRobot(1,1,1001);
+		generator.fullUpdate(Maze, robotposX, robotposY, orientation); 
+		//generator.drawRobot(1,1,1001);
 	}
 	
 }

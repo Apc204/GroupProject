@@ -86,6 +86,7 @@ function Generator () {
 
 	this.drawRobot = function(robotposy, robotposx, orientation, oldCollisions)
 	{
+		console.log("Drawing robot");
 		var c = this.findCanvasProperties();
 		var adjustments = this.getBlockSize();
 		var append = "";
@@ -602,7 +603,7 @@ function Generator () {
 		imgObj.src = "../jpgs/Maze-parts/"+filename;
 		imgObj.onload = function() {
 			generator = new Generator();
-			generator.drawMaze(Maze);
+			generator.fullUpdate(Maze, robotposX, robotposY, orientation);
 		}
 		return imgObj;
 
