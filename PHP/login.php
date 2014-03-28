@@ -1,12 +1,13 @@
 <?php
 session_start();
 unset($_SESSION['username']);
+$success = false;
+
 if (!isset($_SESSION['username']))
 {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$passwordHash = sha1($password);
-	$success = false;
 
 	// Connect to database.
 	$mysqli = new mysqli("localhost", "root", "" ,"CS118");
@@ -15,12 +16,6 @@ if (!isset($_SESSION['username']))
 	}
 
 	$res = $mysqli -> query("SELECT * FROM users WHERE username='$username' AND password='$passwordHash'");
-	//print_r($res);
-
-	while($obj = $res->fetch_object())
-	{ 
-        //print_r($obj); 
-    }
 
 	if(!$res)
 	{
@@ -33,8 +28,8 @@ if (!isset($_SESSION['username']))
 		$success = true;
 	}
 
-	echo json_encode(array('Succeeded' => $success));
 }
 
+echo json_encode(array('Succeeded' => $success));
 
 ?>

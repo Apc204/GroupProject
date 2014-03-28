@@ -64,13 +64,14 @@ $().ready(function () {
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
-	$('.slider').slider().on('slide', function(ev){
+	$('.slider').slider().on('slideStop', function(ev){
 		//get the slider value
 		var val = ev.value;
 		//get the name of the question we're working with
 		var name = $(this).attr('id');
 		//assign this value to the correct value box
-		updateVariable(name);
+	
+		updateVariable(name, val);
 	});
 
 	//Set full-screen div size for canvas
@@ -101,8 +102,7 @@ $().ready(function () {
 		$('#'+name).slider('setValue', val);
 		$('.val-'+name).val(val);
 
-		//set variables
-		updateVariable(name);
+		updateVariable(name, val);
 	});
 
 	//check the value if the user inputted something manually
@@ -145,34 +145,49 @@ $().ready(function () {
 	});
 });
 
-function updateVariable(name)
+function updateVariable(name, val)
 {
 	if (name == 'speed')
+	{
+		if (paused == true || (running == false && paused == false))
 		{
-			if (paused == true || (running == false && paused == false))
-			{
-				setSpeed = val;
-			}
-			else
-			{
-				alert("Pause or stop the run to update robot speed.");
-			}
+			setSpeed = val;
+			$('.val-speed').val(setSpeed)
 		}
-		if (name == 'width' || name == 'height')
+		else
 		{
-			if (running == false)
-			{
-				if (name == 'width') {
-					setWidth = val;
-				} else if (name == 'height') {
-					setHeight = val;
-				}
-			}
-			else
-			{
-				alert("Stop the run to update maze dimensions.");
-			}
+			alert("Pause or stop the run to update robot speed.");
+			$('#speed').slider('setValue', setSpeed); // Return slider to original value.
+
 		}
+	}
+	else if (name == 'width')
+	{
+		if (running == false)
+		{
+				setWidth = val;
+				$('.val-width').val(setWidth)
+		}
+		else
+		{
+			alert("Stop the run to update maze width.");
+			$('#width').slider('setValue', setWidth); // Return slider to original value.
+
+		}
+	}
+	else if (name == 'height')
+	{
+		if (running == false)
+		{
+				setHeight = val;
+				$('.val-height').val(setHeight)
+		}
+		else
+		{
+			alert("Stop the run to update maze height.");
+			$('#height').slider('setValue', setHeight); // Return slider to original value.
+		}
+	}
 }
 
 $(document).on('change', '.btn-file :file', function() {
@@ -294,7 +309,6 @@ $('.login').click(function(){
     });
 
     request.done(function(response, textStatus, jqXHR){
-    	console.log(response);
     	console.log("Response: "+response);
     	console.log("Status: "+textStatus);
     	console.log("jqXHR: "+jqXHR);
@@ -314,4 +328,31 @@ $('.login').click(function(){
 
     });
 
+});
+
+$('.save-maze').click(function(){
+	var label = prompt("Enter a name to remember this maze by:");
+	console.log(JSON.stringify(Maze))
+	request = $.ajax({
+        url: "../PHP/saveMaze.php",
+        type: "post",
+        data: {label: label, maze: JSON.stringify(Maze)}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	console.log(response);
+    	console.log("Response: "+response);
+    	console.log("Status: "+textStatus);
+    	console.log("jqXHR: "+jqXHR);
+    	var parsedResponse = JSON.parse(response);
+    	if (parsedResponse.Succeeded == true)
+    	{
+    		alert("Maze Saved");
+    	}
+    	else
+    	{
+    		alert("Maze of this name already exists");
+    	}
+
+    });
 });

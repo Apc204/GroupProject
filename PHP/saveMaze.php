@@ -1,25 +1,33 @@
 <?php
-session_start()
+session_start();
+$success = false;
+$error = "";
 if (isset($_SESSION['username']))
 {
-	$success = false;
 	$maze = $_POST['maze'];
+	$username = $_SESSION['username'];
 	$mazehash = sha1($_POST['maze']);
-	$mysqli = new mysqli("localhost", "root", "contentFilter");
+	$label = $_POST['label'];
+	$mysqli = new mysqli("localhost", "root","", "CS118");
 	if ($mysqli->connect_errno){
-		echo "Failed to connect to MySQL: (".$mysql->connect_errno.") ".$mysqli->connect_error
+		echo "Failed to connect to MySQL: (".$mysql->connect_errno.") ".$mysqli->connect_error;
 	}
-	$res = $mysqli->query("INSERT INTO mazes VALUES ('username', $maze, $mazehash)");
+	$res = $mysqli->query("INSERT INTO mazes VALUES ('$username', '$maze', '$mazehash', '$label')");
 	if(!$res)
 	{
-		echo "Query Failed";
+		//echo "Query Failed";
+		//$error = $mysqli->error();
 	}
 	else
 	{
 		$success = true;
 	}
-	return $success;
+}
+else
+{
+	$error = "Log In";
 }
 
+echo json_encode(array('Succeeded' => $success, 'Error' => $error));
 
 ?>
