@@ -7,6 +7,7 @@ var prims = true;
 var running = false;
 var paused = false;
 var code;
+var fullScreen = true;
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -22,6 +23,11 @@ $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
 	$('#logout-button').hide();
+
+	//Create canvas event listeners
+	var generator = new Generator();
+	canvas = generator.findCanvasProperties();
+	canvas.addEventListener("mousedown", editLayout, false);
 	
 	//Handle file upload
 	var fileInput = document.getElementById('uploadBox');
@@ -48,7 +54,7 @@ $().ready(function () {
 
 	var width = $(window).innerWidth();
 	var height = $(window).innerHeight();
-	fullScreen = true;
+	
 
 	//Calculate div sizes
 	var mazeOptionsWidth = 400;
@@ -144,6 +150,33 @@ $().ready(function () {
 		}
 	});
 });
+
+function editLayout(event)
+{
+	var x = event.x;
+	var y = event.y;
+	var generator = new Generator();
+	var adjustments = generator.getBlockSize();
+	var blockSize = adjustments.blockSize;
+	var canvas = generator.findCanvasProperties();
+	x = (x-canvas.offsetLeft)-adjustments.xOffset;
+  	y = (y-canvas.offsetTop)-adjustments.yOffset;
+  	var mazePosX = Math.ceil(x/blockSize)-1;
+  	var mazePosY = Math.ceil(y/blockSize)-1;
+	console.log(mazePosX);
+	console.log(mazePosY);
+	console.log(Maze[mazePosX][mazePosY]);
+	if (Maze[mazePosX][mazePosY] == 3000)
+	{
+		Maze[mazePosX][mazePosY] = 3001;
+	}
+	else
+	{
+		Maze[mazePosX][mazePosY] = 3000;
+	}
+	generator.updateJSON();
+	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+}
 
 function updateVariable(name, val)
 {
@@ -351,7 +384,7 @@ $('.save-maze').click(function(){
     	}
     	else
     	{
-    		alert("Maze of this name already exists");
+    		alert(parsedResponse.Error);
     	}
 
     });

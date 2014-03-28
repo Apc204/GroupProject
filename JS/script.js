@@ -21,7 +21,8 @@ function generateAndDraw()
 
 	if (justLoaded)
 	{
-		setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
+		generator.loadImages();
+		//setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
 		justLoaded = false;
 	}
 	else

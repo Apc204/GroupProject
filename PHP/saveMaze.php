@@ -16,7 +16,7 @@ if (isset($_SESSION['username']))
 	if(!$res)
 	{
 		//echo "Query Failed";
-		//$error = $mysqli->error();
+		$error = "A maze with this name already exists.";
 	}
 	else
 	{
@@ -25,7 +25,7 @@ if (isset($_SESSION['username']))
 }
 else
 {
-	$error = "Log In";
+	$error = "Please log in to save mazes.";
 }
 
 echo json_encode(array('Succeeded' => $success, 'Error' => $error));

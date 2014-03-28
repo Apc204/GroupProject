@@ -58,6 +58,7 @@ function Generator () {
 	{
 		var jsonMaze = this.toJSON(Maze);
 		var prefix = "[MAZE]";
+		//json = prefix.concat(jsonMaze);
 		json = prefix.concat(JSON.stringify(jsonMaze));
 	}
 
@@ -265,7 +266,7 @@ function Generator () {
 
 	this.drawMaze = function(maze)
 	{
-		this.loadImages();
+		//this.loadImages();
 		c=this.findCanvasProperties();
 		var neighbours = [];
 
@@ -582,7 +583,7 @@ function Generator () {
 		images["RobotDownRed"] = this.loadSingleImage("RobotDownRed.png");
 		images["RobotLeftRed"] = this.loadSingleImage("RobotLeftRed.png");
 		images["RobotUpRed"] = this.loadSingleImage("RobotUpRed.png");
-		images["RobotRightRed"] = this.loadSingleImage("RobotRightRed.png");
+		images["RobotRightRed"] = this.loadLastImage("RobotRightRed.png");
 	}
 
 	this.loadSingleImage = function(filename)
@@ -593,6 +594,18 @@ function Generator () {
 			numberLoaded++;
 		}*/
 		return imgObj;
+	}
+
+	this.loadLastImage = function(filename) // When last image has loaded, call drawMaze()
+	{
+		var imgObj = new Image();
+		imgObj.src = "../jpgs/Maze-parts/"+filename;
+		imgObj.onload = function() {
+			generator = new Generator();
+			generator.drawMaze(Maze);
+		}
+		return imgObj;
+
 	}
 
 
