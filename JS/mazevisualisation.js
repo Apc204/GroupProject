@@ -6,32 +6,44 @@ var largeCanvasHeight = 0;
 var prims = true;
 var running = false;
 var paused = false;
+var code;
+
+function uploadCode(num, file) {
+	var reader = new FileReader();			
+	reader.readAsText(file);
+	reader.onload = function(e) {
+		code = reader.result;
+		$('#upload-code-'+num).show();
+		$('#upload-text-'+num).val(file.name);
+	}	
+}
 
 $().ready(function () {
-
+	$('.upload-code').hide();
+	$(".question").popover();
+	$('#logout-button').hide();
+	
 	//Handle file upload
-
 	var fileInput = document.getElementById('uploadBox');
 	var fileInput2 = document.getElementById('uploadBox2');
-	var fileDisplayArea = $('#code-textarea');
-	$('#logout-button').hide();
-
+	var fileInput3 = document.getElementById('uploadBox3');
+	
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
+		uploadCode(1, file);
 		// var textType = /text.*/;
-
 		// if (file.type.match(textType)) {
-			alert(file.type);
-			var reader = new FileReader();			
+		
+	});
 
-			reader.onload = function(e) {
-				fileDisplayArea.val(reader.result);
-			}
+	fileInput2.addEventListener('change', function(e) {
+		var file = fileInput2.files[0];
+		uploadCode(2, file);
+	});
 
-			reader.readAsText(file);	
-		// } else {
-			// fileDisplayArea.innerText = "File not supported!";
-		// }
+	fileInput3.addEventListener('change', function(e) {
+		var file = fileInput3.files[0];
+		uploadCode(3, file);
 	});
 
 	var width = $(window).innerWidth();
@@ -39,16 +51,17 @@ $().ready(function () {
 	fullScreen = false;
 
 	//Calculate div sizes
-	var mazeDivWidth = 400;
-	var bothWidth = width - mazeDivWidth - 80 // -400 for the maze, -40 for 20px padding everywhere
+	var mazeOptionsWidth = 400;
+	var bothWidth = width - mazeOptionsWidth - 200 // -400 for the maze options, -40 for 20px padding everywhere
 
-	$('#code-div').css("width", bothWidth/2);
-	$('#code-textarea').css("width", bothWidth/2);
-	$('#code-textarea').css("height", height-200);
+	// $('#code-div').css("width", bothWidth/2);
+	// $('#code-textarea').css("width", bothWidth/2);
+	// $('#code-textarea').css("height", height-200);
 
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
-	$('.console').css("height", height-200);
+	$('.console').css("height", height-300);
+	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
 	$('.slider').slider().on('slide', function(ev){
@@ -73,20 +86,18 @@ $().ready(function () {
 	//$('#large-canvas').css("height", height-200);
 	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
-	//canvas.style.width = height - 200+'px';
-	//canvas.style.height = height - 200+'px';
-	canvas.width = height-220;
-	canvas.height = height-220;
+	canvas.width = height-200;
+	canvas.height = height-200;
 
 	largeCanvasHeight = height - 200;
 	largeCanvasWidth = height - 200;
 
 	//see if there's enough space left to display a console
-	var spaceLeft = width - height - 290;
+	var spaceLeft = width - height - 300;
 
 	if (spaceLeft > 200) {
 		$('#large-console-div').css("width", spaceLeft);
-	} else {
+	} else {	
 		$('#large-console-div').hide();
 	}
 
@@ -168,40 +179,32 @@ $().ready(function () {
 	});
 });
 
-$(document).on('change', '.btn-file1 :file', function() {
+$(document).on('change', '.btn-file :file', function() {
     // var file = document.form1.uploadBox.value;
     var file = $('#uploadBox').val().substring(12);
     $('#upload-box-init').val(file);    
 });
 
-$(document).on('change', '.btn-file2 :file', function() {
-    // var file = document.form1.uploadBox.value;
-    var file = $('#uploadBox').val().substring(12);
-    $('#upload-box-init').val(file);    
-});
+// $('#upload-code').click(function() {
+// 	var  file = document.form2.uploadBox.value;
+// 	if (file == "") {
+// 		alert("Please upload a file.");
+// 	} else {
+// 		$('#code-textarea').text("SECOND CODE\npublic class Scribble extends Applet {private int last_x = 0;\nprivate int last_y = 0;\nprivate Color current_color = Color.black;\nprivate Button clear_button;\nprivate Choice color_choices;\n// Called to initialize the applet.\npublic void init() {\n// Set the background color\nthis.setBackground(Color.white);\n// Create a button and add it to the applet.\n// Also, set the button's colors        this.add(color_choices);\n}\n\n// Called when the user clicks the button or chooses a color\npublic boolean action(Event event, Object arg) {\n// If the Clear button was clicked on, handle it.\nif (event.target == clear_button) {\nGraphics g = this.getGraphics();\nRectangle r = this.bounds();");
 
-$('#upload-code-init').click(function() {
-	var  file = document.form1.uploadBox.value;
-	if (file == "") {
-		alert("Please upload a file.");
-	} else {
-		$('#code-textarea').text("public class Scribble extends Applet {private int last_x = 0;\nprivate int last_y = 0;\nprivate Color current_color = Color.black;\nprivate Button clear_button;\nprivate Choice color_choices;\n// Called to initialize the applet.\npublic void init() {\n// Set the background color\nthis.setBackground(Color.white);\n// Create a button and add it to the applet.\n// Also, set the button's colors        this.add(color_choices);\n}\n\n// Called when the user clicks the button or chooses a color\npublic boolean action(Event event, Object arg) {\n// If the Clear button was clicked on, handle it.\nif (event.target == clear_button) {\nGraphics g = this.getGraphics();\nRectangle r = this.bounds();");
+// 		$('.to-reveal').show();
+// 		$('.to-hide').hide();
+// 	}
+// });
 
-		$('.to-reveal').show();
-		$('.to-hide').hide();
-	}
-});
-
-$('#upload-code').click(function() {
-	var  file = document.form2.uploadBox.value;
-	if (file == "") {
-		alert("Please upload a file.");
-	} else {
-		$('#code-textarea').text("SECOND CODE\npublic class Scribble extends Applet {private int last_x = 0;\nprivate int last_y = 0;\nprivate Color current_color = Color.black;\nprivate Button clear_button;\nprivate Choice color_choices;\n// Called to initialize the applet.\npublic void init() {\n// Set the background color\nthis.setBackground(Color.white);\n// Create a button and add it to the applet.\n// Also, set the button's colors        this.add(color_choices);\n}\n\n// Called when the user clicks the button or chooses a color\npublic boolean action(Event event, Object arg) {\n// If the Clear button was clicked on, handle it.\nif (event.target == clear_button) {\nGraphics g = this.getGraphics();\nRectangle r = this.bounds();");
-
-		$('.to-reveal').show();
-		$('.to-hide').hide();
-	}
+$('.upload-code').click(function() {
+	$('#code-code').text(code);
+	$('.display-div').show();
+	$('#code-preview').hide();
+	$('#console-preview').hide();
+	$('#upload-text-1').val("");
+	$('#console-code').text("This will display the console printout.");
+	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
 });
 
 $('#help-button').click(function () {
@@ -316,5 +319,3 @@ $('.login').click(function(){
     });
 
 });
-
-$
