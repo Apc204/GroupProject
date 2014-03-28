@@ -48,7 +48,7 @@ $().ready(function () {
 
 	var width = $(window).innerWidth();
 	var height = $(window).innerHeight();
-	fullScreen = false;
+	fullScreen = true;
 
 	//Calculate div sizes
 	var mazeOptionsWidth = 400;
@@ -70,16 +70,7 @@ $().ready(function () {
 		//get the name of the question we're working with
 		var name = $(this).attr('id');
 		//assign this value to the correct value box
-		$(".val-"+name).val(val);
-
-		//set variables
-		if (name == 'width') {
-			setWidth = val;
-		} else if (name == 'height') {
-			setHeight = val;
-		} else if (name == 'speed') {
-			setSpeed = val;
-		}
+		updateVariable(name);
 	});
 
 	//Set full-screen div size for canvas
@@ -111,32 +102,7 @@ $().ready(function () {
 		$('.val-'+name).val(val);
 
 		//set variables
-		if (name == 'speed')
-		{
-			if (paused == true || (running == false && paused == false))
-			{
-				setSpeed = val;
-			}
-			else
-			{
-				alert("Pause or stop the run to update robot speed.");
-			}
-		}
-		if (name == 'width' || name == 'height')
-		{
-			if (running == false)
-			{
-				if (name == 'width') {
-					setWidth = val;
-				} else if (name == 'height') {
-					setHeight = val;
-				}
-			}
-			else
-			{
-				alert("Stop the run to update maze dimensions.");
-			}
-		}
+		updateVariable(name);
 	});
 
 	//check the value if the user inputted something manually
@@ -178,6 +144,36 @@ $().ready(function () {
 		}
 	});
 });
+
+function updateVariable(name)
+{
+	if (name == 'speed')
+		{
+			if (paused == true || (running == false && paused == false))
+			{
+				setSpeed = val;
+			}
+			else
+			{
+				alert("Pause or stop the run to update robot speed.");
+			}
+		}
+		if (name == 'width' || name == 'height')
+		{
+			if (running == false)
+			{
+				if (name == 'width') {
+					setWidth = val;
+				} else if (name == 'height') {
+					setHeight = val;
+				}
+			}
+			else
+			{
+				alert("Stop the run to update maze dimensions.");
+			}
+		}
+}
 
 $(document).on('change', '.btn-file :file', function() {
     // var file = document.form1.uploadBox.value;
