@@ -5,6 +5,7 @@
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
 		<link href="../CSS/styles.css" rel="stylesheet">
     <link href="../CSS/slider.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/default.css">
 	</head>
 
 	<body>
@@ -86,103 +87,43 @@
 
     </div>
 
-      <div id="hide-full-screen">
-        <div class="vis-div" id="code-div">
-          <textarea id="code-textarea" >To upload a file, click the 'Upload code' button on the right. The code will be displayed here.</textarea>
-        </div>
+      <div id="large-canvas-div">
 
-        <div class="vis-div" id="console-div">
-            <div class="console">
-              When you upload code to the server, the console's print out will be displayed here.
-            </div>
-        </div>
-
-        <div class="col-md-4 vis-div" id="canvas-div">
-          <canvas id="myCanvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
-          
-          <div id="form-div">
-
-            <div class="maze-option-block-btn">
-
-              <div class="inner-left">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default play" id="play"><span class="glyphicon glyphicon-play"></span> Play</button>
-                  <button type="button" class="btn btn-default pause" id="pause"><span class="glyphicon glyphicon-pause"></span> Pause</button>
-                  <button type="button" class="btn btn-default stop" id="stop"><span class="glyphicon glyphicon-stop"></span> Stop</button>
-                </div>
-              </div>
-
-              <div class="inner-right">
-                <a id="full-screen" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-fullscreen"></span> Enlarge maze</a>
-              </div>
-
-            </div>
-
-            <h3>Maze Options</h3>
-
-            <div class="maze-option-block">
-
-             <div class="inner-left maze-option-inner">
-                
-                <h4>Maze size: </h4>
-
-                <div class="input-group input-group-sm options-label">
-                  <span class="input-group-addon span-label">Width: </span> 
-                  <input type="text" class="form-control val val-width" name="width" value="10">
-                </div>
-
-                <div class="input-group input-group-sm options-label">
-                  <span class="input-group-addon span-label">Height: </span>
-                  <input type="text" class="form-control val val-height" name="height" value="10">
-                </div>
-
-              </div>
-
-              <div class="inner-left maze-option-inner">
-
-                <h4>Robot delay: </h4>
-                <input type="text" class="form-control val val-speed" value="500" name="speed">
-
-              </div>
-
-              <div class="inner-left maze-option-inner">
-
-                <h4>Maze type: </h4>
-
-                <span class="span-label"><input type="radio" class="prims" name="maze-type" checked> Prim's</span><br />
-                <span class="span-label"><input type="radio" class="loopy" name="maze-type"> Loopy</span>
-
-              </div>
-
-            </div>
-
-            <a class="btn btn-primary maze-button update-maze">Update maze</a>
-            <a class="btn btn-primary maze-button save-maze">Save maze</a>
-            <a class="btn btn-primary maze-button load-maze">Load maze</a>
-            
-            <h3>Code Options</h3>
-
-            <form name="form2">
-              <div class="below-maze-div">
+        <div class="inner-left" id="large-console-div">
+          <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
+            <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
+            <li><a href="#code" data-toggle="tab">Code</a></li>
+          </ul>
+          <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane active" id="console">
+                <h1>Console</h1>
+              <div id="console-preview">
+                The printout from the console will display here when you upload some code. 
+                <br><br>
                 <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file btn-file2">Browse <input type="file" id="uploadBox"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
-                </div>
+                  <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-2">
+                </div><br>
+                <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br>
               </div>
-              <div class="inner-right">
-                <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
+              <div class="display-div"><pre class="display-pre"><code id="console-code"></code></pre></div>
+            </div>
+            <div class="tab-pane" id="code" id="code">
+              <h1>Code</h1>
+              <div id="code-preview">
+                Your code will display here when you upload some code. 
+                <br><br>
+                <div class="input-group bottom-upload">
+                  <span class="input-group-addon btn-file" name="3">Choose File <input type="file" id="uploadBox3"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-3">
+                </div><br>
+                <a class="btn btn-primary upload-code" id="upload-code-3">Upload code</a><br><br>
               </div>
-            </form>
-            <br />
-
+              <div class="display-div"><pre class="display-pre"><code id="code-code"></code></pre></div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div id="large-canvas-div">
-        <div class="console inner-left" id="large-console-div">
-          When you upload code to the server, the console's print out will be displayed here.
-        </div>
+        
         <div class="inner-left">
           <canvas id="large-canvas" style="border:1px solid #000000;"></canvas>
         </div>
@@ -208,11 +149,11 @@
 
           <h3>Maze Options</h3>
             <!-- Maze controls -->
-            <h4>Maze size: </h4>
+            <h4>Maze size in blocks: </h4>
 
-            <div class="slider-div">
+            <div class="option-row">
             
-              <div class="inner-left" id="maze-width">
+              <div class="inner-left" id="left-option">
 
                 Width: <br />
                 <input type="text" id="width" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
@@ -221,7 +162,7 @@
 
               </div>
 
-              <div class="inner-left" id="maze-height">
+              <div class="inner-left" id="right-option">
 
                 Height: <br />
                 <input type="text" id="height" class="span2 slider size-slider" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
@@ -232,26 +173,32 @@
 
             </div>
 
-            <div class="slider-div">
+            <div class="option-row-large">
             
-              <div class="inner-left" id="maze-width">
+              <div class="inner-left" id="left-option">
 
-                <h4>Robot delay: </h4>
-
-                <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
-
-              </div>
-
-              <div class="inner-left" id="maze-height">
-
-                <h4>Maze type: </h4>
+                <h4>
+                  Maze type: 
+                  <a href='#' class="question" name="maze-type" rel="popover" data-content="Prim's mazes are trees: they can't have any loops in the paths, only branches. Loopy mazes can have loops, which means there can be more than one way to get to the destination.">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                  </a>
+                </h4>
 
                 <div class="btn-group">
                   <button type="button" class="btn btn-default active prims">Prim's</button>
                   <button type="button" class="btn btn-default loopy">Loopy</button>
                 </div><br />
+
+              </div>
+
+              <div class="inner-left" id="right-option">
+
+                <h4>Robot delay: </h4>
+                Milisecond delay on the robot between moves.
+
+                <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
 
               </div>
 
@@ -268,12 +215,12 @@
             <form name="form2">
               <div class="below-maze-div">
                 <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file btn-file2">Browse <input type="file" id="uploadBox2"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-box-init" class="upload-text">
+                  <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-1">
                 </div>
               </div>
               <div class="inner-right">
-                <a id="upload-code" class="btn btn-primary">Upload code</a><br><br>
+                <a class="btn btn-primary upload-code" id="upload-code-1">Upload code</a><br><br>
               </div>
             </form>
         </div>
@@ -284,6 +231,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   
+  <script src="../JS/highlight.pack.js"></script>
   <script src="../JS/generator.js"></script>
   <script src="../JS/script.js"></script>
   <script src="../JS/bootstrap-slider.js"></script>

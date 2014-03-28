@@ -52,15 +52,13 @@ body {
 }
 
 #code-div {
-	/*margin-left: 20px;*/
-	margin-right: 20px;
-	float: left;
+	/*margin-right: 20px;*/
+	/*float: left;*/
 }
 
 #console-div {
-	/*margin-left: 20px;*/
-	margin-right: 20px;
-	float: left;
+	/*margin-right: 20px;*/
+	/*float: left;*/
 	/*border: solid;*/
 }
 
@@ -128,9 +126,9 @@ body {
 }
 
 .console {
-	border: 1px solid;
+	/*border: 1px solid;*/
 	/*border-radius:5px;*/
-	border-color:#C0C0C0;
+	/*border-color:#C0C0C0;*/
 }
 
 .vis-div {
@@ -196,7 +194,7 @@ body {
 }
 
 #large-canvas-div {
-	display: none;
+	/*display: none;*/
 	padding: 20px;
 	padding-top: 30px;
 }
@@ -223,12 +221,12 @@ body {
 	width: 60px;
 }
 
-#maze-width {
+#left-option {
 	width: 190px;
 	padding-right: 10px;
 }
 
-#maze-height {
+#right-option {
 	width: 190px;
 }
 
@@ -240,6 +238,27 @@ body {
 	/*display: none;*/
 }
 
-.slider-div {
+.option-row {
 	height: 95px;
+}
+
+.option-row-large {
+	height: 140px;
+}
+
+#hide-full-screen {
+	display: none;
+}
+
+.popover-content {
+    font-size: 14px;
+}
+
+.btn-file {
+	cursor: pointer;
+}
+
+.display-div {
+	display: none;
+	overflow: auto;
 }
