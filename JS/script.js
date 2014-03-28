@@ -13,9 +13,9 @@ function generateAndDraw()
 	var generator = new Generator();
 	generator.clearCanvas();
 	if (prims == false)
-		Maze = generator.generateLoopy();
+		generator.generateLoopy();
 	else
-		Maze = generator.generatePrims();
+		generator.generatePrims();
 
 	generator.updateJSON();
 
@@ -29,7 +29,7 @@ function generateAndDraw()
 	}
 	else
 	{
-		generator.fullUpdate(Maze, robotposX, robotposY, orientation); 
+		generator.fullUpdate(); 
 		//generator.drawRobot(1,1,1001);
 	}
 	
@@ -67,7 +67,7 @@ function connectToSocket()
 	    	console.log(fixedJSON);
 	    	//var oldposy = robotposY;
 	 		//var oldposx = robotposX;
-	 		var oldCollisions = collisions;
+	 		oldCollisions = collisions;
 	    	//alert("Message is received... " + evt.data);
 		    var newMaze = JSON.parse(fixedJSON);
 		    Maze = newMaze.layout;
@@ -77,7 +77,7 @@ function connectToSocket()
 		    collisions = newMaze.collisions;
 		    //generator.quickUpdate(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
 		    generator = new Generator();
-		    generator.fullUpdate(Maze,robotposX, robotposY, orientation, oldCollisions);
+		    generator.fullUpdate();
 	    }
 	 };
 	 ws.onclose = function()

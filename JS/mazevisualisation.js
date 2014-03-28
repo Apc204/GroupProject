@@ -175,7 +175,7 @@ function editLayout(event)
 		Maze[mazePosX][mazePosY] = 3000;
 	}
 	generator.updateJSON();
-	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+	generator.fullUpdate();
 }
 
 function updateVariable(name, val)
@@ -262,7 +262,7 @@ $('.update-maze').click(function(){
 		generator.generate();
 		generator.updateJSON();
 		generator.clearCanvas();
-		generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+		generator.fullUpdate();
 	}
 	else
 	{
@@ -276,7 +276,7 @@ $('#full-screen').click(function() {
 	fullScreen = true;
 	var generator = new Generator();
 	generator.clearCanvas();
-	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+	generator.fullUpdate();
 });
 
 $('#shrink').click(function() {
@@ -284,7 +284,7 @@ $('#shrink').click(function() {
 	$('#hide-full-screen').show();
 	fullScreen = false;
 	var generator = new Generator();
-	generator.fullUpdate(Maze,robotposX, robotposY, orientation);
+	generator.fullUpdate();
 });
 
 $('.prims').click(function() {
