@@ -43,8 +43,8 @@ function Generator () {
 		},
 		"robot_orientation":1000,
 		"finish_pos" : {
-			"x" : this.endX,
-			"y" : this.endY
+			"x" : this.endY,
+			"y" : this.endX
 		},
 		"steps":0,
 		"collisions":0,
@@ -86,33 +86,69 @@ function Generator () {
 	this.drawRobot = function(robotposy, robotposx, orientation, oldCollisions)
 	{
 		var c = this.findCanvasProperties();
+		var adjustments = this.getBlockSize();
 		var append = "";
-		var blockWidth = canvasWidth/this.newWidth;
-		var blockHeight = canvasHeight/this.newHeight;
+		var blockSize = adjustments.blockSize;
+		var xOffset = adjustments.xOffset;
+		var yOffset = adjustments.yOffset
+
 		// If there has been a collision, prepend "Red" to display the collision sprite.
 		if (oldCollisions != collisions)
 		{
 			append = "Red";
 		}
 		// Clear square ready to draw robot
-		ctx.clearRect(robotposx*canvasWidth/this.newWidth, robotposy*blockHeight, blockWidth, blockHeight)
+		ctx.clearRect(robotposx*blockSize+xOffset, robotposy*blockSize+yOffset, blockSize, blockSize)
 		// Choose correct sprite depending on orientation
 		if (orientation == '1000')
 		{
-			this.draw("RobotLeft"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);
+			this.draw("RobotLeft"+append,robotposx*blockSize+xOffset+2, robotposy*blockSize+yOffset+2, blockSize-4, blockSize-4);
 		}
 		else if (orientation == '1001')
 		{
-			this.draw("RobotDown"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
+			this.draw("RobotDown"+append,robotposx*blockSize+xOffset+2, robotposy*blockSize+yOffset+2, blockSize-4, blockSize-4);	
 		}
 		else if (orientation == '1002')
 		{
-			this.draw("RobotRight"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
+			this.draw("RobotRight"+append,robotposx*blockSize+xOffset+2, robotposy*blockSize+yOffset+2, blockSize-4, blockSize-4);	
 		}
 		else if (orientation == '1003')
 		{
-			this.draw("RobotUp"+append,robotposx*blockWidth+2, robotposy*blockHeight+2, blockWidth-4, blockHeight-4);	
+			this.draw("RobotUp"+append,robotposx*blockSize+xOffset+2, robotposy*blockSize+yOffset+2, blockSize-4, blockSize-4);	
 		}
+	}
+
+	this.getBlockSize = function()
+	{
+		var returnArray = new Object;
+		var positive = 0;
+		if (setWidth != setHeight)
+		{
+			var difference = setWidth-setHeight;
+			if (difference >= 0) // Width is bigger
+			{
+				positive = Math.abs(difference);
+				returnArray.blockSize = canvasWidth/this.newWidth;
+				returnArray.yOffset = positive*returnArray.blockSize; // Create an offset so the maze can be drawn in correct proportions.
+				returnArray.xOffset = 0;
+				
+			}
+			else // Height is bigger
+			{
+				console.log("Height is BIGGER");
+				positive = Math.abs(difference);
+				returnArray.blockSize = canvasWidth/this.newHeight;
+				returnArray.xOffset = positive*returnArray.blockSize;
+				returnArray.yOffset = 0;
+			}
+		}
+		else
+		{
+			returnArray.blockSize = canvasWidth/this.newWidth;
+			returnArray.xOffset = 0;
+			returnArray.yOffset = 0;
+		}
+		return returnArray;
 	}
 
 
@@ -130,8 +166,6 @@ function Generator () {
 			console.log(c.height);
 			canvasWidth = c.width;
 			canvasHeight = c.height;
-			//canvasWidth = c.width;
-			//canvasHeight = c.height;
 			ctx=c.getContext("2d");
 		}
 			
@@ -234,41 +268,50 @@ function Generator () {
 		this.loadImages();
 		c=this.findCanvasProperties();
 		var neighbours = [];
-		var blockWidth = canvasWidth/this.newWidth;
-		var blockHeight = canvasHeight/this.newHeight;
-		console.log("Block Width: "+blockWidth);
-		console.log("Block Height: "+blockHeight);
+
+		// Adjust block sizes and offset for when the maze isn't square.
+		var adjustments = this.getBlockSize();
+		var blockSize = adjustments.blockSize;
+		var xOffset = adjustments.xOffset;
+		var yOffset = adjustments.yOffset;
+
+		console.log(xOffset);
+		console.log(yOffset);
+		 
+		console.log("Block Width: "+blockSize);
+		console.log("Block Height: "+blockSize);
 
 		for (var i=0; i<this.newHeight; i++)
 		{
 			for (var j=0; j<this.newWidth; j++)
 			{
-				posi = i*canvasHeight/this.newHeight;
-				posj = j*canvasWidth/this.newWidth;
+				
+				posi = i*blockSize+yOffset;
+				posj = j*blockSize+xOffset;
 				neighbours=[];
 
 				if(this.endY == i && this.endX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(j*blockHeight,i*blockWidth,blockWidth,blockHeight);
+					ctx.fillRect(posj,posi,blockSize,blockSize);
 				}
 				else if (maze[j][i] == 3000)
 				{	
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth, maze);
 					if (neighbours.length == 4){
-						this.drawMiddleBlock(posj,posi,blockWidth,blockHeight,maze,neighbours);
+						this.drawMiddleBlock(posj,posi,blockSize,blockSize,maze,neighbours);
 					}
 					else if (neighbours.length== 3){
-						this.draw3neighbours(posj,posi,blockWidth,blockHeight,maze,neighbours);
+						this.draw3neighbours(posj,posi,blockSize,blockSize,maze,neighbours);
 					}
 					else if (neighbours.length == 2){
-						this.draw2neighbours(posj,posi,blockWidth,blockHeight,maze,neighbours);
+						this.draw2neighbours(posj,posi,blockSize,blockSize,maze,neighbours);
 					}
 					else if (neighbours.length == 1){
-						this.drawSingleNeighbour(posj,posi,blockWidth,blockHeight,maze,neighbours);
+						this.drawSingleNeighbour(posj,posi,blockSize,blockSize,maze,neighbours);
 					}
 					else {
-						this.drawBlock(posj,posi,blockWidth,blockHeight,maze,neighbours);
+						this.drawBlock(posj,posi,blockSize,blockSize,maze,neighbours);
 					}
 					//(maze)ctx.fillStyle="#0080FF";
 					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
@@ -276,7 +319,7 @@ function Generator () {
 				else if (maze[j][i] == 4000)
 				{
 					ctx.fillStyle="#b5b5b5";
-					ctx.fillRect(posj+2,posi+2,blockWidth-4,blockHeight-4,maze,neighbours);
+					ctx.fillRect(posj+2,posi+2,blockSize-4,blockSize-4,maze,neighbours);
 				}
 			}
 		}
