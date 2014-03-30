@@ -38,8 +38,8 @@ function Generator () {
 			"y": this.startY
 		},
 		"robot_pos" : {
-			"x": this.startX,
-			"y": this.startY
+			"x": robotposX,
+			"y": robotposY
 		},
 		"robot_orientation":1000,
 		"finish_pos" : {
@@ -86,7 +86,7 @@ function Generator () {
 
 	this.drawRobot = function()
 	{
-		console.log("Drawing robot");
+		//console.log("Drawing robot");
 		var c = this.findCanvasProperties();
 		var adjustments = this.getBlockSize();
 		var append = "";
@@ -164,8 +164,8 @@ function Generator () {
 		if(fullScreen == true)
 		{
 			var c=document.getElementById("large-canvas");
-			console.log(c.width);
-			console.log(c.height);
+			//console.log(c.width);
+			//console.log(c.height);
 			canvasWidth = c.width;
 			canvasHeight = c.height;
 			ctx=c.getContext("2d");
@@ -277,11 +277,11 @@ function Generator () {
 		var xOffset = adjustments.xOffset;
 		var yOffset = adjustments.yOffset;
 
-		console.log(xOffset);
-		console.log(yOffset);
+		//console.log(xOffset);
+		//console.log(yOffset);
 		 
-		console.log("Block Width: "+blockSize);
-		console.log("Block Height: "+blockSize);
+		//console.log("Block Width: "+blockSize);
+		//console.log("Block Height: "+blockSize);
 
 		for (var i=0; i<this.newHeight; i++)
 		{

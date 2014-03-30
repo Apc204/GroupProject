@@ -8,6 +8,7 @@ var running = false;
 var paused = false;
 var code;
 var fullScreen = true;
+var dragging = false;
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -27,7 +28,9 @@ $().ready(function () {
 	//Create canvas event listeners
 	var generator = new Generator();
 	canvas = generator.findCanvasProperties();
-	canvas.addEventListener("mousedown", editLayout, false);
+	canvas.addEventListener("mousedown", mouseDown, false);
+	canvas.addEventListener("mousemove", mouseMove, false);
+	canvas.addEventListener("mouseup", mouseUp, false);
 	
 	//Handle file upload
 	var fileInput = document.getElementById('uploadBox');
@@ -151,10 +154,68 @@ $().ready(function () {
 	});
 });
 
-function editLayout(event)
+function mouseDown(event)
+{
+	// Find co-ordinates of the click position on the canvas.
+	mazeCoords = findMazeCoordinates(event);
+	var mazePosX = mazeCoords.x;
+	var mazePosY = mazeCoords.y;
+
+	if (robotposY != mazePosX || robotposX != mazePosY) // If editing maze layout and not moving robot.
+	{
+		if (Maze[mazePosX][mazePosY] == 3000)
+		{
+			Maze[mazePosX][mazePosY] = 3001;
+		}
+		else
+		{
+			Maze[mazePosX][mazePosY] = 3000;
+		}
+		generator.updateJSON();
+		generator.fullUpdate();
+	}
+	else if (robotposX == mazePosX && robotposY == mazePosY) // If clicking the robot to move it.
+	{
+		console.log("clicked robot");
+		dragging = true;
+	}
+}
+
+function mouseUp(event)
+{
+	dragging = false;
+}
+
+function mouseMove(event)
+{
+	
+	if (dragging == true) // If dragging the robot
+	{
+		var mazeCoords = findMazeCoordinates(event);
+		var mazePosX = mazeCoords.x;
+		var mazePosY = mazeCoords.y;
+
+		if (Maze[mazePosX][mazePosY] == 3001)
+		{
+			
+			if (robotposY != mazePosX || robotposX != mazePosY) // Only redraw if robot position has changed to reduce computation.
+			{
+				robotposY = mazePosX;
+				robotposX = mazePosY;
+				generator.updateJSON();
+				generator.fullUpdate();
+			}
+			
+		}
+
+	}
+}
+
+function findMazeCoordinates(event)
 {
 	var x = event.x;
 	var y = event.y;
+	var returnObject = new Object();
 	var generator = new Generator();
 	var adjustments = generator.getBlockSize();
 	var blockSize = adjustments.blockSize;
@@ -163,19 +224,13 @@ function editLayout(event)
   	y = (y-canvas.offsetTop)-adjustments.yOffset;
   	var mazePosX = Math.ceil(x/blockSize)-1;
   	var mazePosY = Math.ceil(y/blockSize)-1;
-	console.log(mazePosX);
-	console.log(mazePosY);
-	console.log(Maze[mazePosX][mazePosY]);
-	if (Maze[mazePosX][mazePosY] == 3000)
-	{
-		Maze[mazePosX][mazePosY] = 3001;
-	}
-	else
-	{
-		Maze[mazePosX][mazePosY] = 3000;
-	}
-	generator.updateJSON();
-	generator.fullUpdate();
+	//console.log(mazePosX);
+	//console.log(mazePosY);
+	//console.log(Maze[mazePosX][mazePosY]);
+	returnObject.x = mazePosX;
+	returnObject.y = mazePosY;
+	return returnObject;
+
 }
 
 function updateVariable(name, val)
