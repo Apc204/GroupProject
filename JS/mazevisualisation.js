@@ -157,11 +157,12 @@ $().ready(function () {
 function mouseDown(event)
 {
 	// Find co-ordinates of the click position on the canvas.
+	var generator = new Generator();
 	mazeCoords = findMazeCoordinates(event);
 	var mazePosX = mazeCoords.x;
 	var mazePosY = mazeCoords.y;
 
-	if (robotposY != mazePosX || robotposX != mazePosY) // If editing maze layout and not moving robot.
+	if ((robotposY != mazePosX || robotposX != mazePosY) && (endposY != mazePosX || endposX != mazePosY)) // If editing maze layout and not moving robot.
 	{
 		if (Maze[mazePosX][mazePosY] == 3000)
 		{
@@ -190,6 +191,7 @@ function mouseMove(event)
 	
 	if (dragging == true) // If dragging the robot
 	{
+		var generator = new Generator();
 		var mazeCoords = findMazeCoordinates(event);
 		var mazePosX = mazeCoords.x;
 		var mazePosY = mazeCoords.y;

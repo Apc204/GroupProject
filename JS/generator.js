@@ -16,8 +16,7 @@ function Generator () {
 	this.newWidth = (this.mazeWidth*2)+1;
 	this.startX = 1;
 	this.startY = 1;
-	this.endX = this.newWidth-2;
-	this.endY = this.newHeight-2;
+
 	this.start = [1,1];
 	this.finish = [(2*this.mazeWidth)-1,(2*this.mazeHeight)-1];
 	this.frontierList = [];
@@ -43,8 +42,8 @@ function Generator () {
 		},
 		"robot_orientation":1000,
 		"finish_pos" : {
-			"x" : this.endY,
-			"y" : this.endX
+			"x" : endposY,
+			"y" : endposX
 		},
 		"steps":0,
 		"collisions":0,
@@ -292,7 +291,7 @@ function Generator () {
 				posj = j*blockSize+xOffset;
 				neighbours=[];
 
-				if(this.endY == i && this.endX == j)
+				if(endposY == i && endposX == j)
 				{
 					ctx.fillStyle="#FF0000";
 					ctx.fillRect(posj,posi,blockSize,blockSize);
@@ -425,6 +424,8 @@ function Generator () {
 		// Initialise global variables.
 		robotposX = 1;
 		robotposY = 1;
+		endposX = this.newWidth-2;
+		endposY = this.newHeight-2;
 		collisions = 0;
 		oldCollisions = 0;
 		orientation = 1001;
