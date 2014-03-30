@@ -174,9 +174,8 @@ function mouseDown(event)
 		generator.updateJSON();
 		generator.fullUpdate();
 	}
-	else if (robotposX == mazePosX && robotposY == mazePosY) // If clicking the robot to move it.
+	else if (robotposY == mazePosX && robotposX == mazePosY) // If clicking the robot to move it.
 	{
-		console.log("clicked robot");
 		dragging = true;
 	}
 }
