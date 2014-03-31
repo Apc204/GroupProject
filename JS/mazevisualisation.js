@@ -1,3 +1,5 @@
+var titles = ["Maze 1", "Maze 2", "Maze 3", "Maze 4"];
+
 var setWidth = 10;
 var setHeight = 10;
 var setSpeed = 500;
@@ -301,6 +303,24 @@ $(document).on('change', '.btn-file :file', function() {
     // var file = document.form1.uploadBox.value;
     var file = $('#uploadBox').val().substring(12);
     $('#upload-box-init').val(file);    
+});
+
+function displayMazes() {
+	var titlesDiv = $('#maze-list-div');
+	if (titles.length == 0) {
+		titlesDiv.text("You have no saved mazes.");
+	} else {
+		titlesDiv.text("Choose a maze to load:");
+		titlesDiv.append("<br><br>");
+		titles.forEach(function(e) {
+			// titlesDiv.append(e + "<br>");
+			titlesDiv.append("<button type='button' class='btn btn-default'>"+e+"</button><br><br>");
+		});
+	}
+}
+
+$('#load-maze').click(function() {
+	displayMazes();
 });
 
 // $('#upload-code').click(function() {
