@@ -3,6 +3,7 @@ _ = require 'underscore'
 spawn = require('child_process').spawn
 fs = require('fs')
 temp = require('temp')
+readline = require('readline')
 
 server = new ws.Server({port: 8080})
 
@@ -13,10 +14,11 @@ server.on 'connection', (ws) ->
     ws.send "CONNECTED"
 
     maze_data = []
-    data_string = ""
     logic = undefined
+    logic_out = undefined
     start = true
     responding = false
+    reset = false
 
 
     ws.on 'error', (err) ->
@@ -41,41 +43,51 @@ server.on 'connection', (ws) ->
                             console.log "MAZE LOADED"
                             console.log "#{dir_path}/maze.json"
                             logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "../../backend/python/RandomRobotController.py"]
+                            logic_out = readline.createInterface({
+                                input: logic.stdout,
+                                terminal: false
+                                })
+                            logic_err = readline.createInterface({
+                                input: logic.stderr,
+                                terminal: false
+                                })
                             logic.stdout.setEncoding('utf8')
                             logic.stderr.setEncoding('utf8')
-                            logic.stdout.on 'data', (data) ->
-                                data_string = "#{data_string}#{data}"
-                            logic.stderr.on 'data', (data) ->
+                            logic_out.on 'line', (line) ->
+                                if reset
+                                    ws.send line
+                                    reset = false
+                                else
+                                    maze_data = maze_data.concat line
+                                console.log line
+                            logic_err.on 'line', (line) ->
                                 console.log 'PYTHON ERROR'
-                                console.log data
+                                console.log line
                             logic.on 'close', (code) ->
                                 console.log 'PYTHON EXIT'
                                 console.log code
                                 logic = undefined
+                                logic_err = undefined
+                                logic_out = undefined 
                             logic.on 'err', (err) ->
                                 console.log err
                 else if message == "STEP"
                     responding = true
-                    new_maze_data = data_string.split '\n'
-                    if new_maze_data.length > 1
-                        maze_data = maze_data.concat new_maze_data[..-2]
-                    if new_maze_data[new_maze_data.length - 1] != undefined
-                        data_string = new_maze_data[new_maze_data.length - 1]
-                    else
-                        data_string = ""
                     if maze_data.length > 0
+                        start = false
                         if logic
                             logic.stdin.write "step\n"
                         ws.send maze_data[0]
                         console.log maze_data[0]
                         maze_data = maze_data[1..]
                     else
-                        if start && logic
-                            start = false
-                            logic.stdin.write "step\n"
-                        if logic && (maze_data.length == 0)
-                            logic.stdin.write "step\n"
+                        logic.stdin.write "step\n"
                         console.log "NO_DATA"
                         ws.send "NO_DATA"
+                else if message == "RESET"
+                    maze_data = []
+                    reset = true
+                    if logic
+                        logic.stdin.write "reset\n"
                 responding = false
         ws.send "READY"
