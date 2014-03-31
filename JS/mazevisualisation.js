@@ -176,6 +176,7 @@ function mouseDown(event)
 {
 	// Find co-ordinates of the click position on the canvas.
 	mazeCoords = findMazeCoordinates(event);
+	var generator = new Generator();
 	var mazePosX = mazeCoords.x;
 	var mazePosY = mazeCoords.y;
 
