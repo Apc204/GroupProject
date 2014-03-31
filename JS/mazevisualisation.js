@@ -15,6 +15,7 @@ function uploadCode(num, file) {
 	reader.readAsText(file);
 	reader.onload = function(e) {
 		code = reader.result;
+		console.log(code);
 		$('#upload-code-'+num).show();
 		$('#upload-text-'+num).val(file.name);
 	}
@@ -60,7 +61,6 @@ $().ready(function () {
 		uploadCode(1, file);
 		// var textType = /text.*/;
 		// if (file.type.match(textType)) {
-		
 	});
 
 	fileInput2.addEventListener('change', function(e) {
@@ -380,6 +380,7 @@ $('.play').click(function() {
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
+		   	ws.send("[CODE]"+code);
 		   	sendSteps();
 			running = true;
 			paused = false;
