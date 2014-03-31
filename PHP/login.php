@@ -1,6 +1,5 @@
 <?php
 session_start();
-unset($_SESSION['username']);
 $success = false;
 
 if (!isset($_SESSION['username']))
@@ -28,6 +27,11 @@ if (!isset($_SESSION['username']))
 		$success = true;
 	}
 
+}
+else
+{
+	unset($_SESSION['username']);
+	$success = true;
 }
 
 echo json_encode(array('Succeeded' => $success));

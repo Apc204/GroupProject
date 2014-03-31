@@ -17,13 +17,31 @@ function uploadCode(num, file) {
 		code = reader.result;
 		$('#upload-code-'+num).show();
 		$('#upload-text-'+num).val(file.name);
-	}	
+	}
 }
 
 $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
-	$('#logout-button').hide();
+
+	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
+	$.ajax({
+		'async':false,
+		'global':false,
+		'url':'../PHP/isLogged.php',
+		'success':function(resp){
+			parsed = JSON.parse(resp);
+			if (parsed.logged == true)
+			{
+				$('#login-button').hide();
+			}
+			else
+			{
+				$('#logout-button').hide();
+			}
+		}
+	});
+
 
 	//Create canvas event listeners
 	var generator = new Generator();
@@ -57,7 +75,7 @@ $().ready(function () {
 
 	var width = $(window).innerWidth();
 	var height = $(window).innerHeight();
-	
+
 
 	//Calculate div sizes
 	var mazeOptionsWidth = 400;
@@ -157,7 +175,6 @@ $().ready(function () {
 function mouseDown(event)
 {
 	// Find co-ordinates of the click position on the canvas.
-	var generator = new Generator();
 	mazeCoords = findMazeCoordinates(event);
 	var mazePosX = mazeCoords.x;
 	var mazePosY = mazeCoords.y;
@@ -384,7 +401,8 @@ $('.pause').click(function() {
 });
 
 $('.stop').click(function(){
-
+	running = false;
+	ws.send("RESET");
 });
 
 $('.login').click(function(){
@@ -419,6 +437,31 @@ $('.login').click(function(){
 
 });
 
+$('#logout-button').click(function(){
+	request = $.ajax({
+        url: "../PHP/login.php",
+        type: "post",
+        data: {}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	console.log("Response: "+response);
+    	console.log("Status: "+textStatus);
+    	console.log("jqXHR: "+jqXHR);
+    	var parsedResponse = JSON.parse(response);
+    	if (parsedResponse.Succeeded == true)
+    	{
+    		alert("Logged out.");
+    		$('#login-button').show();
+    		$('#logout-button').hide();
+    	}
+    	else
+    	{
+    		alert("Something went wrong.");
+    	}
+    });
+});
+
 $('.save-maze').click(function(){
 	var label = prompt("Enter a name to remember this maze by:");
 	console.log(JSON.stringify(Maze))
@@ -445,3 +488,4 @@ $('.save-maze').click(function(){
 
     });
 });
+

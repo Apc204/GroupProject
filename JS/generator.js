@@ -90,6 +90,7 @@ function Generator () {
 		var adjustments = this.getBlockSize();
 		var append = "";
 		var blockSize = adjustments.blockSize;
+		var gap = blockSize*0.1; 
 		var xOffset = adjustments.xOffset;
 		var yOffset = adjustments.yOffset
 
@@ -103,19 +104,19 @@ function Generator () {
 		// Choose correct sprite depending on orientation
 		if (orientation == '1000')
 		{
-			this.draw("RobotLeft"+append,robotposY*blockSize+xOffset+2, robotposX*blockSize+yOffset+2, blockSize-4, blockSize-4);
+			this.draw("RobotLeft"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);
 		}
 		else if (orientation == '1001')
 		{
-			this.draw("RobotDown"+append,robotposY*blockSize+xOffset+2, robotposX*blockSize+yOffset+2, blockSize-4, blockSize-4);	
+			this.draw("RobotDown"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 		else if (orientation == '1002')
 		{
-			this.draw("RobotRight"+append,robotposY*blockSize+xOffset+2, robotposX*blockSize+yOffset+2, blockSize-4, blockSize-4);	
+			this.draw("RobotRight"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 		else if (orientation == '1003')
 		{
-			this.draw("RobotUp"+append,robotposY*blockSize+xOffset+2, robotposX*blockSize+yOffset+2, blockSize-4, blockSize-4);	
+			this.draw("RobotUp"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 	}
 
@@ -273,6 +274,7 @@ function Generator () {
 		// Adjust block sizes and offset for when the maze isn't square.
 		var adjustments = this.getBlockSize();
 		var blockSize = adjustments.blockSize;
+		var gap = blockSize*0.1; // Create gap between "been before" squares to create discretised maze effect.
 		var xOffset = adjustments.xOffset;
 		var yOffset = adjustments.yOffset;
 
@@ -320,7 +322,7 @@ function Generator () {
 				else if (Maze[j][i] == 4000)
 				{
 					ctx.fillStyle="#b5b5b5";
-					ctx.fillRect(posj+2,posi+2,blockSize-4,blockSize-4,Maze,neighbours);
+					ctx.fillRect(posj+gap,posi+gap,blockSize-2*gap,blockSize-2*gap,Maze,neighbours);
 				}
 			}
 		}
