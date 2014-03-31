@@ -55,7 +55,7 @@
       
 			<h1 class="white-text">Maze Visualisation</h1>
 
-      <!-- Modal -->
+      <!-- Login Modal -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -82,48 +82,69 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <!-- Load Maze Modal -->
+      <div class="modal fade" id="maze-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Choose Maze</h4>
+            </div>
+            <div class="modal-body">
+               <div id="maze-list-div">
+                  Loading mazes...
+               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
 
       <div id="large-canvas-div">
 
-        <div class="inner-left" id="large-console-div">
-          <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
-            <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
-            <li><a href="#code" data-toggle="tab">Code</a></li>
-          </ul>
-          <div id="my-tab-content" class="tab-content">
-            <div class="tab-pane active" id="console">
-                <h1>Console</h1>
-              <div id="console-preview">
-                The printout from the console will display here when you upload some code. 
-                <br><br>
-                <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-2">
-                </div><br>
-                <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br>
+        <div id="console-code-div">
+          <div class="inner-left" id="large-console-div">
+            <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
+              <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
+              <li><a href="#code" data-toggle="tab">Code</a></li>
+            </ul>
+            <div id="my-tab-content" class="tab-content">
+              <div class="tab-pane active" id="console">
+                  <h1>Console</h1>
+                <div id="console-preview">
+                  The printout from the console will display here when you upload some code. 
+                  <br><br>
+                  <div class="input-group bottom-upload">
+                    <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
+                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-2">
+                  </div><br>
+                  <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br>
+                </div>
+                <div class="display-div"><pre class="display-pre"><code id="console-code"></code></pre></div>
               </div>
-              <div class="display-div"><pre class="display-pre"><code id="console-code"></code></pre></div>
-            </div>
-            <div class="tab-pane" id="code" id="code">
-              <h1>Code</h1>
-              <div id="code-preview">
-                Your code will display here when you upload some code. 
-                <br><br>
-                <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file" name="3">Choose File <input type="file" id="uploadBox3"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-3">
-                </div><br>
-                <a class="btn btn-primary upload-code" id="upload-code-3">Upload code</a><br><br>
+              <div class="tab-pane" id="code" id="code">
+                <h1>Code</h1>
+                <div id="code-preview">
+                  Your code will display here when you upload some code. 
+                  <br><br>
+                  <div class="input-group bottom-upload">
+                    <span class="input-group-addon btn-file" name="3">Choose File <input type="file" id="uploadBox3"></span>
+                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-3">
+                  </div><br>
+                  <a class="btn btn-primary upload-code" id="upload-code-3">Upload code</a><br><br>
+                </div>
+                <div class="display-div"><pre class="display-pre"><code id="code-code"></code></pre></div>
               </div>
-              <div class="display-div"><pre class="display-pre"><code id="code-code"></code></pre></div>
             </div>
           </div>
         </div>
-        
+
         <div class="inner-left">
           <canvas id="large-canvas" style="border:1px solid #000000;"></canvas>
         </div>
@@ -133,17 +154,13 @@
 
            <div class="maze-option-block-btn">
 
-            <div class="inner-left">
+            <!-- <div class="inner-left"> -->
               <div class="btn-group">
                 <button type="button" class="btn btn-default play"><span class="glyphicon glyphicon-play"></span> Play</button>
                 <button type="button" class="btn btn-default pause"><span class="glyphicon glyphicon-pause"></span> Pause</button>
                 <button type="button" class="btn btn-default stop"><span class="glyphicon glyphicon-stop"></span> Stop</button>
               </div>
-            </div>
-
-            <div class="inner-right">
-              <a id="shrink" class="btn btn-primary maze-button"><span class="glyphicon glyphicon-zoom-out"></span> Shrink maze</a>
-            </div>
+            <!-- </div> -->
 
           </div>
 
@@ -208,7 +225,7 @@
 
             <a class="btn btn-primary update-maze maze-button">Update</a>
             <a class="btn btn-primary save-maze maze-button">Save maze</a>
-            <a class="btn btn-primary load-maze maze-button">Load maze</a>
+            <a class="btn btn-primary load-maze maze-button" data-toggle="modal" data-target="#maze-modal" id="load-maze">Load maze</a>
 
             <h3>Code Options</h3>
 
