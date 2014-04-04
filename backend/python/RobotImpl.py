@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 from IRobot import IRobot
-from Maze import Maze, Point
+from Maze import Maze
+from Point import Point
 from Reset import ResetException
 import json
 import sys
@@ -65,7 +66,7 @@ class RobotImpl(object):
         elif(newdir ==  IRobot.RIGHT):
             self.setHeading((self.heading + 1) % 4 + IRobot.NORTH)
 
-        self.jsondump()
+        #self.jsondump()
 
     def look(self, direction):
         if(direction < IRobot.AHEAD or direction > IRobot.LEFT):
@@ -122,7 +123,7 @@ class RobotImpl(object):
         #self.trackerGrid[x][y] = True
         self.maze.setTile(IRobot.BEENBEFORE,self.location)
 
-        self.jsondump()
+        #self.jsondump()
 
     def reset(self):
         for x in range(self.width):

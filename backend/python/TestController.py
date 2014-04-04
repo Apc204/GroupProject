@@ -3,7 +3,7 @@
 from random import choice
 from IRobot import IRobot
 from IRobotController import IRobotController
-from Maze import Point
+from Point import Point
 
 class TestController(IRobotController,object):
     def __init__(self):
