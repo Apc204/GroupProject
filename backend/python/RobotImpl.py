@@ -16,7 +16,8 @@ class RobotImpl(object):
     target = Point(2,2)
     heading = IRobot.EAST
 
-    def __init__(self, maze):
+    def __init__(self, maze, prefix):
+        self.prefix = prefix
         self.steps = 0
         self.collisions = 0
         self.setMaze(maze)
@@ -163,7 +164,7 @@ class RobotImpl(object):
         data += '"collisions":'+str(self.collisions)+','
         data += '"goal_reached":'+str(self.location == self.getTargetLocation()).lower()+','
         data += '"runs":'+str(self.runs)+'}'
-        print(data)
+        print(self.prefix,data)
 
         if line == "reset\n":
             raise ResetException("RESET")

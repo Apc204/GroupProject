@@ -12,7 +12,6 @@ import sys
 from os.path import splitext,dirname
 from os import getcwd
 import inspect
-#from RandomRobotController import RandomRobotController
 
 testmaze = [[3000,3000,3000,3000,3000],
             [3000,3001,3000,3000,3000],
@@ -21,9 +20,10 @@ testmaze = [[3000,3000,3000,3000,3000],
             [3000,3000,3000,3000,3000]]
             
 class MazeLogic(object):
-    def __init__(self, jsonfile, sourcefile):
+    def __init__(self, jsonfile, sourcefile,prefix):
+        self.prefix = prefix
         self.maze = self.loadMaze(jsonfile)
-        self.robot = RobotImpl(self.maze)
+        self.robot = RobotImpl(self.maze,self.prefix)
         r = self.loadController(sourcefile)
         #print(dir())
         #print(r.getDescription())
@@ -128,23 +128,24 @@ class MazeLogic(object):
             exec(fh.read()+"\n",globals,locals)
 
 if __name__ == '__main__':
-    ml = MazeLogic(sys.argv[1],sys.argv[2])
+    prefix = sys.argv[3]
+    ml = MazeLogic(sys.argv[1],sys.argv[2],prefix)
     #ml.loadController("RandomRobotController.py")
     #ml.setController(RandomRobotController())
     try:
         ml.startController()
-        print("END OF EXECUTION")
+        print(prefix,"END OF EXECUTION")
     except ResetException as re:
-        print("RESET")
+        print(prefix,"RESET")
     ml.resetController()
     line=""
     while line != "stop\n":
         if line == "rerun\n":
             try:
                 ml.startController()
-                print("END OF EXECUTION")
+                print(prefix,"END OF EXECUTION")
             except ResetException as re:
-                print("RESET")
+                print(prefix,"RESET")
             ml.resetController()
         line = sys.stdin.readline()
     #ml.robot.jsondump()

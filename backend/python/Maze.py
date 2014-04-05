@@ -105,9 +105,6 @@ class Maze(object):
             raise RuntimeError("The robot's heading can only be NORTH, SOUTH, EAST or WEST.")
         self.heading = newHeading
 
-    def transpose(self, maze):
-        sdf
-
 if __name__ == "__main__":
     maze = Maze(5,3)
     print(repr(maze))

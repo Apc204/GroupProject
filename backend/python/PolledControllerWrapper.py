@@ -27,7 +27,8 @@ class PolledControllerWrapper(IRobotController,object):
         self.robot = robot
     
     def reset(self):
-        self.controller.reset(self.controller)
+        if hasattr(self.controller,'reset'):
+            self.controller.reset(self.controller)
         self.robot.reset()
 
     def getDescription(self):
