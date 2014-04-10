@@ -79,7 +79,8 @@ class MazeLogic(object):
                         #r = globals()[x]()
                                     return r
                     elif(hasattr(eval(x),'controlRobot')):
-                        pcw = PolledControllerWrapper(eval(x))
+                        print(x,eval(x))
+                        pcw = PolledControllerWrapper(eval(x)())
                         #print("\nglobals - locals")
                         #print(set(globals()) - set(locals()))
                         #print("\nlocals - globals")

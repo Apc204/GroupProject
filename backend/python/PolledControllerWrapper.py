@@ -20,7 +20,7 @@ class PolledControllerWrapper(IRobotController,object):
     def start(self):
         while (self.robot.getLocation() != self.robot.getTargetLocation()):
             #self.controlRobot(self.robot)
-            self.controller.controlRobot(self.controller,self.robot)
+            self.controller.controlRobot(self.robot)
             self.robot.jsondump()
 
     def setRobot(self, robot):
@@ -28,7 +28,7 @@ class PolledControllerWrapper(IRobotController,object):
     
     def reset(self):
         if hasattr(self.controller,'reset'):
-            self.controller.reset(self.controller)
+            self.controller.reset()
         self.robot.reset()
 
     def getDescription(self):
