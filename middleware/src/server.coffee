@@ -58,9 +58,8 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset
-                                    console.log "READ THIS ADAM:"
-                                    console.log line
+                                if reset && /^\[RESET\].*/.test line
+                                    line = line[7..]
                                     ws.send line
                                     reset = false
                                 else
@@ -105,7 +104,8 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset
+                                if reset && /^\[RESET\].*/.test line
+                                    line = line[7..]
                                     ws.send line
                                     reset = false
                                 else
