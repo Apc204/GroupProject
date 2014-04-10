@@ -28,6 +28,7 @@ class DumboControllerReset(object):
 
         self.step += 1
         print(self.anotherFunction()+" "+str(self.step))
+        print("MADE A STEP")
 
     def reset(self):
         print("ASASASASASASASASASASASA")
