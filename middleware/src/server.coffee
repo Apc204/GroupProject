@@ -4,6 +4,7 @@ spawn = require('child_process').spawn
 fs = require('fs')
 temp = require('temp')
 readline = require('readline')
+randomstring = require('randomstring')
 
 server = new ws.Server({port: 8080})
 
@@ -20,6 +21,8 @@ server.on 'connection', (ws) ->
     logic_out = undefined
     start = true
     reset = false
+    prefix_string = randomstring.generate(20)
+    prefix_regex = RegExp(prefix_string)
 
     ws.on 'error', (err) ->
         console.log err
@@ -41,7 +44,7 @@ server.on 'connection', (ws) ->
                     if code_recv && maze_recv
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
-                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py"]
+                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
                         logic.stdout.setEncoding('utf8')
                         logic.stderr.setEncoding('utf8')
                         logic_out = readline.createInterface({
@@ -53,11 +56,15 @@ server.on 'connection', (ws) ->
                             terminal: false
                             })
                         logic_out.on 'line', (line) ->
-                            if reset
-                                ws.send line
-                                reset = false
+                            if prefix_regex.test line
+                                line = line[20..]
+                                if reset
+                                    ws.send line
+                                    reset = false
+                                else
+                                    maze_data = maze_data.concat line
                             else
-                                maze_data = maze_data.concat line
+                                console.log line
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
@@ -80,7 +87,7 @@ server.on 'connection', (ws) ->
                     if code_recv && maze_recv
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
-                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py"]
+                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
                         logic.stdout.setEncoding('utf8')
                         logic.stderr.setEncoding('utf8')
                         logic_out = readline.createInterface({
@@ -92,11 +99,15 @@ server.on 'connection', (ws) ->
                             terminal: false
                             })
                         logic_out.on 'line', (line) ->
-                            if reset
-                                ws.send line
-                                reset = false
+                            if prefix_regex.test line
+                                line = line[20..]
+                                if reset
+                                    ws.send line
+                                    reset = false
+                                else
+                                    maze_data = maze_data.concat line
                             else
-                                maze_data = maze_data.concat line
+                                console.log line
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
