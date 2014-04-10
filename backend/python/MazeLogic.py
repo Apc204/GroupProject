@@ -128,24 +128,24 @@ class MazeLogic(object):
             exec(fh.read()+"\n",globals,locals)
 
 if __name__ == '__main__':
-    prefix = sys.argv[3]
+    prefix = '['+sys.argv[3]+']'
     ml = MazeLogic(sys.argv[1],sys.argv[2],prefix)
     #ml.loadController("RandomRobotController.py")
     #ml.setController(RandomRobotController())
     try:
         ml.startController()
-        print(prefix,"END OF EXECUTION")
+        print(prefix+"END OF EXECUTION")
     except ResetException as re:
-        print(prefix,"RESET")
+        print(prefix+"RESET")
     ml.resetController()
     line=""
     while line != "stop\n":
         if line == "rerun\n":
             try:
                 ml.startController()
-                print(prefix,"END OF EXECUTION")
+                print(prefix+"END OF EXECUTION")
             except ResetException as re:
-                print(prefix,"RESET")
+                print(prefix+"RESET")
             ml.resetController()
         line = sys.stdin.readline()
     #ml.robot.jsondump()
