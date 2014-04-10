@@ -24,6 +24,7 @@ function uploadCode(num, file) {
 $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
+	var loggedIn;
 
 	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
 	$.ajax({
@@ -34,10 +35,12 @@ $().ready(function () {
 			parsed = JSON.parse(resp);
 			if (parsed.logged == true)
 			{
+				loggedIn = true;
 				$('#login-button').hide();
 			}
 			else
 			{
+				loggedIn = false;
 				$('#logout-button').hide();
 			}
 		}

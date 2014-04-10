@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from IRobot import IRobot
 from random import choice
-import queue
+#import queue
 from numbers import Real
 
 class DumboController(object):
