@@ -136,7 +136,8 @@ if __name__ == '__main__':
         ml.startController()
         print(prefix+"END OF EXECUTION")
     except ResetException as re:
-        print(prefix+"RESET")
+        #print(prefix+"RESET")
+        pass
     ml.resetController()
     line=""
     while line != "stop\n":
@@ -145,7 +146,8 @@ if __name__ == '__main__':
                 ml.startController()
                 print(prefix+"END OF EXECUTION")
             except ResetException as re:
-                print(prefix+"RESET")
+                #print(prefix+"RESET")
+                pass
             ml.resetController()
         line = sys.stdin.readline()
     #ml.robot.jsondump()

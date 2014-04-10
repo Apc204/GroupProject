@@ -153,6 +153,7 @@ class RobotImpl(object):
         if line == "reset\n":
             self.reset()
             self.runs -= 1
+            print("Hello Adam, did this work?")
         # maze is transposed when input, so transpose back for outputting
         m = [[r[col] for r in self.maze.maze] for col in range(len(self.maze.maze[0]))]
         data = '{ "layout":'+str(m)+','
