@@ -60,6 +60,8 @@ server.on 'connection', (ws) ->
                                 line = line[22..]
                                 if reset && /^\[RESET\].*/.test line
                                     line = line[7..]
+                                    console.log("HEELO ADAAM")
+                                    console.log line
                                     ws.send line
                                     reset = false
                                 else
@@ -106,6 +108,8 @@ server.on 'connection', (ws) ->
                                 line = line[22..]
                                 if reset && /^\[RESET\].*/.test line
                                     line = line[7..]
+                                    console.log("HEELO ADAAM")
+                                    console.log line
                                     ws.send line
                                     reset = false
                                 else
