@@ -9,6 +9,7 @@ var paused = false;
 var code;
 var fullScreen = true;
 var dragging = false;
+var ex = 0;
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -24,6 +25,7 @@ function uploadCode(num, file) {
 $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
+	var loggedIn;
 
 	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
 	$.ajax({
@@ -34,10 +36,12 @@ $().ready(function () {
 			parsed = JSON.parse(resp);
 			if (parsed.logged == true)
 			{
+				loggedIn = true;
 				$('#login-button').hide();
 			}
 			else
 			{
+				loggedIn = false;
 				$('#logout-button').hide();
 			}
 		}
@@ -53,24 +57,12 @@ $().ready(function () {
 	
 	//Handle file upload
 	var fileInput = document.getElementById('uploadBox');
-	var fileInput2 = document.getElementById('uploadBox2');
-	var fileInput3 = document.getElementById('uploadBox3');
 	
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
 		uploadCode(1, file);
 		// var textType = /text.*/;
 		// if (file.type.match(textType)) {
-	});
-
-	fileInput2.addEventListener('change', function(e) {
-		var file = fileInput2.files[0];
-		uploadCode(2, file);
-	});
-
-	fileInput3.addEventListener('change', function(e) {
-		var file = fileInput3.files[0];
-		uploadCode(3, file);
 	});
 
 	var width = $(window).innerWidth();
@@ -555,3 +547,19 @@ $('.save-maze').click(function(){
 	
 });
 
+$('.exercise').click(function() {
+	ex = $(this).text();
+	$('#submit-exercise').show();
+	$('#choose-exercise-dropdown').text(ex);
+	$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
+	ex = parseInt(ex.substring(9));
+});
+
+$('#submit-exercise').click(function() {
+	if (ex == 0) {
+		alert("Please choose an exercise. I don't quite know how you clicked that button.");
+	} else {
+		alert("Submitting exercise " + ex);
+		//submit code as exercise ex
+	}
+});

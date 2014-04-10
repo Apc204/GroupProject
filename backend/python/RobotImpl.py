@@ -164,7 +164,7 @@ class RobotImpl(object):
         data += '"collisions":'+str(self.collisions)+','
         data += '"goal_reached":'+str(self.location == self.getTargetLocation()).lower()+','
         data += '"runs":'+str(self.runs)+'}'
-        print(self.prefix,data)
+        print(self.prefix+data)
 
         if line == "reset\n":
             raise ResetException("RESET")

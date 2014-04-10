@@ -242,10 +242,6 @@ body {
 	height: 95px;
 }
 
-.option-row-large {
-	height: 140px;
-}
-
 #hide-full-screen {
 	display: none;
 }
@@ -261,4 +257,21 @@ body {
 .display-div {
 	display: none;
 	overflow: auto;
+}
+
+.code-options-div {
+	height: 65px;
+}
+
+#choose-exercise {
+	width: 50px;
+}
+
+.above {
+	z-index: 100;
+}
+
+#submit-exercise {
+	margin-left: 10px;
+	display: none;
 }
