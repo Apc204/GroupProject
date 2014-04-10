@@ -138,6 +138,11 @@ if __name__ == '__main__':
     except ResetException as re:
         #print(prefix+"RESET")
         pass
+    for bullshit in range(5):
+        fuck = ''
+        for moreBS in range(1000):
+            fuck+=str(moreBS)
+        print(fuck)
     ml.resetController()
     line=""
     while line != "stop\n":

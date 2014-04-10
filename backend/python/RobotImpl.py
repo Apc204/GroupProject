@@ -169,10 +169,6 @@ class RobotImpl(object):
 
         if line == "reset\n":
             self.runs -= 1
-            print(data)
-            print(data)
-            print(data)
-            print(data)
             raise ResetException("RESET")
 
 
