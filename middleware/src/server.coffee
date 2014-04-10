@@ -147,7 +147,9 @@ server.on 'connection', (ws) ->
                     console.log "NO_DATA"
                     ws.send "NO_DATA"
             else if message == "RESET"
+                #console.log "THIS IS RESET HAPPENING"
                 maze_data = []
                 reset = true
                 if logic
                     logic.stdin.write "reset\n"
+
