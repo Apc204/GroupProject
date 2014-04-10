@@ -22,7 +22,7 @@ server.on 'connection', (ws) ->
     start = true
     reset = false
     prefix_string = randomstring.generate(20)
-    prefix_regex = RegExp(prefix_string)
+    prefix_regex = RegExp("\[#{prefix_string}\]")
 
     ws.on 'error', (err) ->
         console.log err
@@ -57,7 +57,7 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
-                                #line = line[21..]
+                                line = line[22..]
                                 if reset
                                     ws.send line
                                     reset = false
@@ -100,7 +100,7 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
-                                #line = line[21..]
+                                line = line[22..]
                                 if reset
                                     ws.send line
                                     reset = false
