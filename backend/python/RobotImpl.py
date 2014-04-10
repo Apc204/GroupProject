@@ -170,6 +170,10 @@ class RobotImpl(object):
         print(self.prefix+data)
 
         if line == "reset\n":
+            print("THIS IS SOME CRAP")
+            print("MORE CRAP")
+            print("IS IT WORKING YET?")
+            print("")
             raise ResetException("RESET")
 
 
