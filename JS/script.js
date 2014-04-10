@@ -62,7 +62,8 @@ function connectToSocket()
 	    }
 	    else if (startswith(received_msg, "[CONSOLE]") )
 	    {
-	    	$('#console-code').text(received.msg.substring(0,9));
+	    	$('#console-code').text($('#console-code').text()+"\n"+received_msg.substring(9));
+	    	$('.console').scrollTop($('.console')[0].scrollHeight);
 	    }
 	    else
 	    {
