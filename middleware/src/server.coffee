@@ -66,7 +66,6 @@ server.on 'connection', (ws) ->
                                     console.log("HEELO ADAAM")
                                     console.log line
                                     ws.send line
-                                    reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
