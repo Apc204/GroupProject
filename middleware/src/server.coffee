@@ -59,6 +59,8 @@ server.on 'connection', (ws) ->
                             if prefix_regex.test line
                                 line = line[22..]
                                 if reset
+                                    console.log "READ THIS ADAM:"
+                                    console.log line
                                     ws.send line
                                     reset = false
                                 else
