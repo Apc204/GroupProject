@@ -150,13 +150,15 @@ class RobotImpl(object):
         if(mode=="stepmode"):
             while (line != "step\n" and line != "reset\n"):
                 line = sys.stdin.readline()
+        data = ''
         if line == "reset\n":
             self.reset()
             self.runs -= 1
             print("Hello Adam, did this work?")
+            data += '[RESET]'
         # maze is transposed when input, so transpose back for outputting
         m = [[r[col] for r in self.maze.maze] for col in range(len(self.maze.maze[0]))]
-        data = '{ "layout":'+str(m)+','
+        data += '{ "layout":'+str(m)+','
         data += '"start_pos":{"x":'+str(self.start.x)+',"y":'+str(self.start.y)+'},'
         data += '"finish_pos":{"x":'+str(self.target.x)+',"y":'+str(self.target.y)+'},'
         data += '"robot_pos":{"x":'+str(self.location.x)+',"y":'+str(self.location.y)+'},'
