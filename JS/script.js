@@ -60,6 +60,10 @@ function connectToSocket()
 	    {
 	    	console.log("no data for this step");
 	    }
+	    else if (startswith(received_msg, "[CONSOLE]") )
+	    {
+	    	$('#console-code').text(received.msg.substring(0,9));
+	    }
 	    else
 	    {
 	    	var fixedJSON = evt.data.replace(/\'/g,"\"");
@@ -85,6 +89,11 @@ function connectToSocket()
 	    // websocket is closed.
 	    //alert("Connection is closed..."); 
 	 };
+}
+
+function startswith (string, prefix)
+{
+	return string.indexOf(prefix) == 0;
 }
 
 function sendSteps()

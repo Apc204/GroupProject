@@ -60,7 +60,6 @@ server.on 'connection', (ws) ->
                             if prefix_regex.test line
                                 if reset
                                     console.log line
-                                    console.log logic
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
@@ -112,7 +111,6 @@ server.on 'connection', (ws) ->
                             if prefix_regex.test line
                                 if reset
                                     console.log line
-                                    console.log logic
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
@@ -150,7 +148,9 @@ server.on 'connection', (ws) ->
                     console.log "NO_DATA"
                     ws.send "NO_DATA"
             else if message == "RESET"
+                #console.log "THIS IS RESET HAPPENING"
                 maze_data = []
                 reset = true
                 if logic
                     logic.stdin.write "reset\n"
+
