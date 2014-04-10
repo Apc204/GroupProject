@@ -57,6 +57,8 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
+                                if reset
+                                    console.log line
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
@@ -105,6 +107,8 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
+                                if reset
+                                    console.log line
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
