@@ -41,7 +41,7 @@ server.on 'connection', (ws) ->
                         console.log err
                     else
                         maze_recv = true
-                    if code_recv && maze_recv
+                    if code_recv and maze_recv
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
                         logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
@@ -58,7 +58,7 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset && /^\[RESET\].*/.test line
+                                if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
                                     console.log("HEELO ADAAM")
                                     console.log line
@@ -89,7 +89,7 @@ server.on 'connection', (ws) ->
                         console.log err
                     else
                         code_recv = true
-                    if code_recv && maze_recv
+                    if code_recv and maze_recv
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
                         logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
@@ -106,7 +106,7 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset && /^\[RESET\].*/.test line
+                                if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
                                     console.log("HEELO ADAAM")
                                     console.log line
