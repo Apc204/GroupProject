@@ -57,7 +57,7 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
-                                line = line[21..]
+                                #line = line[21..]
                                 if reset
                                     ws.send line
                                     reset = false
@@ -100,7 +100,7 @@ server.on 'connection', (ws) ->
                             })
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
-                                line = line[21..]
+                                #line = line[21..]
                                 if reset
                                     ws.send line
                                     reset = false
