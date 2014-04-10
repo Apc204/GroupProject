@@ -72,11 +72,11 @@ server.on 'connection', (ws) ->
                                     maze_data = maze_data.concat line
                             else
                                 console.log line
-                                #ws.send "[CONSOLE]#{line}"
+                                ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
-                            #ws.send "[CONSOLE]#{line}"
+                            ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
                             console.log 'PYTHON EXIT'
                             console.log code
@@ -124,11 +124,11 @@ server.on 'connection', (ws) ->
                                     maze_data = maze_data.concat line
                             else
                                 console.log line
-                                #ws.send "[CONSOLE]#{line}"
+                                ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
-                            #ws.send "[CONSOLE]#{line}"
+                            ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
                             console.log 'PYTHON EXIT'
                             console.log code
