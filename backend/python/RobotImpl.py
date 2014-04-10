@@ -153,8 +153,6 @@ class RobotImpl(object):
         data = ''
         if line == "reset\n":
             self.reset()
-            self.runs -= 1
-            print("Hello Adam, did this work?")
             data += '[RESET]'
         # maze is transposed when input, so transpose back for outputting
         m = [[r[col] for r in self.maze.maze] for col in range(len(self.maze.maze[0]))]
@@ -170,10 +168,11 @@ class RobotImpl(object):
         print(self.prefix+data)
 
         if line == "reset\n":
-            print("THIS IS SOME CRAP")
-            print("MORE CRAP")
-            print("IS IT WORKING YET?")
-            print("")
+            self.runs -= 1
+            print(data)
+            print(data)
+            print(data)
+            print(data)
             raise ResetException("RESET")
 
 
