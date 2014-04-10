@@ -9,6 +9,7 @@ var paused = false;
 var code;
 var fullScreen = true;
 var dragging = false;
+var ex = 0;
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -555,3 +556,19 @@ $('.save-maze').click(function(){
 	
 });
 
+$('.exercise').click(function() {
+	ex = $(this).text();
+	$('#submit-exercise').show();
+	$('#choose-exercise-dropdown').text(ex);
+	$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
+	ex = parseInt(ex.substring(9));
+});
+
+$('#submit-exercise').click(function() {
+	if (ex == 0) {
+		alert("Please choose an exercise. I don't quite know how you clicked that button.");
+	} else {
+		alert("Submitting exercise " + ex);
+		//submit code as exercise ex
+	}
+});

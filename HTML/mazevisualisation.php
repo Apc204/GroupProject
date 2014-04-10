@@ -33,7 +33,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href='#' id="login-button" data-toggle="modal" data-target="#myModal">Login</a></li>
           <li><a href='#' id="logout-button">Logout</a></li>
-          <li><a href='#' id="help-button">Help</a></li>
+          <li><a href='#' id="help-button">Help</a></l>
         </ul>
       </div><!-- /.navbar-collapse -->
     </nav>
@@ -154,13 +154,12 @@
 
            <div class="maze-option-block-btn">
 
-            <!-- <div class="inner-left"> -->
               <div class="btn-group">
                 <button type="button" class="btn btn-default play"><span class="glyphicon glyphicon-play"></span> Play</button>
                 <button type="button" class="btn btn-default pause"><span class="glyphicon glyphicon-pause"></span> Pause</button>
                 <button type="button" class="btn btn-default stop"><span class="glyphicon glyphicon-stop"></span> Stop</button>
               </div>
-            <!-- </div> -->
+              <a class="btn btn-default next"><span class="glyphicon glyphicon-step-forward"></span> Next step</a>
 
           </div>
 
@@ -190,7 +189,7 @@
 
             </div>
 
-            <div class="option-row-large">
+            <div class="option-row">
             
               <div class="inner-left" id="left-option">
 
@@ -210,9 +209,13 @@
 
               <div class="inner-left" id="right-option">
 
-                <h4>Robot delay: </h4>
-                Milisecond delay on the robot between moves.
-
+                <h4>
+                  Robot delay: 
+                  <a href='#' class="question" name="maze-type" rel="popover" data-content="Milisecond delay on the robot between moves.">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                  </a>
+                </h4>
+                
                 <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="0" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
                 <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
@@ -229,17 +232,36 @@
 
             <h3>Code Options</h3>
 
-            <form name="form2">
-              <div class="below-maze-div">
-                <div class="input-group bottom-upload">
-                  <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
-                  <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-1">
+            <div class="code-options-div">
+              <h4>Upload Code</h4>
+              <form name="form2">
+                <div class="below-maze-div">
+                  <div class="input-group bottom-upload">
+                    <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
+                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-1">
+                  </div>
                 </div>
+                <div class="inner-right">
+                  <a class="btn btn-primary upload-code" id="upload-code-1">Upload</a>
+                </div>
+              </form>
+            </div>
+
+            <!-- <div class="code-options-div"> -->
+              <h4>Submit Exercise</h4>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-exercise-dropdown">
+                  Choose Exercise 
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" class="exercise">Exercise 1</a></li>
+                  <li><a href="#" class="exercise">Exercise 2</a></li>
+                </ul>
               </div>
-              <div class="inner-right">
-                <a class="btn btn-primary upload-code" id="upload-code-1">Upload code</a><br><br>
-              </div>
-            </form>
+              <a class="btn btn-primary" id="submit-exercise">Submit</a>
+
+            <!-- </div> -->
         </div>
       </div>
 
