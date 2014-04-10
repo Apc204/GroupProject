@@ -57,24 +57,12 @@ $().ready(function () {
 	
 	//Handle file upload
 	var fileInput = document.getElementById('uploadBox');
-	var fileInput2 = document.getElementById('uploadBox2');
-	var fileInput3 = document.getElementById('uploadBox3');
 	
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
 		uploadCode(1, file);
 		// var textType = /text.*/;
 		// if (file.type.match(textType)) {
-	});
-
-	fileInput2.addEventListener('change', function(e) {
-		var file = fileInput2.files[0];
-		uploadCode(2, file);
-	});
-
-	fileInput3.addEventListener('change', function(e) {
-		var file = fileInput3.files[0];
-		uploadCode(3, file);
 	});
 
 	var width = $(window).innerWidth();

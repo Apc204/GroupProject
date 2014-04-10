@@ -111,36 +111,59 @@
         <div id="console-code-div">
           <div class="inner-left" id="large-console-div">
             <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
-              <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
+              <li class="active"><a href="#instructions" data-toggle="tab">Instructions</a></li>
+              <li><a href="#console" data-toggle="tab">Console</a></li>
               <li><a href="#code" data-toggle="tab">Code</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
-              <div class="tab-pane active" id="console">
-                  <h1>Console</h1>
-                <div id="console-preview">
-                  The printout from the console will display here when you upload some code. 
-                  <br><br>
-                  <div class="input-group bottom-upload">
+              
+              <div class="tab-pane active" id="instructions">
+                  <h1>Instructions</h1>
+
+                  <p>You can upload code using the buttons on the right under 'Code Options'. Click 'Choose File' and navigate to the file you want to upload. 
+                    When you've chosen the right file a submit button will appear, clicking it will submit your code. </p>
+
+                  <p>When your code has been submitted you will be able to view the console printout in the console tab above. The code tab will display your code. </p>
+
+                  <p>You can run the robot and edit the maze using the controls on the right. The robot controls allow you to run the robot. 'Play' will run the robot at the speed
+                    specified by the robot delay. 'Pause' will stop the robot where it is in the maze, and clicking 'play' again will resume it from where it stopped. 'Stop' will 
+                    bring the robot back to the start of the maze and restart the run. 'Next step' can be used when the robot is paused to carry out one command, this can be useful
+                    for debugging to see exactly what the robot is doing.</p>
+
+                  <p>You can control the size of the maze using the size controls. You can choose whether the maze is a Prim's or loopy maze - Prim's mazes only have one route to the
+                    end, whereas loopy mazes can have multiple routes. The robot delay is the number of miliseconds between each move - a lower delay will mean the robot runs faster. </p>
+
+                  <p>When you've changed the maze settings, click 'Update' to make the changes. You can save mazes to use later by clicking 'Save maze', and reload these mazes using the 
+                    'Load maze' button. </p>
+
+                  <p>Under the 'Code Options' section you can upload a new file to run by clicking 'Choose File' then clicking 'Upload' when you've chosen a file. If you want to submit the 
+                    currently uploaded code as your solution to one of the exercises, select that exercise from the 'Choose Exercise' dropdown, then click 'Submit'. </p>
+
+                  <p>If you don't have any code to upload, you can test out the maze controls without uploading anything - this will run using a random controller. </p>
+
+                  <!-- <div class="input-group bottom-upload">
                     <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
                     <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-2">
                   </div><br>
-                  <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br>
+                  <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br> -->
+              </div>
+
+              <div class="tab-pane" id="console">
+                  <h1>Console</h1>
+                <div id="console-preview">
+                  The printout from the console will display here when you upload some code. 
                 </div>
                 <div class="display-div"><pre class="display-pre"><code id="console-code"></code></pre></div>
               </div>
-              <div class="tab-pane" id="code" id="code">
+
+              <div class="tab-pane" id="code">
                 <h1>Code</h1>
                 <div id="code-preview">
                   Your code will display here when you upload some code. 
-                  <br><br>
-                  <div class="input-group bottom-upload">
-                    <span class="input-group-addon btn-file" name="3">Choose File <input type="file" id="uploadBox3"></span>
-                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-3">
-                  </div><br>
-                  <a class="btn btn-primary upload-code" id="upload-code-3">Upload code</a><br><br>
                 </div>
                 <div class="display-div"><pre class="display-pre"><code id="code-code"></code></pre></div>
               </div>
+
             </div>
           </div>
         </div>
