@@ -60,7 +60,6 @@ server.on 'connection', (ws) ->
                             if prefix_regex.test line
                                 if reset
                                     console.log line
-                                    console.log logic
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
@@ -112,14 +111,12 @@ server.on 'connection', (ws) ->
                             if prefix_regex.test line
                                 if reset
                                     console.log line
-                                    console.log logic
                                 line = line[22..]
                                 if reset and /^\[RESET\].*/.test line
                                     line = line[7..]
                                     console.log("HEELO ADAAM")
                                     console.log line
                                     ws.send line
-                                    reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
