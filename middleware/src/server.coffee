@@ -22,7 +22,7 @@ server.on 'connection', (ws) ->
     start = true
     reset = false
     prefix_string = randomstring.generate(20)
-    prefix_regex = RegExp("\[#{prefix_string}\]")
+    prefix_regex = RegExp("^\\[#{prefix_string}\\]")
 
     ws.on 'error', (err) ->
         console.log err
@@ -65,9 +65,11 @@ server.on 'connection', (ws) ->
                                     maze_data = maze_data.concat line
                             else
                                 console.log line
+                                #ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
+                            #ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
                             console.log 'PYTHON EXIT'
                             console.log code
@@ -108,9 +110,11 @@ server.on 'connection', (ws) ->
                                     maze_data = maze_data.concat line
                             else
                                 console.log line
+                                #ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
                             console.log 'PYTHON ERROR'
                             console.log line
+                            #ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
                             console.log 'PYTHON EXIT'
                             console.log code
