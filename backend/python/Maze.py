@@ -1,19 +1,7 @@
 #!/usr/bin/python
 
 from IRobot import IRobot
-
-class Point(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def __str__(self):
-        return str((self.x, self.y))
-    def __repr__(self):
-        return str((self.x, self.y))
-    def __eq__(self,p):
-        return (self.x == p.x and self.y == p.y)
-    def __ne__(self,p):
-        return not(self.x == p.x and self.y == p.y)
+from Point import Point
 
 class Maze(object):
     def __init__(self, mazeCol, rows=None):
@@ -116,9 +104,6 @@ class Maze(object):
         if(newHeading < IRobot.NORTH or newHeading > IRobot.WEST):
             raise RuntimeError("The robot's heading can only be NORTH, SOUTH, EAST or WEST.")
         self.heading = newHeading
-
-    def transpose(self, maze):
-        sdf
 
 if __name__ == "__main__":
     maze = Maze(5,3)

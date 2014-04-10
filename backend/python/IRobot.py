@@ -89,7 +89,7 @@ class IRobot(object):
     def getTargetLocation(self):
         raise NotImplementedError
 
-    # Pauses for the specified number of milliseconds #
+    # Resets the Robot #
     #@staticmethod
-    def sleep(self, millis):
+    def reset(self):
         raise NotImplementedError
