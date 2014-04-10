@@ -27,7 +27,7 @@ class DumboControllerReset(object):
         robot.advance()        # and move the robot */
 
         self.step += 1
-        print(self.anotherFunction()+" "+self.step)
+        print(self.anotherFunction()+" "+str(self.step))
 
     def reset(self):
         print("ASASASASASASASASASASASA")
