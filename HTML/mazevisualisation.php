@@ -153,7 +153,7 @@
                 <div id="console-preview">
                   The printout from the console will display here when you upload some code. 
                 </div>
-                <div class="display-div"><pre class="display-pre"><code id="console-code"></code></pre></div>
+                <div class="display-div" id="thisConsole"><pre class="display-pre"><code id="console-code"></code></pre></div>
               </div>
 
               <div class="tab-pane" id="code">

@@ -63,7 +63,11 @@ function connectToSocket()
 	    else if (startswith(received_msg, "[CONSOLE]") )
 	    {
 	    	$('#console-code').text($('#console-code').text()+"\n"+received_msg.substring(9));
-	    	$('.console').scrollTop($('.console')[0].scrollHeight);
+	    	var psconsole = $('#thisConsole');
+            psconsole.scrollTop(
+                psconsole[0].scrollHeight - psconsole.height()
+            );
+
 	    }
 	    else
 	    {
