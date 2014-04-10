@@ -292,14 +292,14 @@ function Generator () {
 				posi = i*blockSize+yOffset;
 				posj = j*blockSize+xOffset;
 				neighbours=[];
-
 				if(endposY == i && endposX == j)
 				{
 					ctx.fillStyle="#FF0000";
 					ctx.fillRect(posj,posi,blockSize,blockSize);
 				}
+
 				else if (Maze[j][i] == 3000)
-				{	
+				{
 					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth);
 					if (neighbours.length == 4){
 						this.drawMiddleBlock(posj,posi,blockSize,blockSize,neighbours);
@@ -520,6 +520,7 @@ function Generator () {
 			var removed = this.frontierList.splice(frontierPosition, 1);
 
 		}
+		originalMaze = Maze;
 	}
 
 	this.initialiseGrid = function (width, height)

@@ -1,5 +1,3 @@
-var titles = ["Maze 1", "Maze 2", "Maze 3", "Maze 4"];
-
 var setWidth = 10;
 var setHeight = 10;
 var setSpeed = 500;
@@ -305,22 +303,42 @@ $(document).on('change', '.btn-file :file', function() {
     $('#upload-box-init').val(file);    
 });
 
-function displayMazes() {
+function displayMazes(titles) {
 	var titlesDiv = $('#maze-list-div');
-	if (titles.length == 0) {
+	console.log(titles);
+	if (titles.length == 0) 
+	{
 		titlesDiv.text("You have no saved mazes.");
-	} else {
+	} 
+	else 
+	{
 		titlesDiv.text("Choose a maze to load:");
 		titlesDiv.append("<br><br>");
-		titles.forEach(function(e) {
-			// titlesDiv.append(e + "<br>");
-			titlesDiv.append("<button type='button' class='btn btn-default'>"+e+"</button><br><br>");
+		for (var i = 0; i < titles.length; i++)
+		{
+			titlesDiv.append("<button type='button' class='btn btn-default maze-choice' name=\""+titles[i]+"\">"+titles[i]+"</button><br><br>");
+		}
+
+		// Create handler for when the choices are clicked.
+		$('.maze-choice').click(function(){
+			loadMaze($(this).attr('name'));
 		});
+
 	}
 }
 
 $('#load-maze').click(function() {
-	displayMazes();
+	request = $.ajax({
+        url: "../PHP/loadMaze.php",
+        type: "post",
+        data: {select: "label"}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	var mazes = JSON.parse(response);
+    	displayMazes(mazes.mazeLabels);
+    });
+	//displayMazes();
 });
 
 // $('#upload-code').click(function() {
@@ -334,6 +352,29 @@ $('#load-maze').click(function() {
 // 		$('.to-hide').hide();
 // 	}
 // });
+
+function loadMaze(label) {
+	request = $.ajax({
+        url: "../PHP/loadMaze.php",
+        type: "post",
+        data: {select: "maze", label: label}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	var mazes = JSON.parse(response);
+    	Maze = JSON.parse(mazes.mazeLabels[0]);
+    	var generator = new Generator();
+    	robotposX = 1;
+    	robotposY = 1;
+    	running = false;
+    	paused = false;
+    	generator.updateJSON();
+		generator.clearCanvas();
+    	generator.fullUpdate();
+
+    	console.log(Maze);
+    });
+}
 
 $('.upload-code').click(function() {
 	$('#code-code').text(code);
@@ -401,7 +442,7 @@ $('.play').click(function() {
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
-		   	ws.send("[CODE]"+code);
+		   	ws.send("[CODE] "+code);
 		   	sendSteps();
 			running = true;
 			paused = false;
@@ -414,7 +455,6 @@ $('.play').click(function() {
 			paused = false;
 		}
 	}
-	
 });
 
 $('.pause').click(function() {
@@ -486,28 +526,32 @@ $('#logout-button').click(function(){
 
 $('.save-maze').click(function(){
 	var label = prompt("Enter a name to remember this maze by:");
-	console.log(JSON.stringify(Maze))
-	request = $.ajax({
+	console.log(JSON.stringify(originalMaze));
+	if (label.length != 0)
+	{
+		request = $.ajax({
         url: "../PHP/saveMaze.php",
         type: "post",
-        data: {label: label, maze: JSON.stringify(Maze)}
-    });
+        data: {label: label, maze: JSON.stringify(originalMaze)}
+	    });
 
-    request.done(function(response, textStatus, jqXHR){
-    	console.log(response);
-    	console.log("Response: "+response);
-    	console.log("Status: "+textStatus);
-    	console.log("jqXHR: "+jqXHR);
-    	var parsedResponse = JSON.parse(response);
-    	if (parsedResponse.Succeeded == true)
-    	{
-    		alert("Maze Saved");
-    	}
-    	else
-    	{
-    		alert(parsedResponse.Error);
-    	}
+	    request.done(function(response, textStatus, jqXHR){
+	    	console.log(response);
+	    	console.log("Response: "+response);
+	    	console.log("Status: "+textStatus);
+	    	console.log("jqXHR: "+jqXHR);
+	    	var parsedResponse = JSON.parse(response);
+	    	if (parsedResponse.Succeeded == true)
+	    	{
+	    		alert("Maze Saved");
+	    	}
+	    	else
+	    	{
+	    		alert(parsedResponse.Error);
+	    	}
 
-    });
+	    });
+	}
+	
 });
 
