@@ -99,6 +99,10 @@ function Generator () {
 		{
 			append = "Red";
 		}
+		if (mattLeeke == true)
+		{
+			append = append+"Matt";
+		}
 		// Clear square ready to draw robot
 		ctx.clearRect(robotposY*blockSize+xOffset, robotposX*blockSize+yOffset, blockSize, blockSize)
 		// Choose correct sprite depending on orientation
@@ -124,9 +128,10 @@ function Generator () {
 	{
 		var returnArray = new Object;
 		var positive = 0;
-		if (setWidth != setHeight)
+		if (Maze[0].length != Maze.length)
 		{
-			var difference = setWidth-setHeight;
+			var difference = (Maze.length - Maze[0].length)/2;
+			console.log("Difference: "+difference);
 			if (difference >= 0) // Width is bigger
 			{
 				positive = Math.abs(difference);
@@ -139,14 +144,14 @@ function Generator () {
 			{
 				console.log("Height is BIGGER");
 				positive = Math.abs(difference);
-				returnArray.blockSize = canvasWidth/this.newHeight;
+				returnArray.blockSize = canvasWidth/Maze[0].length;
 				returnArray.xOffset = positive*returnArray.blockSize;
 				returnArray.yOffset = 0;
 			}
 		}
 		else
 		{
-			returnArray.blockSize = canvasWidth/this.newWidth;
+			returnArray.blockSize = canvasWidth/Maze.length;
 			returnArray.xOffset = 0;
 			returnArray.yOffset = 0;
 		}
@@ -284,9 +289,9 @@ function Generator () {
 		//console.log("Block Width: "+blockSize);
 		//console.log("Block Height: "+blockSize);
 
-		for (var i=0; i<this.newHeight; i++)
+		for (var i=0; i<Maze[0].length; i++)
 		{
-			for (var j=0; j<this.newWidth; j++)
+			for (var j=0; j<Maze.length; j++)
 			{
 				
 				posi = i*blockSize+yOffset;
@@ -300,7 +305,7 @@ function Generator () {
 
 				else if (Maze[j][i] == 3000)
 				{
-					neighbours = this.checkTile(j,i, this.newHeight, this.newWidth);
+					neighbours = this.checkTile(j,i, Maze[0].length, Maze.length);
 					if (neighbours.length == 4){
 						this.drawMiddleBlock(posj,posi,blockSize,blockSize,neighbours);
 					}
@@ -577,7 +582,15 @@ function Generator () {
 		images["RobotDownRed"] = this.loadSingleImage("RobotDownRed.png");
 		images["RobotLeftRed"] = this.loadSingleImage("RobotLeftRed.png");
 		images["RobotUpRed"] = this.loadSingleImage("RobotUpRed.png");
-		images["RobotRightRed"] = this.loadLastImage("RobotRightRed.png");
+		images["RobotRightRed"] = this.loadSingleImage("RobotRightRed.png");
+		images["RobotDownRedMatt"] = this.loadSingleImage("RobotDownRedMatt.png");
+		images["RobotLeftRedMatt"] = this.loadSingleImage("RobotLeftRedMatt.png");
+		images["RobotUpRedMatt"] = this.loadSingleImage("RobotUpRedMatt.png");
+		images["RobotRightRedMatt"] = this.loadSingleImage("RobotRightRedMatt.png");
+		images["RobotDownMatt"] = this.loadSingleImage("RobotDownMatt.png");
+		images["RobotUpMatt"] = this.loadSingleImage("RobotUpMatt.png");
+		images["RobotRightMatt"] = this.loadSingleImage("RobotRightMatt.png");
+		images["RobotLeftMatt"] = this.loadLastImage("RobotLeftMatt.png");
 	}
 
 	this.loadSingleImage = function(filename)

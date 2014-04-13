@@ -6,10 +6,14 @@ var largeCanvasHeight = 0;
 var prims = true;
 var running = false;
 var paused = false;
-var code;
+var code = "";
 var fullScreen = true;
 var dragging = false;
 var ex = 0;
+var mattLeeke = false;
+var loggedIn = false;
+var username = false;
+var clearance = false;
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -25,28 +29,26 @@ function uploadCode(num, file) {
 $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
-	var loggedIn;
 
-	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
+	// Check whether user is logged in and change page settings.
+	checkLoginStatus();
+	
+
+	// Set the default robot controller.
 	$.ajax({
 		'async':false,
 		'global':false,
-		'url':'../PHP/isLogged.php',
+		'url':'../PHP/getDefaultController.php',
 		'success':function(resp){
-			parsed = JSON.parse(resp);
-			if (parsed.logged == true)
-			{
-				loggedIn = true;
-				$('#login-button').hide();
-			}
-			else
-			{
-				loggedIn = false;
-				$('#logout-button').hide();
-			}
+			code = resp;
+			console.log(code);
+			$('.display-div').show();
+			$('#code-preview').hide();
+			$('#code-code').text(code);
 		}
 	});
 
+	console.log(clearance);
 
 	//Create canvas event listeners
 	var generator = new Generator();
@@ -83,7 +85,7 @@ $().ready(function () {
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
-	$('.slider').slider().on('slideStop', function(ev){
+	$('.slider').slider().on('slide', function(ev){
 		//get the slider value
 		var val = ev.value;
 		//get the name of the question we're working with
@@ -163,6 +165,37 @@ $().ready(function () {
 		}
 	});
 });
+
+function checkLoginStatus()
+{
+	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
+	$.ajax({
+		'async':false,
+		'global':false,
+		'url':'../PHP/isLogged.php',
+		'success':function(resp){
+			parsed = JSON.parse(resp);
+			if (parsed.logged == true && parsed.clearance != false)
+			{
+				loggedIn = true;
+				username = parsed.username;
+				clearance = parsed.clearance;
+				$('#login-button').hide();
+				$('#logout-button').show();
+			}
+			else
+			{
+				loggedIn = false;
+				username = false;
+				clearance = false;
+				$('#login-button').show();
+				$('#logout-button').hide();
+			}
+		}
+	});
+
+	console.log(clearance);
+}
 
 function mouseDown(event)
 {
@@ -248,44 +281,19 @@ function updateVariable(name, val)
 {
 	if (name == 'speed')
 	{
-		if (paused == true || (running == false && paused == false))
-		{
-			setSpeed = val;
-			$('.val-speed').val(setSpeed)
-		}
-		else
-		{
-			alert("Pause or stop the run to update robot speed.");
-			$('#speed').slider('setValue', setSpeed); // Return slider to original value.
-
-		}
+		setSpeed = val;
+		$('.val-speed').val(setSpeed);
 	}
 	else if (name == 'width')
 	{
-		if (running == false)
-		{
-				setWidth = val;
-				$('.val-width').val(setWidth)
-		}
-		else
-		{
-			alert("Stop the run to update maze width.");
-			$('#width').slider('setValue', setWidth); // Return slider to original value.
+		setWidth = val;
+		$('.val-width').val(setWidth);
 
-		}
 	}
 	else if (name == 'height')
 	{
-		if (running == false)
-		{
-				setHeight = val;
-				$('.val-height').val(setHeight)
-		}
-		else
-		{
-			alert("Stop the run to update maze height.");
-			$('#height').slider('setValue', setHeight); // Return slider to original value.
-		}
+		setHeight = val;
+		$('.val-height').val(setHeight);
 	}
 }
 
@@ -435,16 +443,16 @@ $('.play').click(function() {
 			console.log("Starting with new Maze");
 		   	ws.send(json);
 		   	ws.send("[CODE] "+code);
+		   	running = true;
+		   	paused = false;
 		   	sendSteps();
-			running = true;
-			paused = false;
 		}
 		else
 		{
 			console.log("Resuming.");
-			sendSteps();
 			running = true;
 			paused = false;
+			sendSteps();
 		}
 	}
 });
@@ -476,9 +484,10 @@ $('.login').click(function(){
     	var parsedResponse = JSON.parse(response);
     	if (parsedResponse.Succeeded == true)
     	{
-    		$('#login-button').hide();
-    		$('#logout-button').show();
+    		//$('#login-button').hide();
+    		//$('#logout-button').show();
     		$('#myModal').modal('hide')
+    		checkLoginStatus();
     	}
     	else
     	{
@@ -559,7 +568,26 @@ $('#submit-exercise').click(function() {
 	if (ex == 0) {
 		alert("Please choose an exercise. I don't quite know how you clicked that button.");
 	} else {
-		alert("Submitting exercise " + ex);
+		var ok = confirm("Submitting exercise " + ex + " are you absolutely sure?");
+		if (ok == true)
+		{
+			request = $.ajax({
+		        url: "../PHP/submitExercise.php",
+		        type: "post",
+		        data: {username: username, exercise: ex, code: code}
+		    });
+
+		    request.done(function(response, textStatus, jqXHR){
+		    	console.log(response);
+		    	console.log(JSON.parse(response));
+		    });
+
+
+		}
 		//submit code as exercise ex
 	}
 });
+
+$('.next').click(function(){
+	ws.send("STEP");
+})
