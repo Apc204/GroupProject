@@ -293,6 +293,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   
+  <script src="../JS/initialiseDefaultController.js"></script>
   <script src="../JS/highlight.pack.js"></script>
   <script src="../JS/generator.js"></script>
   <script src="../JS/script.js"></script>
