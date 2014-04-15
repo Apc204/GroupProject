@@ -66,6 +66,7 @@ server.on 'connection', (ws) ->
                                     console.log("HEELO ADAAM")
                                     console.log line
                                     ws.send line
+                                    reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
@@ -116,6 +117,7 @@ server.on 'connection', (ws) ->
                                     console.log("HEELO ADAAM")
                                     console.log line
                                     ws.send line
+                                    reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
@@ -142,7 +144,8 @@ server.on 'connection', (ws) ->
                     ws.send maze_data[0]
                     maze_data = maze_data[1..]
                 else
-                    logic.stdin.write "step\n"
+                    if logic
+                        logic.stdin.write "step\n"
                     console.log "NO_DATA"
                     ws.send "NO_DATA"
             else if message == "RESET"
