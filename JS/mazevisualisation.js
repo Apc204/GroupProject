@@ -19,8 +19,8 @@ function uploadCode(num, file) {
 	var reader = new FileReader();			
 	reader.readAsText(file);
 	reader.onload = function(e) {
-		code = reader.result;
-		console.log(code);
+		code = reader.result
+;		console.log(code);
 		$('#upload-code-'+num).show();
 		$('#upload-text-'+num).val(file.name);
 	}
@@ -382,7 +382,7 @@ $('.upload-code').click(function() {
 	$('#code-preview').hide();
 	$('#console-preview').hide();
 	$('#upload-text-1').val("");
-	$('#console-code').text("This will display the console printout.");
+	// $('#console-code').text("This will display the console printout.");
 	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
 });
 
