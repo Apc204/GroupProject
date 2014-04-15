@@ -56,17 +56,13 @@ server.on 'connection', (ws) ->
                             terminal: false
                             })
                         logic_out.on 'line', (line) ->
-                            console.log line[..50]
                             if prefix_regex.test line
-                                if reset
-                                    console.log line
                                 line = line[22..]
-                                if reset and /^\[RESET\].*/.test line
-                                    line = line[7..]
-                                    console.log("HEELO ADAAM")
-                                    console.log line
-                                    ws.send line
-                                    reset = false
+                                if reset 
+                                    if /^\[RESET\].*/.test line
+                                        line = line[7..]
+                                        ws.send line
+                                        reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
@@ -109,15 +105,12 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             console.log line[..50]
                             if prefix_regex.test line
-                                if reset
-                                    console.log line
                                 line = line[22..]
-                                if reset and /^\[RESET\].*/.test line
-                                    line = line[7..]
-                                    console.log("HEELO ADAAM")
-                                    console.log line
-                                    ws.send line
-                                    reset = false
+                                if reset
+                                    if /^\[RESET\].*/.test line
+                                        line = line[7..]
+                                        ws.send line
+                                        reset = false
                                 else
                                     maze_data = maze_data.concat line
                             else
