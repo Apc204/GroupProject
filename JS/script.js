@@ -67,7 +67,6 @@ function connectToSocket()
             psconsole.scrollTop(
                 psconsole[0].scrollHeight - psconsole.height()
             );
-
 	    }
 	    else
 	    {
@@ -103,7 +102,7 @@ function startswith (string, prefix)
 
 function sendSteps()
 {
-	console.log("Sending Step");
+	/*console.log("Sending Step");
 	var interval = setInterval(
 		function() { 
 			if(!paused && running)
@@ -115,7 +114,21 @@ function sendSteps()
 			{
 				clearInterval(interval)
 			}
+		}, setSpeed);*/
+	console.log("SENDINT STEP");
+	console.log(paused);
+	console.log(running);
+	if (!paused && running)
+	{
+		setTimeout(function(){
+			if (!paused && running)
+			{
+				ws.send("STEP");
+				sendSteps();
+			}
 		}, setSpeed);
+	}
+	
 }
 
 

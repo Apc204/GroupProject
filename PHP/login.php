@@ -23,7 +23,11 @@ if (!isset($_SESSION['username']))
 
 	if ($res->num_rows == 1)
 	{
+		$row = $res->fetch_assoc();
+		$clearance = $row['clearance'];
+
 		$_SESSION['username'] = $username;
+		$_SESSION['clearance'] = $clearance;
 		$success = true;
 	}
 
@@ -31,6 +35,7 @@ if (!isset($_SESSION['username']))
 else
 {
 	unset($_SESSION['username']);
+	unset($_SESSION['clearance']);
 	$success = true;
 }
 
