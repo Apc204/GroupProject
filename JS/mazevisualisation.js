@@ -14,15 +14,23 @@ var mattLeeke = false;
 var loggedIn = false;
 var username = false;
 var clearance = false;
+var filename = "";
+var $tab = $('[data-toggle="tab"][href="#code"]');
+
+$tab.click(function(e) {      // Binding for later use (for user interaction)
+    e.preventDefault();
+    $tab.tab('show');
+});
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
 	reader.readAsText(file);
 	reader.onload = function(e) {
-		code = reader.result
-;		console.log(code);
+		code = reader.result;		
+		console.log(code);
 		$('#upload-code-'+num).show();
 		$('#upload-text-'+num).val(file.name);
+		filename = file.name;
 	}
 }
 
@@ -377,6 +385,9 @@ function loadMaze(label) {
 }
 
 $('.upload-code').click(function() {
+	$('#code-tab-title').text("Code - " + filename);
+	$tab.show();
+    $tab.tab('show');
 	$('#code-code').text(code);
 	$('.display-div').show();
 	$('#code-preview').hide();

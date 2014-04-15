@@ -113,7 +113,7 @@
             <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
               <li class="active"><a href="#instructions" data-toggle="tab">Instructions</a></li>
               <li><a href="#console" data-toggle="tab">Console</a></li>
-              <li><a href="#code" data-toggle="tab">Code</a></li>
+              <li id="code-li"><a href="#code" data-toggle="tab" id="code-tab-title">Code - Random Controller</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
               
@@ -158,7 +158,7 @@
 
               <div class="tab-pane" id="code">
                 <h1>Code</h1>
-                <div id="code-preview">
+                <div id="code-preview">z`
                   Your code will display here when you upload some code. 
                 </div>
                 <div class="display-div"><pre class="display-pre"><code id="code-code"></code></pre></div>
