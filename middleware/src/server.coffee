@@ -63,9 +63,7 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if /^\[RANDOM\]/.test line
-                                    pass
-                                else
+                                if !/^\[RANDOM\]/.test line
                                     if reset 
                                         if /^\[RESET\].*/.test line
                                             line = line[7..]
@@ -110,9 +108,7 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if /^\[RANDOM\]/.test line
-                                    pass
-                                else
+                                if !/^\[RANDOM\]/.test line
                                     if reset 
                                         if /^\[RESET\].*/.test line
                                             line = line[7..]
