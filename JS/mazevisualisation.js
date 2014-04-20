@@ -15,12 +15,24 @@ var loggedIn = false;
 var username = false;
 var clearance = false;
 var filename = "";
-var $tab = $('[data-toggle="tab"][href="#code"]');
+var $codeTab = $('[data-toggle="tab"][href="#code"]');
+var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
 
-$tab.click(function(e) {      // Binding for later use (for user interaction)
+$codeTab.click(function(e) {      
     e.preventDefault();
-    $tab.tab('show');
+    $codeTab.codeTab('show');
 });
+
+$instructionsTab.click(function(e) {      
+    e.preventDefault();
+    $codeTab.codeTab('show');
+});
+
+$('#show-instructions').click(function() {
+	$instructionsTab.show();
+	$instructionsTab.tab("show");
+	$('#pop-up').toggle();
+})
 
 function uploadCode(num, file) {
 	var reader = new FileReader();			
@@ -90,6 +102,7 @@ $().ready(function () {
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
 	$('.console').css("height", height-300);
+	$('#instructions').css("height", height-300);
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
@@ -385,9 +398,9 @@ function loadMaze(label) {
 }
 
 $('.upload-code').click(function() {
-	$('#code-tab-title').text("Code - " + filename);
-	$tab.show();
-    $tab.tab('show');
+	$('#code-codeTab-title').text("Code - " + filename);
+	$codeTab.show();
+    $codeTab.tab('show');
 	$('#code-code').text(code);
 	$('.display-div').show();
 	$('#code-preview').hide();

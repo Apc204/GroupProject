@@ -275,3 +275,7 @@ body {
 	margin-left: 10px;
 	display: none;
 }
+
+#instructions {
+	overflow-y: scroll;
+}
