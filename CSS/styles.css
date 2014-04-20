@@ -38,6 +38,7 @@ body {
 .inner-left {
 	float: left;	
 	/*padding-right: 10px;*/
+	/*margin-right: 50px;*/
 }
 
 .maze-div {
@@ -161,13 +162,12 @@ body {
 }
 
 .slider {
-	width: 180px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-.size-slider {
-	width: 180px;
+.slider-short {
+	width: 100px;
 }
 
 .maze-button {
@@ -222,16 +222,16 @@ body {
 }
 
 #left-option {
-	width: 190px;
+	width: 110px;
 	padding-right: 10px;
 }
 
 #right-option {
-	width: 190px;
+	width: 110px;
 }
 
 .slider-long {
-	width: 400;
+	width: 300;
 }
 
 .hide {
@@ -239,7 +239,7 @@ body {
 }
 
 .option-row {
-	height: 95px;
+	height: 110px;
 }
 
 #hide-full-screen {
@@ -278,4 +278,17 @@ body {
 
 #instructions {
 	overflow-y: scroll;
+}
+
+.wide-options {
+	width: 240px;
+}
+
+#robot-delay-text {
+	width: 130px;
+	padding-right: 10px;
+}
+
+#robot-delay-div {
+	height: 100px;
 }
