@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Maze Visualisation</title>
-		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
-		<link href="../CSS/styles.css" rel="stylesheet">
+  <head>
+    <title>Maze Visualisation</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../CSS/styles.css" rel="stylesheet">
     <link href="../CSS/slider.css" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/default.css">
-	</head>
+  </head>
 
-	<body>
-		<nav class="navbar navbar-default" role="navigation">
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse test" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="home.html">Home</a></li>
-        	<li class="active"><a href="mazevisualisation.html">Maze Visualisation</a></li>
+          <li class="active"><a href="mazevisualisation.html">Maze Visualisation</a></li>
           <li><a href="onlinetests.html">Online Tests</a></li>
           <li><a href="marker-home.html">Marking Tools</a></li>
           <li><a href="http://www2.warwick.ac.uk/fac/sci/dcs/teaching/modules/cs118/" target="_blank">Coursework Page <span class="glyphicon glyphicon-new-window"></span></a></li> 
@@ -45,10 +45,10 @@
       to display the tab.
     </div>
 
-  	<img src="../jpgs/banner1.jpg" class="img-test">
-		<div class="maindiv">
+    <img src="../jpgs/banner1.jpg" class="img-test">
+    <div class="maindiv">
       
-			<h1 class="white-text">Maze Visualisation</h1>
+      <h1 class="white-text">Maze Visualisation</h1>
 
       <!-- Login Modal -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -140,6 +140,7 @@
                   <h3>Editing the Maze</h3>
 
                   <h4>Maze Layout</h4>
+<<<<<<< HEAD
 
                     <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
                       changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
@@ -162,6 +163,30 @@
 
                   <h3>Submitting an Exercise</h3>
 
+=======
+
+                    <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
+                      changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
+
+                  <h4>Maze Size</h4>
+
+                    <p>You can control the size of the maze either by using the sliders or manually entering a number in each box. To generate a new maze when you've chosen a 
+                      size, click 'Update'. The maze size cannot be changed while a robot is in a run - if the robot is running, you must click 'Stop' before being able to
+                      generate a new maze.</p>
+
+                  <h4>Maze Type</h4>
+
+                    <p>You can choose whether the maze is a Prim's or loopy maze - Prim's mazes only have one route to the end, whereas loopy mazes can have multiple routes. 
+                      After changing the maze type, click 'Update' to generate a new maze. Similar to maze size, the robot must be stopped before a new maze can be generated.</p>
+
+                  <h3>Saving and Loading Mazes</h3>
+
+                    <p>If you've made a maze that you want to use again, you can save it by clicking 'Save Maze' and giving it a name. You can then load it again later by 
+                      clicking 'Load Maze' and choosing it from your list of saved mazes.</p>
+
+                  <h3>Submitting an Exercise</h3>
+
+>>>>>>> 72d6bca82d37e87b5cea21d0099c95348a420914
                   <p>If you want to submit the currently uploaded code as your solution to one of the exercises, select that exercise from the 'Choose Exercise' dropdown, 
                     then click 'Submit'. </p>
 
@@ -264,6 +289,27 @@
                   <button type="button" class="btn btn-default loopy">Loopy</button>
                 </div><br />
 
+<<<<<<< HEAD
+=======
+              </div>
+
+              <div class="inner-left" id="right-option">
+
+                <h4>
+                  Robot delay: 
+                  <a href='#' class="question" name="maze-type" rel="popover" data-content="Milisecond delay on the robot between moves.">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                  </a>
+                </h4>
+                
+                <input type="text" id="speed" class="span2 slider slider-long" value="" data-slider-min="1" data-slider-max="1000" data-slider-step="1" data-slider-value="500" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                <input type="text" class="speedBox val-speed val" name="speed" value="500"><br />
+
+              </div>
+
+            </div>
+>>>>>>> 72d6bca82d37e87b5cea21d0099c95348a420914
 
             <br /><br />
 
@@ -306,10 +352,10 @@
         </div>
       </div>
 
-	</body>
+  </body>
 
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
   
   <script src="../JS/initialiseDefaultController.js"></script>
   <script src="../JS/highlight.pack.js"></script>
