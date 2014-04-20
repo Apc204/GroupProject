@@ -253,37 +253,38 @@
 
           <h3>Maze Options</h3>
             <!-- Maze controls -->
-            
-            <div class="option-row">
 
-              <div class="inner-left wide-options">
+            <div class="inner-left wide-options">
               
-                <h4>Maze size in blocks: </h4>
+              <h4>Maze size in blocks: </h4>
 
-                <div class="inner-left" id="left-option">
+              <div class="inner-left" id="left-option">
 
-                  Width: <br />
-                  <input type="text" id="width" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+                Width: <br />
+                <input type="text" id="width" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-                  <input type="text" class="val val-width" name="width" value="10"><br /><br />
-
-                </div>
-
-                <div class="inner-left" id="right-option">
-
-                  Height: <br />
-                  <input type="text" id="height" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                  <input type="text" class="val val-height" name="height" value="10"><br /><br />
-
-                </div>
+                <input type="text" class="val val-width" name="width" value="10"><br /><br />
 
               </div>
+
+              <div class="inner-left" id="right-option">
+
+                Height: <br />
+                <input type="text" id="height" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+                <input type="text" class="val val-height" name="height" value="10"><br /><br />
+
+              </div>
+
+            </div> 
+ 
+            
+            <div class="option-row">
 
               <div class="inner-left">
                 <h4>
                   Maze type: 
-                  <a href='#' class="question" name="maze-type" rel="popover" data-content="Prim's mazes are trees: they can't have any loops in the paths, only branches. Loopy mazes can have loops, which means there can be more than one way to get to the destination.">
+                  <a href='#' class="question" name="maze-type" rel="popover" data-placement="left" data-content="Prim's mazes are trees: they can't have any loops in the paths, only branches. Loopy mazes can have loops, which means there can be more than one way to get to the destination.">
                     <span class="glyphicon glyphicon-question-sign"></span>
                   </a>
                 </h4>
@@ -291,11 +292,12 @@
                 <div class="btn-group">
                   <button type="button" class="btn btn-default active prims">Prim's</button>
                   <button type="button" class="btn btn-default loopy">Loopy</button>
-                </div><br />
+                </div>  
               </div>  
 
             </div>
 
+            
             <br /><br />
 
             <a class="btn btn-primary update-maze maze-button">Update</a>
