@@ -140,7 +140,6 @@
                   <h3>Editing the Maze</h3>
 
                   <h4>Maze Layout</h4>
-<<<<<<< HEAD
 
                     <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
                       changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
@@ -163,8 +162,6 @@
 
                   <h3>Submitting an Exercise</h3>
 
-=======
-
                     <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
                       changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
 
@@ -186,7 +183,6 @@
 
                   <h3>Submitting an Exercise</h3>
 
->>>>>>> 72d6bca82d37e87b5cea21d0099c95348a420914
                   <p>If you want to submit the currently uploaded code as your solution to one of the exercises, select that exercise from the 'Choose Exercise' dropdown, 
                     then click 'Submit'. </p>
 
@@ -289,8 +285,6 @@
                   <button type="button" class="btn btn-default loopy">Loopy</button>
                 </div><br />
 
-<<<<<<< HEAD
-=======
               </div>
 
               <div class="inner-left" id="right-option">
@@ -309,7 +303,6 @@
               </div>
 
             </div>
->>>>>>> 72d6bca82d37e87b5cea21d0099c95348a420914
 
             <br /><br />
 
