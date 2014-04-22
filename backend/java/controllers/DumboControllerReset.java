@@ -1,4 +1,4 @@
-public class DumboController
+public class DumboControllerReset
 {
     
     public void controlRobot(IRobot robot) {
@@ -24,6 +24,10 @@ public class DumboController
         robot.face(direction);  /* Face the robot in this direction */   
 
         robot.advance();        /* and move the robot */
+    }
+
+    public void reset() {
+        System.out.println("Resetting the controller");
     }
 
 }
