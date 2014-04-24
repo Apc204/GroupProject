@@ -1,49 +1,26 @@
 justLoaded = true;
+
+// On load, generate and draw a maze, then connect to the middlware websocket.
 window.onload = function()
 {
 	running = false;
-	generateAndDraw();
+	generator = new Generator();
+	generator.generate();
+	generator.loadImages();
 	connectToSocket();
 }
 
-function generateAndDraw()
-{
-	mazeType = "Loopy";
-	console.log("1");
-	var generator = new Generator();
-	generator.clearCanvas();
-	if (prims == false)
-		generator.generateLoopy();
-	else
-		generator.generatePrims();
-
-	generator.updateJSON();
-
-	if (justLoaded)
-	{
-		generator.loadImages();
-		//generator.drawRobot(robotposX, robotposY, orientation);
-		//generator.drawRobot(1,1,1001);
-		//setTimeout(function() { generator.drawMaze(Maze); generator.drawRobot(1,1,1001);}, 1000);
-		justLoaded = false;
-	}
-	else
-	{
-		generator.fullUpdate(); 
-		//generator.drawRobot(1,1,1001);
-	}
-	
-}
 
 function connectToSocket()
 {
-	 //alert("WebSocket is supported by your Browser!");
-	 // Let us open a web socket
+	 // Open the web socket
 	 ws = new WebSocket("ws://localhost:8080");
 	 ws.onopen = function()
 	 {
-	    // Web Socket is connected, send data using send()
+	 	// Code executed when the socket is first opened.
 	 };
+
+	 // Function executed every time a message is received.
 	 ws.onmessage = function (evt) 
 	 { 
 	 	
@@ -68,7 +45,7 @@ function connectToSocket()
                 psconsole[0].scrollHeight - psconsole.height()
             );
 	    }
-	    else
+	    else // If the data wasn't any of the previous, it is a new maze state. The maze is updated and the new state drawn.
 	    {
 	    	var fixedJSON = evt.data.replace(/\'/g,"\"");
 	    	var fixedJSON = fixedJSON.replace(/False/g,"false");
@@ -95,29 +72,15 @@ function connectToSocket()
 	 };
 }
 
+// Check if a string starts with another string.
 function startswith (string, prefix)
 {
 	return string.indexOf(prefix) == 0;
 }
 
+// Continually send steps until paused or stopped.
 function sendSteps()
 {
-	/*console.log("Sending Step");
-	var interval = setInterval(
-		function() { 
-			if(!paused && running)
-			{
-				ws.send("STEP"); 
-				console.log("sending step ")
-			}
-			else
-			{
-				clearInterval(interval)
-			}
-		}, setSpeed);*/
-	console.log("SENDINT STEP");
-	console.log(paused);
-	console.log(running);
 	if (!paused && running)
 	{
 		setTimeout(function(){
