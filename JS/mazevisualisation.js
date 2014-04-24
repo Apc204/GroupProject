@@ -20,7 +20,7 @@ var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
 var fileUploaded = false;
 var langChosen = false;
-var lang = "Java";
+var lang = "python";
 
 $codeTab.click(function(e) {      
     e.preventDefault();
@@ -488,7 +488,8 @@ $('.play').click(function() {
 			console.log("Starting with new Maze");
 		   	ws.send(json);
 		   	console.log("[CODE]["+lang+"]"+code);
-		   	ws.send("[CODE]["+lang+"]"+code);
+		   	//ws.send("[CODE]"+code);
+		   	ws.send("[CODE]["+lang.toLowerCase()+"]"+code);
 		   	running = true;
 		   	paused = false;
 		   	//sendSteps();

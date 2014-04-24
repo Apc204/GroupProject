@@ -28,6 +28,7 @@ function connectToSocket()
 	    var received_msg = evt.data;
 	    if (received_msg == "READY")
 	    {
+	    	console.log("Got a READY");
 		   	sendSteps(ws);
 	    }
 	    else if (received_msg == "CONNECTED")
