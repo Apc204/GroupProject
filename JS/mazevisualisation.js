@@ -491,7 +491,7 @@ $('.play').click(function() {
 		   	ws.send("[CODE]["+lang+"]"+code);
 		   	running = true;
 		   	paused = false;
-		   	sendSteps();
+		   	//sendSteps();
 		}
 		else // If paused, resume sending steps.
 		{
