@@ -17,6 +17,8 @@ var clearance = false;
 var filename = "";
 var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
+var fileUploaded = false;
+var langChosen = false;
 
 $codeTab.click(function(e) {      
     e.preventDefault();
@@ -34,15 +36,18 @@ $('#show-instructions').click(function() {
 	$('#pop-up').toggle();
 })
 
-function uploadCode(num, file) {
+function uploadCode(file) {
 	var reader = new FileReader();			
 	reader.readAsText(file);
 	reader.onload = function(e) {
 		code = reader.result;		
 		console.log(code);
-		$('#upload-code-'+num).show();
-		$('#upload-text-'+num).val(file.name);
+		$('#upload-text').val(file.name);
 		filename = file.name;
+		fileUploaded = true;
+		if (langChosen) {
+			displaySubmit();
+		}
 	}
 }
 
@@ -82,9 +87,7 @@ $().ready(function () {
 	
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
-		uploadCode(1, file);
-		// var textType = /text.*/;
-		// if (file.type.match(textType)) {
+		uploadCode(file);
 	});
 
 	var width = $(window).innerWidth();
@@ -94,10 +97,6 @@ $().ready(function () {
 	//Calculate div sizes
 	var mazeOptionsWidth = 400;
 	var bothWidth = width - mazeOptionsWidth - 200 // -400 for the maze options, -40 for 20px padding everywhere
-
-	// $('#code-div').css("width", bothWidth/2);
-	// $('#code-textarea').css("width", bothWidth/2);
-	// $('#code-textarea').css("height", height-200);
 
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
@@ -362,18 +361,6 @@ $('#load-maze').click(function() {
 	//displayMazes();
 });
 
-// $('#upload-code').click(function() {
-// 	var  file = document.form2.uploadBox.value;
-// 	if (file == "") {
-// 		alert("Please upload a file.");
-// 	} else {
-// 		$('#code-textarea').text("SECOND CODE\npublic class Scribble extends Applet {private int last_x = 0;\nprivate int last_y = 0;\nprivate Color current_color = Color.black;\nprivate Button clear_button;\nprivate Choice color_choices;\n// Called to initialize the applet.\npublic void init() {\n// Set the background color\nthis.setBackground(Color.white);\n// Create a button and add it to the applet.\n// Also, set the button's colors        this.add(color_choices);\n}\n\n// Called when the user clicks the button or chooses a color\npublic boolean action(Event event, Object arg) {\n// If the Clear button was clicked on, handle it.\nif (event.target == clear_button) {\nGraphics g = this.getGraphics();\nRectangle r = this.bounds();");
-
-// 		$('.to-reveal').show();
-// 		$('.to-hide').hide();
-// 	}
-// });
-
 function loadMaze(label) {
 	request = $.ajax({
         url: "../PHP/loadMaze.php",
@@ -397,8 +384,8 @@ function loadMaze(label) {
     });
 }
 
-$('.upload-code').click(function() {
-	$('#code-codeTab-title').text("Code - " + filename);
+$('#upload-code').click(function() {
+	$('#code-tab-title').text("Code - " + filename);
 	$codeTab.show();
     $codeTab.tab('show');
 	$('#code-code').text(code);
@@ -407,7 +394,9 @@ $('.upload-code').click(function() {
 	$('#console-preview').hide();
 	$('#upload-text-1').val("");
 	// $('#console-code').text("This will display the console printout.");
-	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});	
+	$('#code-tab-title').text("Code - " + filename);
+	$('.upload-code').hide();
 });
 
 $('#help-button').click(function () {
@@ -587,6 +576,20 @@ $('.exercise').click(function() {
 	$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
 	ex = parseInt(ex.substring(9));
 });
+
+$('.language').click(function() {
+	lang = $(this).text();
+	$('#choose-language-dropdown').text(lang);
+	$('#choose-language-dropdown').append(" <span class='caret'></span>");
+	langChosen = true;
+	if (fileUploaded) {
+		displaySubmit();
+	}
+});
+
+function displaySubmit() {
+	$('#upload-code').show();
+}
 
 $('#submit-exercise').click(function() {
 	if (ex == 0) {

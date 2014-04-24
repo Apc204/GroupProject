@@ -260,7 +260,7 @@ body {
 }
 
 .code-options-div {
-	height: 65px;
+	height: 110px;
 }
 
 #choose-exercise {
@@ -291,4 +291,14 @@ body {
 
 #robot-delay-div {
 	height: 100px;
+}
+
+#snake {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#upload-code {
+	display: none;
 }

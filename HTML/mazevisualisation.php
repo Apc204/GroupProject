@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse test" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="home.html">Home</a></li>
-          <li class="active"><a href="mazevisualisation.html">Maze Visualisation</a></li>
+          <li class="active"><a href="mazevisualisation.php">Maze Visualisation</a></li>
           <li><a href="onlinetests.html">Online Tests</a></li>
           <li><a href="marker-home.html">Marking Tools</a></li>
           <li><a href="http://www2.warwick.ac.uk/fac/sci/dcs/teaching/modules/cs118/" target="_blank">Coursework Page <span class="glyphicon glyphicon-new-window"></span></a></li> 
@@ -121,7 +121,7 @@
                   <h3>Uploading Code</h3>
 
                   <p>You can upload code using the buttons on the right under 'Code Options'. Click 'Choose File' and navigate to the file you want to upload. 
-                    When you've chosen the right file a submit button will appear, clicking it will submit your code. </p>
+                    When you've chosen the right file an upload button will appear, clicking it will submit your code. </p>
 
                   <p>When your code has been submitted you will be able to view the console printout in the console tab above. The code tab will display your code. </p>
 
@@ -135,7 +135,7 @@
                     <li>'Next step' can be used when the robot is paused to carry out one command, this can be useful for debugging to see exactly what the robot is doing.</li>
                   </ul>
 
-                  <p>The robot delay is the number of miliseconds between each move - a lower delay will mean the robot runs faster. </p>
+                  <p>The robot delay is the number of milliseconds between each move - a lower delay will mean the robot runs faster. </p>
 
                   <h3>Editing the Maze</h3>
 
@@ -147,13 +147,13 @@
                   <h4>Maze Size</h4>
 
                     <p>You can control the size of the maze either by using the sliders or manually entering a number in each box. To generate a new maze when you've chosen a 
-                      size, click 'Update'. The maze size cannot be changed while a robot is in a run - if the robot is running, you must click 'Stop' before being able to
+                      size, click 'Generate Maze'. The maze size cannot be changed while a robot is in a run - if the robot is running, you must click 'Stop' before being able to
                       generate a new maze.</p>
 
                   <h4>Maze Type</h4>
 
                     <p>You can choose whether the maze is a Prim's or loopy maze - Prim's mazes only have one route to the end, whereas loopy mazes can have multiple routes. 
-                      After changing the maze type, click 'Update' to generate a new maze. Similar to maze size, the robot must be stopped before a new maze can be generated.</p>
+                      After changing the maze type, click 'Generate Maze' to generate a new maze. Similar to maze size, the robot must be stopped before a new maze can be generated.</p>
 
                   <h3>Saving and Loading Mazes</h3>
 
@@ -164,27 +164,6 @@
 
                     <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
                       changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
-
-                  <h4>Maze Size</h4>
-
-                    <p>You can control the size of the maze either by using the sliders or manually entering a number in each box. To generate a new maze when you've chosen a 
-                      size, click 'Update'. The maze size cannot be changed while a robot is in a run - if the robot is running, you must click 'Stop' before being able to
-                      generate a new maze.</p>
-
-                  <h4>Maze Type</h4>
-
-                    <p>You can choose whether the maze is a Prim's or loopy maze - Prim's mazes only have one route to the end, whereas loopy mazes can have multiple routes. 
-                      After changing the maze type, click 'Update' to generate a new maze. Similar to maze size, the robot must be stopped before a new maze can be generated.</p>
-
-                  <h3>Saving and Loading Mazes</h3>
-
-                    <p>If you've made a maze that you want to use again, you can save it by clicking 'Save Maze' and giving it a name. You can then load it again later by 
-                      clicking 'Load Maze' and choosing it from your list of saved mazes.</p>
-
-                  <h3>Submitting an Exercise</h3>
-
-                  <p>If you want to submit the currently uploaded code as your solution to one of the exercises, select that exercise from the 'Choose Exercise' dropdown, 
-                    then click 'Submit'. </p>
 
                   <!-- <div class="input-group bottom-upload">
                     <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
@@ -300,7 +279,7 @@
             
             <br /><br />
 
-            <a class="btn btn-primary update-maze maze-button">Update</a>
+            <a class="btn btn-primary update-maze maze-button">Generate Maze</a>
             <a class="btn btn-primary save-maze maze-button">Save maze</a>
             <a class="btn btn-primary load-maze maze-button" data-toggle="modal" data-target="#maze-modal" id="load-maze">Load maze</a>
 
@@ -312,12 +291,20 @@
                 <div class="below-maze-div">
                   <div class="input-group bottom-upload">
                     <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
-                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-1">
+                    <input type="text" class="form-control" placeholder="No file chosen" id="upload-text">
                   </div>
+                </div><br><br>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-language-dropdown">
+                    Choose Language 
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" class="language">Python</a></li>
+                    <li><a href="#" class="language">Java</a></li>
+                  </ul>
                 </div>
-                <div class="inner-right">
-                  <a class="btn btn-primary upload-code" id="upload-code-1">Upload</a>
-                </div>
+                <a class="btn btn-primary" id="upload-code">Upload</a>
               </form>
             </div>
 
