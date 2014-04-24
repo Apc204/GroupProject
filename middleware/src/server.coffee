@@ -95,6 +95,10 @@ server.on 'connection', (ws) ->
             else if /^\[CODE\].*/.test message
                 console.log 'message'
                 message = message[6..]
+                reg_ex = /\[?\]/
+                match = reg_ex.exec message
+                code_language = match[0]
+                message = message[(code_language.length + 2)..]
                 fs.writeFile "#{dir_path}/code.py", message, (err) ->
                     if err
                         console.log err
@@ -116,7 +120,7 @@ server.on 'connection', (ws) ->
                     if logic
                         logic.stdin.write "step\n"
                     ws.send "NO_DATA"
-                    
+
             else if message == "RESET"
                 maze_data = []
                 reset = true
