@@ -6,6 +6,7 @@ window.onload = function()
 	running = false;
 	generator = new Generator();
 	generator.generate();
+	generator.updateJSON();
 	generator.loadImages();
 	connectToSocket();
 }

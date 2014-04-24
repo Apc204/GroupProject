@@ -20,6 +20,7 @@ var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
 var fileUploaded = false;
 var langChosen = false;
+var lang = "Java";
 
 $codeTab.click(function(e) {      
     e.preventDefault();
@@ -368,7 +369,6 @@ $('#load-maze').click(function() {
 	//displayMazes();
 });
 
-<<<<<<< HEAD
 // $('#upload-code').click(function() {
 // 	var  file = document.form2.uploadBox.value;
 // 	if (file == "") {
@@ -382,8 +382,7 @@ $('#load-maze').click(function() {
 // });
 
 // Find the maze layout of the given label using AJAX.
-=======
->>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
+
 function loadMaze(label) {
 	request = $.ajax({
         url: "../PHP/loadMaze.php",
@@ -408,12 +407,9 @@ function loadMaze(label) {
     });
 }
 
-<<<<<<< HEAD
 // Show the uploaded code when the tab is clicked
-$('.upload-code').click(function() {
-=======
 $('#upload-code').click(function() {
->>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
+
 	$('#code-tab-title').text("Code - " + filename);
 	$codeTab.show();
     $codeTab.tab('show');
@@ -491,7 +487,8 @@ $('.play').click(function() {
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
-		   	ws.send("[CODE] "+code);
+		   	console.log("[CODE]["+lang+"]"+code);
+		   	ws.send("[CODE]["+lang+"]"+code);
 		   	running = true;
 		   	paused = false;
 		   	sendSteps();
@@ -622,10 +619,8 @@ $('.exercise').click(function() {
 	ex = parseInt(ex.substring(9));
 });
 
-<<<<<<< HEAD
 
-// Send an AJAX request to save the user's code as an exercise submission.
-=======
+
 $('.language').click(function() {
 	lang = $(this).text();
 	$('#choose-language-dropdown').text(lang);
@@ -640,7 +635,7 @@ function displaySubmit() {
 	$('#upload-code').show();
 }
 
->>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
+// Send an AJAX request to save the user's code as an exercise submission
 $('#submit-exercise').click(function() {
 	if (ex == 0) {
 		alert("Please choose an exercise. I don't quite know how you clicked that button.");
