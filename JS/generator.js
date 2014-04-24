@@ -11,7 +11,7 @@ function Generator () {
 	this.mazeWidth = setWidth;
 	this.mazeHeight = setHeight;
 
-	
+
 	this.newHeight = (this.mazeHeight*2)+1;
 	this.newWidth = (this.mazeWidth*2)+1;
 	this.startX = 1;
@@ -27,6 +27,7 @@ function Generator () {
 
 	imgLocation = "../jpgs/Maze-parts/";
 
+	// Converts the global maze array to JSON format and returns it.
 	this.toJSON = function()
 	{
 		var jsonLayout = Maze;
@@ -54,6 +55,7 @@ function Generator () {
 		return jsonMaze;
 	}
 
+	// Converts the maze array to JSON, appends the [MAZE] tag and stores it in a global json variable.
 	this.updateJSON = function()
 	{
 		var jsonMaze = this.toJSON(Maze);
@@ -62,20 +64,7 @@ function Generator () {
 		json = prefix.concat(JSON.stringify(jsonMaze));
 	}
 
-	/*this.quickUpdate = function(maze, robotposX, robotposY, oldposx, oldposy, orientation)
-	{
-		var c = this.findCanvasProperties();
-		// Clear both old and new squares.
-		this.drawRobot(c,robotposX,robotposY,orientation)
-		
-		//Fill old position as 'been before'
-		//if (robotposX != oldposx && robotposY != oldposy)
-		//{
-			ctx.fillStyle="#b5b5b5";
-			ctx.fillRect(oldposx*canvasWidth/this.newWidth,oldposy*canvasHeight/this.newHeight,canvasHeight/this.newHeight,canvasWidth/this.newWidth);
-		//}
-	}*/
-
+	// Fully updates the canvas by clearing the whole canvas and drawing the most recent maze and robot.
 	this.fullUpdate = function()
 	{
 		var c = this.findCanvasProperties();
@@ -84,9 +73,10 @@ function Generator () {
 		this.drawRobot();
 	}
 
+	// Draws the robot in it's current position, chooses the correct sprite depending on the orientation.
 	this.drawRobot = function()
 	{
-		//console.log("Drawing robot");
+
 		var c = this.findCanvasProperties();
 		var adjustments = this.getBlockSize();
 		var append = "";
@@ -125,6 +115,7 @@ function Generator () {
 		}
 	}
 
+	// Finds the size of each tile by using the canvas size and maze dimensions. Creates and returns the correct offsets to deal with rectangle mazes.
 	this.getBlockSize = function()
 	{
 		var returnArray = new Object;
@@ -139,7 +130,7 @@ function Generator () {
 				returnArray.blockSize = canvasWidth/this.newWidth;
 				returnArray.yOffset = positive*returnArray.blockSize; // Create an offset so the maze can be drawn in correct proportions.
 				returnArray.xOffset = 0;
-				
+
 			}
 			else // Height is bigger
 			{
@@ -159,12 +150,13 @@ function Generator () {
 		return returnArray;
 	}
 
-
+	// Draws the given image at the given position with the specified size.
 	this.draw = function(imgtag, x, y, width, height)
 	{
 		ctx.drawImage(images[imgtag],x,y,width,height);
 	}
 
+	// Finds the current height and width of the canvas.
 	this.findCanvasProperties = function()
 	{
 		if(fullScreen == true)
@@ -176,7 +168,7 @@ function Generator () {
 			canvasHeight = c.height;
 			ctx=c.getContext("2d");
 		}
-			
+
 		else
 		{
 			var c=document.getElementById("myCanvas");
@@ -184,24 +176,26 @@ function Generator () {
 			canvasHeight = c.height;
 			ctx=c.getContext("2d");
 		}
-			
+
 		//console.log(canvasHeight);
 		//console.log(canvasWidth);
 		return c;
 	}
 
+	//Clears the whole canvas.
 	this.clearCanvas = function()
 	{
 		var c = this.findCanvasProperties();
 		ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 	}
 
+	// Finds the correct sprite and draws it for a tile with 3 neighbours.
 	this.draw3neighbours = function(x,y,width,height,neighbours)
 	{
 		append="";
 		if (mattLeeke == true)
 		{
-			append = append+"Matt";
+			append = "Matt";
 		}
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.EAST) != -1){
 			this.draw("TTop"+append, x, y, width, height);
@@ -217,12 +211,13 @@ function Generator () {
 		}
 	}
 
+	// Finds the correct sprite and draws it for a tile with 2 neighbours.
 	this.draw2neighbours = function(x,y,width,height,neighbours)
 	{
 		append="";
 		if (mattLeeke == true)
 		{
-			append = append+"Matt";
+			append = "Matt";
 		}
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.SOUTH) != -1 ){
 			this.draw("TopAndBottom"+append,x,y,width,height);
@@ -244,12 +239,13 @@ function Generator () {
 		}
 	}
 
+	// Finds the correct sprite and draws it for a tile with 1 neighbour.
 	this.drawSingleNeighbour = function (x,y,width,height,neighbours)
 	{
 		append="";
 		if (mattLeeke == true)
 		{
-			append = append+"Matt";
+			append = "Matt";
 		}
 		if (neighbours.indexOf(this.NORTH) != -1)
 			this.draw ("Top"+append,x,y,width,height);
@@ -261,26 +257,29 @@ function Generator () {
 			this.draw ("Bottom"+append,x,y,width,height);
 	}
 
+	// Finds the correct sprite and draws it for a tile with no neighbours.
 	this.drawBlock = function (x,y,width,height,neighbours)
 	{
 		append="";
 		if (mattLeeke == true)
 		{
-			append = append+"Matt";
+			append = "Matt";
 		}
 		this.draw("Single"+append,x,y,width,height);
 	}
 
+	// Finds the correct sprite and draws it for a tile with 4 neighbours.
 	this.drawMiddleBlock = function (x,y,width,height,neighbours)
 	{
 		append="";
 		if (mattLeeke == true)
 		{
-			append = append+"Matt";
+			append = "Matt";
 		}
 		this.draw("AllSides"+append,x,y,width,height);
 	}
 
+	// Checks around the given tile for neighbours that are walls.
 	this.checkTile = function(x,y, height, width)
 	{
 		var i = 0;
@@ -296,9 +295,10 @@ function Generator () {
 		return neighbourWalls;
 	}
 
+	// Loop through the maze array and call functions to draw each tile.
 	this.drawMaze = function()
 	{
-		//this.loadImages();
+
 		c=this.findCanvasProperties();
 		var neighbours = [];
 
@@ -309,17 +309,11 @@ function Generator () {
 		var xOffset = adjustments.xOffset;
 		var yOffset = adjustments.yOffset;
 
-		//console.log(xOffset);
-		//console.log(yOffset);
-		 
-		//console.log("Block Width: "+blockSize);
-		//console.log("Block Height: "+blockSize);
-
 		for (var i=0; i<Maze[0].length; i++)
 		{
 			for (var j=0; j<Maze.length; j++)
 			{
-				
+
 				posi = i*blockSize+yOffset;
 				posj = j*blockSize+xOffset;
 				neighbours=[];
@@ -331,6 +325,7 @@ function Generator () {
 
 				else if (Maze[j][i] == 3000)
 				{
+					// Check number of neighbours and call relevant function to draw it.
 					neighbours = this.checkTile(j,i, Maze[0].length, Maze.length);
 					if (neighbours.length == 4){
 						this.drawMiddleBlock(posj,posi,blockSize,blockSize,neighbours);
@@ -347,8 +342,6 @@ function Generator () {
 					else {
 						this.drawBlock(posj,posi,blockSize,blockSize,neighbours);
 					}
-					//(maze)ctx.fillStyle="#0080FF";
-					//ctx.fillRect(j*400/newHeight,i*400/newWidth,400/newHeight+1,400/newWidth);
 				}
 				else if (Maze[j][i] == 4000)
 				{
@@ -359,11 +352,12 @@ function Generator () {
 		}
 	}
 
+	// Checks whether a tile is valid for converting to a passage in the Loopy algorithm
 	this.isValid = function(x, y)
 	{
 		for(var i = x - 1; i <= x; i++) {
 			for(var j = y - 1; j <= y; j++) {
-			
+
 				var invalidSquare = true;
 				for(var a = i; a <= i+1; a++) {
 					for(var b = j; b <= j+1; b++) {
@@ -377,19 +371,21 @@ function Generator () {
 		return true;
 	}
 
+	// Finds number of walls around a given tile.
 	this.getWalls = function(x, y)
 	{
 		var count = 0;
 		for (var i = x - 1; i <= x+1; i+=2) {
 			if(Maze[i][y] == this.WALL) count++;
 		}
-		
+
 		for (var i = y - 1; i <= y+1; i+=2) {
 			if(Maze[x][i] == this.WALL) count++;
 		}
 		return count;
 	}
 
+	// Places the end position to the middle of the maze.
 	this.centerTarget = function()
 	{
 		var x = this.mazeWidth;
@@ -413,6 +409,7 @@ function Generator () {
 		return Maze;
 	}
 
+	// Chooses which maze generation algorithm to use.
 	this.generate = function()
 	{
 		if (prims == true)
@@ -425,20 +422,14 @@ function Generator () {
 		}
 	}
 
-
+	// Generator for loopy mazes.
 	this.generateLoopy = function()
 	{	
-		this.generatePrims();
+		this.generatePrims(); // Generate a prims maze.
 		var realWidth = (2*this.mazeWidth)+1;
 		var realHeight = (2*this.mazeHeight)+1;
 
-		for(var i = 0; i < realWidth; i++)
-			for (var j = 0; j < realHeight; j++)
-			{
-				//console.log(maze[i][j]);
-				//console.log(maze[i,j] == this.WALL);
-			}
-
+		// Loop through and randomly change walls to passages if they are valid.
 		for (var i = 1; i < realWidth - 1; i++)
 		{
 			for (var j = 1; j < realHeight - 1; j++)
@@ -452,6 +443,7 @@ function Generator () {
 		//maze = this.centerTarget(maze);
 	}
 
+	// Generator for Prims mazes.
 	this.generatePrims = function()
 	{
 		// Initialise global variables.
@@ -465,26 +457,26 @@ function Generator () {
 
 		if ((this.mazeWidth < 1) || (this.mazeHeight < 1))
 			alert ("Invalid Maze Dimensions");
-		
+
 		var realWidth = (2*this.mazeWidth)+1;
 		var realHeight = (2*this.mazeHeight)+1;
-		
+
 		// Initialise maze array.
 		Maze = this.initialiseGrid(realWidth, realHeight);
 
 		var neighbours = 0;
-		
+
 		for (var i=0; i<realWidth; i++)
 		{
 			this.primGrid[i] = [];
 			for (var j=0; j<realHeight; j++)
 				this.primGrid[i].push(this.OUT);
 		}
-				
+
 		// select cell "randomly" from inside the outer walls
 		var originX = realWidth - 2;
 		var originY = realHeight - 2;
-		
+
 		Maze = this.setPrimCellType(originX, originY, this.IN);
 		if (originX > 1)
 			this.setPrimCellType(originX-2,originY,this.FRONTIER);
@@ -494,7 +486,7 @@ function Generator () {
 	         this.setPrimCellType(originX+2,originY,this.FRONTIER);
 	    if (originY > this.primGrid[0].length-2)
 	         this.setPrimCellType(originX,originY+2,this.FRONTIER);		// change to less than if broken
-		
+
 		// start Prim's algorithm loop
 		while (this.frontierList.length > 0)
 		{	// choose frontier point at random
@@ -514,8 +506,8 @@ function Generator () {
 			if(frontier[1] > this.primGrid[0].length-2)											//change to less than if broken
 				if (this.primGrid[frontier[0]][frontier[1+2]] == this.OUT)
 					this.setPrimCellType(frontier[0], frontier[1]+2, this.FRONTIER);
-		
-			
+
+
 			// find neighbours seperated by 1 WALL
 			// max of 4
 			var direction = [];
@@ -532,7 +524,7 @@ function Generator () {
 			if (frontier[1] < this.primGrid[0].length-2)
 				if (this.primGrid[frontier[0]][frontier[1]+2] == this.IN)
 				   direction[neighbours++] = this.SOUTH;
-			
+
 			// choose random neighbour
 			var path = direction[Math.floor(Math.random()*neighbours)];	
 			switch (path) {
@@ -554,6 +546,7 @@ function Generator () {
 		originalMaze = Maze;
 	}
 
+	// Initialise the maze to have a wall on every tile.
 	this.initialiseGrid = function (width, height)
 	{
 		var grid = [];
@@ -566,6 +559,7 @@ function Generator () {
 		return grid;
 	}
 
+	// Edit the state of a tile.
 	this.setPrimCellType = function(x, y, type)
 	{
 		if (type == this.IN)
@@ -573,7 +567,7 @@ function Generator () {
 		if (type == this.FRONTIER)
 			this.frontierList.push([x,y]);
 		this.primGrid[x][y] = type;
-		
+
 		return Maze;
 	}
 
@@ -637,6 +631,7 @@ function Generator () {
 		images["RobotRightRedMatt"] = this.loadLastImage(true, "RobotRightRed.png");
 	}
 
+	// Load the given image.
 	this.loadSingleImage = function(matt, filename)
 	{
 		var imgObj = new Image();
@@ -645,9 +640,6 @@ function Generator () {
 		} else {
 			imgObj.src = imgLocation+filename;
 		}
-		/*imgObj.onload = function() {
-			numberLoaded++;
-		}*/
 		return imgObj;
 	}
 
@@ -667,6 +659,5 @@ function Generator () {
 		return imgObj;
 
 	}
-
 
 }

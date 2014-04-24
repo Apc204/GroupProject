@@ -1,3 +1,4 @@
+// Initialise global variables and user settings.
 var setWidth = 10;
 var setHeight = 10;
 var setSpeed = 500;
@@ -19,6 +20,7 @@ var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
 var fileUploaded = false;
 var langChosen = false;
+var lang = "Java";
 
 $codeTab.click(function(e) {      
     e.preventDefault();
@@ -51,6 +53,7 @@ function uploadCode(file) {
 	}
 }
 
+// When the document loads.
 $().ready(function () {
 	$('.upload-code').hide();
 	$(".question").popover();
@@ -73,7 +76,6 @@ $().ready(function () {
 		}
 	});
 
-	console.log(clearance);
 
 	//Create canvas event listeners
 	var generator = new Generator();
@@ -116,8 +118,6 @@ $().ready(function () {
 	});
 
 	//Set full-screen div size for canvas
-	//$('#large-canvas').css("height", height-200);
-	//$('#large-canvas').css("width", height-200);
 	var canvas = document.getElementById('large-canvas');
 	canvas.width = height-200;
 	canvas.height = height-200;
@@ -275,15 +275,19 @@ function mouseMove(event)
 	}
 }
 
+// Find the coordinates of the click and convert into canvas coordinates
 function findMazeCoordinates(event)
 {
+	// Get coordinates of the click
 	var x = event.x;
 	var y = event.y;
+
 	var returnObject = new Object();
 	var generator = new Generator();
 	var adjustments = generator.getBlockSize();
 	var blockSize = adjustments.blockSize;
 	var canvas = generator.findCanvasProperties();
+	// Convert to canvas coordinates using the canvas offset from the left and top of the screen.
 	x = (x-canvas.offsetLeft)-adjustments.xOffset;
   	y = (y-canvas.offsetTop)-adjustments.yOffset;
   	var mazePosX = Math.ceil(x/blockSize)-1;
@@ -297,6 +301,7 @@ function findMazeCoordinates(event)
 
 }
 
+// Updates the correct variable based on the name parameter.
 function updateVariable(name, val)
 {
 	if (name == 'speed')
@@ -323,6 +328,7 @@ $(document).on('change', '.btn-file :file', function() {
     $('#upload-box-init').val(file);    
 });
 
+// Display maze names given as parameters
 function displayMazes(titles) {
 	var titlesDiv = $('#maze-list-div');
 	console.log(titles);
@@ -336,6 +342,7 @@ function displayMazes(titles) {
 		titlesDiv.append("<br><br>");
 		for (var i = 0; i < titles.length; i++)
 		{
+			// Create buttons for each of the names given.
 			titlesDiv.append("<button type='button' class='btn btn-default maze-choice' name=\""+titles[i]+"\">"+titles[i]+"</button><br><br>");
 		}
 
@@ -347,6 +354,7 @@ function displayMazes(titles) {
 	}
 }
 
+// Send AJAX request to find mazes the user saved.
 $('#load-maze').click(function() {
 	request = $.ajax({
         url: "../PHP/loadMaze.php",
@@ -360,6 +368,20 @@ $('#load-maze').click(function() {
     });
 	//displayMazes();
 });
+
+// $('#upload-code').click(function() {
+// 	var  file = document.form2.uploadBox.value;
+// 	if (file == "") {
+// 		alert("Please upload a file.");
+// 	} else {
+// 		$('#code-textarea').text("SECOND CODE\npublic class Scribble extends Applet {private int last_x = 0;\nprivate int last_y = 0;\nprivate Color current_color = Color.black;\nprivate Button clear_button;\nprivate Choice color_choices;\n// Called to initialize the applet.\npublic void init() {\n// Set the background color\nthis.setBackground(Color.white);\n// Create a button and add it to the applet.\n// Also, set the button's colors        this.add(color_choices);\n}\n\n// Called when the user clicks the button or chooses a color\npublic boolean action(Event event, Object arg) {\n// If the Clear button was clicked on, handle it.\nif (event.target == clear_button) {\nGraphics g = this.getGraphics();\nRectangle r = this.bounds();");
+
+// 		$('.to-reveal').show();
+// 		$('.to-hide').hide();
+// 	}
+// });
+
+// Find the maze layout of the given label using AJAX.
 
 function loadMaze(label) {
 	request = $.ajax({
@@ -376,6 +398,7 @@ function loadMaze(label) {
     	robotposY = 1;
     	running = false;
     	paused = false;
+    	// Draw the new maze to the canvas.
     	generator.updateJSON();
 		generator.clearCanvas();
     	generator.fullUpdate();
@@ -384,7 +407,9 @@ function loadMaze(label) {
     });
 }
 
+// Show the uploaded code when the tab is clicked
 $('#upload-code').click(function() {
+
 	$('#code-tab-title').text("Code - " + filename);
 	$codeTab.show();
     $codeTab.tab('show');
@@ -399,10 +424,12 @@ $('#upload-code').click(function() {
 	$('.upload-code').hide();
 });
 
+// Show the help popup.
 $('#help-button').click(function () {
 	$('#pop-up').toggle();
 });
 
+// Generate a new maze and draw it to the canvas.
 $('.update-maze').click(function(){
 	if (running == false)
 	{
@@ -418,6 +445,7 @@ $('.update-maze').click(function(){
 	}
 });
 
+// Show the large canvas div and layout.
 $('#full-screen').click(function() {
 	$('#hide-full-screen').hide();
 	$('#large-canvas-div').show();
@@ -427,6 +455,7 @@ $('#full-screen').click(function() {
 	generator.fullUpdate();
 });
 
+// Show the smaller canvas layout.
 $('#shrink').click(function() {
 	$('#large-canvas-div').hide();
 	$('#hide-full-screen').show();
@@ -435,32 +464,36 @@ $('#shrink').click(function() {
 	generator.fullUpdate();
 });
 
+// Set the prims variable to true when the user clicks "Prims".
 $('.prims').click(function() {
 	prims = true;
 	$('.prims').addClass("active");
 	$('.loopy').removeClass("active");
 });
 
+// Set the prims variable to false when the user clicks "Loopy".
 $('.loopy').click(function() {
 	prims = false;
 	$('.loopy').addClass("active");
 	$('.prims').removeClass("active");
 });
 
+// When the user clicks the play button resume or start a new run.
 $('.play').click(function() {
 	console.log("clicked play");
 	if (running == false || paused == true)
 	{
-		if(!paused)
+		if(!paused) // If not paused, send the code and maze, and begin a new run.
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
-		   	ws.send("[CODE] "+code);
+		   	console.log("[CODE]["+lang+"]"+code);
+		   	ws.send("[CODE]["+lang+"]"+code);
 		   	running = true;
 		   	paused = false;
-		   	sendSteps();
+		   	//sendSteps();
 		}
-		else
+		else // If paused, resume sending steps.
 		{
 			console.log("Resuming.");
 			running = true;
@@ -470,20 +503,24 @@ $('.play').click(function() {
 	}
 });
 
+// When pause is clicked, set pause variable to true.
 $('.pause').click(function() {
 	console.log("clicked pause");
 	paused = true;
 });
 
+// When stop is clicked, stop the run and send RESET to middleware.
 $('.stop').click(function(){
 	running = false;
 	ws.send("RESET");
 });
 
+// Send the given username and password to the database for verification when the user logs in.
 $('.login').click(function(){
 	var username = $('.login-username').val();
 	var password = $('.login-password').val();
 	
+	// Send an AJAX request to verify the details.
 	request = $.ajax({
         url: "../PHP/login.php",
         type: "post",
@@ -513,6 +550,7 @@ $('.login').click(function(){
 
 });
 
+// Send an AJAX request to log the user out when "logout" is clicked.
 $('#logout-button').click(function(){
 	request = $.ajax({
         url: "../PHP/login.php",
@@ -538,6 +576,8 @@ $('#logout-button').click(function(){
     });
 });
 
+
+// Send the current maze layout to the database via AJAX to be saved.
 $('.save-maze').click(function(){
 	var label = prompt("Enter a name to remember this maze by:");
 	console.log(JSON.stringify(originalMaze));
@@ -569,6 +609,7 @@ $('.save-maze').click(function(){
 	
 });
 
+// Select an exercise to submit.
 $('.exercise').click(function() {
 	ex = $(this).text();
 	$('#submit-exercise').show();
@@ -591,6 +632,7 @@ function displaySubmit() {
 	$('#upload-code').show();
 }
 
+// Send an AJAX request to save the user's code as an exercise submission
 $('#submit-exercise').click(function() {
 	if (ex == 0) {
 		alert("Please choose an exercise. I don't quite know how you clicked that button.");
@@ -608,13 +650,11 @@ $('#submit-exercise').click(function() {
 		    	console.log(response);
 		    	console.log(JSON.parse(response));
 		    });
-
-
 		}
-		//submit code as exercise ex
 	}
 });
 
+// Send a single STEP when the "next step" button is clicked.
 $('.next').click(function(){
 	ws.send("STEP");
 })
