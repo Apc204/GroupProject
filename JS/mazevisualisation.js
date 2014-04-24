@@ -618,3 +618,28 @@ $('#submit-exercise').click(function() {
 $('.next').click(function(){
 	ws.send("STEP");
 })
+
+$('#leekify').click(function() {
+	if (mattLeeke) {
+		//Normal
+		mattLeeke = false;
+		updateVariable("width", 10);
+		updateVariable("height", 10);
+		$(this).text("Matt Leekify");
+		$(this).removeClass("btn-default");
+		$(this).addClass("btn-danger");
+		$("#banner").attr("src","../jpgs/banner1.jpg");
+		imgLocation = "";
+	} else {
+		//Leekify
+		mattLeeke = true;
+		updateVariable("width", 3);
+		updateVariable("height", 3);
+		$(this).text("Back to normal :(");
+		$(this).removeClass("btn-danger");
+		$(this).addClass("btn-default");
+		$("#banner").attr("src","../jpgs/banner2.jpg");
+		imgLocation = "";
+	}
+	$('.update-maze').trigger("click");
+});
