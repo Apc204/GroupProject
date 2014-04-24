@@ -18,18 +18,10 @@ class Maze(object):
             # therefore transpose incoming to [[1,4],  so that maze[x][y] refers to
             #                                  [2,5],  col x and row y
             #                                  [3,6]]
-
-            #self.maze = list(map(list,zip(*mazeCol)))
-            #for col in self.maze: # zip() returns list of tuples rather than list of lists
-            #    col = list(col)   # so convert the tuples to lists
             
             self.maze = [[r[col] for r in mazeCol] for col in range(len(mazeCol[0]))]
             self.height = len(self.maze[0])
             self.width = len(self.maze)
-            
-            #self.maze = mazeCol
-            #self.height = len(mazeCol[0])
-            #self.width = len(mazeCol)
         self.start = Point(1,1)
         self.location = Point(1,1)
         self.target = Point(self.width - 2, self.height - 2)

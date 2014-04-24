@@ -16,24 +16,39 @@ var loggedIn = false;
 var username = false;
 var clearance = false;
 var filename = "";
-var $tab = $('[data-toggle="tab"][href="#code"]');
+var $codeTab = $('[data-toggle="tab"][href="#code"]');
+var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
+var fileUploaded = false;
+var langChosen = false;
 
-
-$tab.click(function(e) {      // Binding for later use (for user interaction)
+$codeTab.click(function(e) {      
     e.preventDefault();
-    $tab.tab('show');
+    $codeTab.codeTab('show');
 });
 
-// Sets up the file reader for users to upload code.
-function uploadCode(num, file) {
+$instructionsTab.click(function(e) {      
+    e.preventDefault();
+    $codeTab.codeTab('show');
+});
+
+$('#show-instructions').click(function() {
+	$instructionsTab.show();
+	$instructionsTab.tab("show");
+	$('#pop-up').toggle();
+})
+
+function uploadCode(file) {
 	var reader = new FileReader();			
 	reader.readAsText(file);
 	reader.onload = function(e) {
 		code = reader.result;		
 		console.log(code);
-		$('#upload-code-'+num).show();
-		$('#upload-text-'+num).val(file.name);
+		$('#upload-text').val(file.name);
 		filename = file.name;
+		fileUploaded = true;
+		if (langChosen) {
+			displaySubmit();
+		}
 	}
 }
 
@@ -73,9 +88,7 @@ $().ready(function () {
 	
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
-		uploadCode(1, file);
-		// var textType = /text.*/;
-		// if (file.type.match(textType)) {
+		uploadCode(file);
 	});
 
 	var width = $(window).innerWidth();
@@ -86,13 +99,10 @@ $().ready(function () {
 	var mazeOptionsWidth = 400;
 	var bothWidth = width - mazeOptionsWidth - 200 // -400 for the maze options, -40 for 20px padding everywhere
 
-	// $('#code-div').css("width", bothWidth/2);
-	// $('#code-textarea').css("width", bothWidth/2);
-	// $('#code-textarea').css("height", height-200);
-
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
 	$('.console').css("height", height-300);
+	$('#instructions').css("height", height-300);
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
@@ -358,6 +368,7 @@ $('#load-maze').click(function() {
 	//displayMazes();
 });
 
+<<<<<<< HEAD
 // $('#upload-code').click(function() {
 // 	var  file = document.form2.uploadBox.value;
 // 	if (file == "") {
@@ -371,6 +382,8 @@ $('#load-maze').click(function() {
 // });
 
 // Find the maze layout of the given label using AJAX.
+=======
+>>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
 function loadMaze(label) {
 	request = $.ajax({
         url: "../PHP/loadMaze.php",
@@ -395,18 +408,24 @@ function loadMaze(label) {
     });
 }
 
+<<<<<<< HEAD
 // Show the uploaded code when the tab is clicked
 $('.upload-code').click(function() {
+=======
+$('#upload-code').click(function() {
+>>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
 	$('#code-tab-title').text("Code - " + filename);
-	$tab.show();
-    $tab.tab('show');
+	$codeTab.show();
+    $codeTab.tab('show');
 	$('#code-code').text(code);
 	$('.display-div').show();
 	$('#code-preview').hide();
 	$('#console-preview').hide();
 	$('#upload-text-1').val("");
 	// $('#console-code').text("This will display the console printout.");
-	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});	
+	$('#code-tab-title').text("Code - " + filename);
+	$('.upload-code').hide();
 });
 
 // Show the help popup.
@@ -603,8 +622,25 @@ $('.exercise').click(function() {
 	ex = parseInt(ex.substring(9));
 });
 
+<<<<<<< HEAD
 
 // Send an AJAX request to save the user's code as an exercise submission.
+=======
+$('.language').click(function() {
+	lang = $(this).text();
+	$('#choose-language-dropdown').text(lang);
+	$('#choose-language-dropdown').append(" <span class='caret'></span>");
+	langChosen = true;
+	if (fileUploaded) {
+		displaySubmit();
+	}
+});
+
+function displaySubmit() {
+	$('#upload-code').show();
+}
+
+>>>>>>> 16f612a62cbdb9fe884d37669ef22b2d335f961c
 $('#submit-exercise').click(function() {
 	if (ex == 0) {
 		alert("Please choose an exercise. I don't quite know how you clicked that button.");

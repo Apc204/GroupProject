@@ -10,6 +10,11 @@ server = new ws.Server({port: 8080})
 
 console.log "Server running."
 
+languages = {
+    'python': (maze_file, code_file, prefix_string) ->
+        spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
+}
+
 server.on 'connection', (ws) ->
     console.log "Connection received."
     ws.send "CONNECTED"
@@ -42,9 +47,9 @@ server.on 'connection', (ws) ->
                     else
                         maze_recv = true
                     if code_recv and maze_recv
-                        console.log "MAZE LOADED"
-                        console.log "#{dir_path}/maze.json"
-                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
+                        code_recv = false
+                        maze_recv = false
+                        logic = languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string)
                         logic.stdout.setEncoding('utf8')
                         logic.stderr.setEncoding('utf8')
                         logic_out = readline.createInterface({
@@ -58,23 +63,19 @@ server.on 'connection', (ws) ->
                         logic_out.on 'line', (line) ->
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset 
-                                    if /^\[RESET\].*/.test line
-                                        line = line[7..]
-                                        ws.send line
-                                        reset = false
-                                else
-                                    maze_data = maze_data.concat line
+                                if !/^\[RANDOM\]/.test line
+                                    if reset 
+                                        if /^\[RESET\].*/.test line
+                                            line = line[7..]
+                                            ws.send line
+                                            reset = false
+                                    else
+                                        maze_data = maze_data.concat line
                             else
-                                console.log line
                                 ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
-                            console.log 'PYTHON ERROR'
-                            console.log line
                             ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
-                            console.log 'PYTHON EXIT'
-                            console.log code
                             logic = undefined
                             logic_err = undefined
                             logic_out = undefined 
@@ -89,6 +90,8 @@ server.on 'connection', (ws) ->
                     else
                         code_recv = true
                     if code_recv and maze_recv
+                        code_recv = false
+                        maze_recv = false
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
                         logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
@@ -103,33 +106,27 @@ server.on 'connection', (ws) ->
                             terminal: false
                             })
                         logic_out.on 'line', (line) ->
-                            console.log line[..50]
                             if prefix_regex.test line
                                 line = line[22..]
-                                if reset
-                                    if /^\[RESET\].*/.test line
-                                        line = line[7..]
-                                        ws.send line
-                                        reset = false
-                                else
-                                    maze_data = maze_data.concat line
+                                if !/^\[RANDOM\]/.test line
+                                    if reset 
+                                        if /^\[RESET\].*/.test line
+                                            line = line[7..]
+                                            ws.send line
+                                            reset = false
+                                    else
+                                        maze_data = maze_data.concat line
                             else
-                                console.log line
                                 ws.send "[CONSOLE]#{line}"
                         logic_err.on 'line', (line) ->
-                            console.log 'PYTHON ERROR'
-                            console.log line
                             ws.send "[CONSOLE]#{line}"
                         logic.on 'close', (code) ->
-                            console.log 'PYTHON EXIT'
-                            console.log code
                             logic = undefined
                             logic_err = undefined
                             logic_out = undefined 
                         logic.on 'err', (err) ->
                             console.log err
             else if message == "STEP"
-                responding = true
                 if maze_data.length > 0
                     start = false
                     if logic
@@ -139,10 +136,8 @@ server.on 'connection', (ws) ->
                 else
                     if logic
                         logic.stdin.write "step\n"
-                    console.log "NO_DATA"
                     ws.send "NO_DATA"
             else if message == "RESET"
-                #console.log "THIS IS RESET HAPPENING"
                 maze_data = []
                 reset = true
                 if logic

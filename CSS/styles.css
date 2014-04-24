@@ -38,6 +38,7 @@ body {
 .inner-left {
 	float: left;	
 	/*padding-right: 10px;*/
+	/*margin-right: 50px;*/
 }
 
 .maze-div {
@@ -161,13 +162,12 @@ body {
 }
 
 .slider {
-	width: 180px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-.size-slider {
-	width: 180px;
+.slider-short {
+	width: 100px;
 }
 
 .maze-button {
@@ -222,16 +222,16 @@ body {
 }
 
 #left-option {
-	width: 190px;
+	width: 110px;
 	padding-right: 10px;
 }
 
 #right-option {
-	width: 190px;
+	width: 110px;
 }
 
 .slider-long {
-	width: 400;
+	width: 300;
 }
 
 .hide {
@@ -239,7 +239,7 @@ body {
 }
 
 .option-row {
-	height: 95px;
+	height: 110px;
 }
 
 #hide-full-screen {
@@ -260,7 +260,7 @@ body {
 }
 
 .code-options-div {
-	height: 65px;
+	height: 110px;
 }
 
 #choose-exercise {
@@ -273,5 +273,32 @@ body {
 
 #submit-exercise {
 	margin-left: 10px;
+	display: none;
+}
+
+#instructions {
+	overflow-y: scroll;
+}
+
+.wide-options {
+	width: 240px;
+}
+
+#robot-delay-text {
+	width: 130px;
+	padding-right: 10px;
+}
+
+#robot-delay-div {
+	height: 100px;
+}
+
+#snake {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#upload-code {
 	display: none;
 }

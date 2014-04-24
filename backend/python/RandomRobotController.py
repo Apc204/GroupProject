@@ -14,6 +14,7 @@ class RandomRobotController(IRobotController,object):
             direction = choice([IRobot.LEFT, IRobot.RIGHT, IRobot.AHEAD, IRobot.BEHIND])
             self.robot.face(direction)
             self.robot.advance()
+            self.robot.jsondump()
             #print(self.robot.getLocation())
         #print("Steps: "+str(self.robot.getSteps()))
         #print("Collisions: "+str(self.robot.getCollisions()))
