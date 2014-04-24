@@ -11,7 +11,7 @@ function Generator () {
 	this.mazeWidth = setWidth;
 	this.mazeHeight = setHeight;
 
-	
+
 	this.newHeight = (this.mazeHeight*2)+1;
 	this.newWidth = (this.mazeWidth*2)+1;
 	this.startX = 1;
@@ -24,6 +24,8 @@ function Generator () {
 
 	this.PASSAGE = 3001;
 	this.WALL = 3000;
+
+	imgLocation = "../jpgs/Maze-parts/";
 
 	// Converts the global maze array to JSON format and returns it.
 	this.toJSON = function()
@@ -128,7 +130,7 @@ function Generator () {
 				returnArray.blockSize = canvasWidth/this.newWidth;
 				returnArray.yOffset = positive*returnArray.blockSize; // Create an offset so the maze can be drawn in correct proportions.
 				returnArray.xOffset = 0;
-				
+
 			}
 			else // Height is bigger
 			{
@@ -166,7 +168,7 @@ function Generator () {
 			canvasHeight = c.height;
 			ctx=c.getContext("2d");
 		}
-			
+
 		else
 		{
 			var c=document.getElementById("myCanvas");
@@ -174,7 +176,7 @@ function Generator () {
 			canvasHeight = c.height;
 			ctx=c.getContext("2d");
 		}
-			
+
 		//console.log(canvasHeight);
 		//console.log(canvasWidth);
 		return c;
@@ -190,66 +192,91 @@ function Generator () {
 	// Finds the correct sprite and draws it for a tile with 3 neighbours.
 	this.draw3neighbours = function(x,y,width,height,neighbours)
 	{
+		append="";
+		if (mattLeeke == true)
+		{
+			append = "Matt";
+		}
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.EAST) != -1){
-			this.draw("TTop", x, y, width, height);
+			this.draw("TTop"+append, x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TLeft", x, y, width, height);
+			this.draw("TLeft"+append, x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TRight", x, y, width, height);
+			this.draw("TRight"+append, x, y, width, height);
 		}
 		else if (neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.WEST) != -1 && neighbours.indexOf(this.SOUTH) != -1){
-			this.draw("TBottom", x, y, width, height);
+			this.draw("TBottom"+append, x, y, width, height);
 		}
 	}
 
 	// Finds the correct sprite and draws it for a tile with 2 neighbours.
 	this.draw2neighbours = function(x,y,width,height,neighbours)
 	{
+		append="";
+		if (mattLeeke == true)
+		{
+			append = "Matt";
+		}
 		if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.SOUTH) != -1 ){
-			this.draw("TopAndBottom",x,y,width,height);
+			this.draw("TopAndBottom"+append,x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.EAST) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("LeftAndRight",x,y,width,height);
+			this.draw("LeftAndRight"+append,x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("BottomRightCorner",x,y,width,height);
+			this.draw("BottomRightCorner"+append,x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.NORTH) != -1 && neighbours.indexOf(this.EAST) != -1 ){
-			this.draw("BottomLeftCorner",x,y,width,height);
+			this.draw("BottomLeftCorner"+append,x,y,width,height);
 		}
 		else if (neighbours.indexOf(this.SOUTH) != -1 && neighbours.indexOf(this.WEST) != -1 ){
-			this.draw("TopRightCorner",x,y,width,height);
+			this.draw("TopRightCorner"+append,x,y,width,height);
 		}
 		else if(neighbours.indexOf(this.SOUTH) != -1 && neighbours.indexOf(this.EAST) != -1 ){
-			this.draw("TopLeftCorner",x,y,width,height);
+			this.draw("TopLeftCorner"+append,x,y,width,height);
 		}
 	}
 
 	// Finds the correct sprite and draws it for a tile with 1 neighbour.
 	this.drawSingleNeighbour = function (x,y,width,height,neighbours)
 	{
+		append="";
+		if (mattLeeke == true)
+		{
+			append = "Matt";
+		}
 		if (neighbours.indexOf(this.NORTH) != -1)
-			this.draw ("Top",x,y,width,height);
+			this.draw ("Top"+append,x,y,width,height);
 		else if (neighbours.indexOf(this.EAST) != -1)
-			this.draw ("Right",x,y,width,height);
+			this.draw ("Right"+append,x,y,width,height);
 		else if (neighbours.indexOf(this.WEST) != -1)
-			this.draw ("Left",x,y,width,height);
+			this.draw ("Left"+append,x,y,width,height);
 		else if(neighbours.indexOf(this.SOUTH) != -1)
-			this.draw ("Bottom",x,y,width,height);
+			this.draw ("Bottom"+append,x,y,width,height);
 	}
 
 	// Finds the correct sprite and draws it for a tile with no neighbours.
 	this.drawBlock = function (x,y,width,height,neighbours)
 	{
-		this.draw("Single",x,y,width,height);
+		append="";
+		if (mattLeeke == true)
+		{
+			append = "Matt";
+		}
+		this.draw("Single"+append,x,y,width,height);
 	}
 
 	// Finds the correct sprite and draws it for a tile with 4 neighbours.
 	this.drawMiddleBlock = function (x,y,width,height,neighbours)
 	{
-		this.draw("AllSides",x,y,width,height);
+		append="";
+		if (mattLeeke == true)
+		{
+			append = "Matt";
+		}
+		this.draw("AllSides"+append,x,y,width,height);
 	}
 
 	// Checks around the given tile for neighbours that are walls.
@@ -286,7 +313,7 @@ function Generator () {
 		{
 			for (var j=0; j<Maze.length; j++)
 			{
-				
+
 				posi = i*blockSize+yOffset;
 				posj = j*blockSize+xOffset;
 				neighbours=[];
@@ -330,7 +357,7 @@ function Generator () {
 	{
 		for(var i = x - 1; i <= x; i++) {
 			for(var j = y - 1; j <= y; j++) {
-			
+
 				var invalidSquare = true;
 				for(var a = i; a <= i+1; a++) {
 					for(var b = j; b <= j+1; b++) {
@@ -351,7 +378,7 @@ function Generator () {
 		for (var i = x - 1; i <= x+1; i+=2) {
 			if(Maze[i][y] == this.WALL) count++;
 		}
-		
+
 		for (var i = y - 1; i <= y+1; i+=2) {
 			if(Maze[x][i] == this.WALL) count++;
 		}
@@ -430,26 +457,26 @@ function Generator () {
 
 		if ((this.mazeWidth < 1) || (this.mazeHeight < 1))
 			alert ("Invalid Maze Dimensions");
-		
+
 		var realWidth = (2*this.mazeWidth)+1;
 		var realHeight = (2*this.mazeHeight)+1;
-		
+
 		// Initialise maze array.
 		Maze = this.initialiseGrid(realWidth, realHeight);
 
 		var neighbours = 0;
-		
+
 		for (var i=0; i<realWidth; i++)
 		{
 			this.primGrid[i] = [];
 			for (var j=0; j<realHeight; j++)
 				this.primGrid[i].push(this.OUT);
 		}
-				
+
 		// select cell "randomly" from inside the outer walls
 		var originX = realWidth - 2;
 		var originY = realHeight - 2;
-		
+
 		Maze = this.setPrimCellType(originX, originY, this.IN);
 		if (originX > 1)
 			this.setPrimCellType(originX-2,originY,this.FRONTIER);
@@ -459,7 +486,7 @@ function Generator () {
 	         this.setPrimCellType(originX+2,originY,this.FRONTIER);
 	    if (originY > this.primGrid[0].length-2)
 	         this.setPrimCellType(originX,originY+2,this.FRONTIER);		// change to less than if broken
-		
+
 		// start Prim's algorithm loop
 		while (this.frontierList.length > 0)
 		{	// choose frontier point at random
@@ -479,8 +506,8 @@ function Generator () {
 			if(frontier[1] > this.primGrid[0].length-2)											//change to less than if broken
 				if (this.primGrid[frontier[0]][frontier[1+2]] == this.OUT)
 					this.setPrimCellType(frontier[0], frontier[1]+2, this.FRONTIER);
-		
-			
+
+
 			// find neighbours seperated by 1 WALL
 			// max of 4
 			var direction = [];
@@ -497,7 +524,7 @@ function Generator () {
 			if (frontier[1] < this.primGrid[0].length-2)
 				if (this.primGrid[frontier[0]][frontier[1]+2] == this.IN)
 				   direction[neighbours++] = this.SOUTH;
-			
+
 			// choose random neighbour
 			var path = direction[Math.floor(Math.random()*neighbours)];	
 			switch (path) {
@@ -540,7 +567,7 @@ function Generator () {
 		if (type == this.FRONTIER)
 			this.frontierList.push([x,y]);
 		this.primGrid[x][y] = type;
-		
+
 		return Maze;
 	}
 
@@ -552,52 +579,79 @@ function Generator () {
 									"RobotLeft.png", "RobotUp.png", "Single.jpg", "TBottom.jpg", "TLeft.jpg", "Top.jpg", "TopAndBottom.jpg", "TopLeftCorner.jpg", "TopRightCorner.jpg", "TRight.jpg",
 									"TTop.jpg", "RobotDownRed.png", "RobotLeftRed.png", "RobotRightRed.png","RobotUpRed.png");
 		images = new Object();
-		images["AllSides"] = this.loadSingleImage("AllSides.jpg");
-		images["Bottom"] = this.loadSingleImage("Bottom.jpg");
-		images["BottomRightCorner"] = this.loadSingleImage("BottomRightCorner.jpg");
-		images["BottomLeftCorner"] = this.loadSingleImage("BottomLeftCorner.jpg");
-		images["Left"] = this.loadSingleImage("Left.jpg");
-		images["LeftAndRight"] = this.loadSingleImage("LeftAndRight.jpg");
-		images["Right"] = this.loadSingleImage("Right.jpg");
-		images["RobotDown"] = this.loadSingleImage("RobotDown.png");
-		images["RobotUp"] = this.loadSingleImage("RobotUp.png");
-		images["RobotRight"] = this.loadSingleImage("RobotRight.png");
-		images["RobotLeft"] = this.loadSingleImage("RobotLeft.png");
-		images["Single"] = this.loadSingleImage("Single.jpg");
-		images["TBottom"] = this.loadSingleImage("TBottom.jpg");
-		images["TLeft"] = this.loadSingleImage("TLeft.jpg");
-		images["Top"] = this.loadSingleImage("Top.jpg");
-		images["TopAndBottom"] = this.loadSingleImage("TopAndBottom.jpg");
-		images["TopLeftCorner"] = this.loadSingleImage("TopLeftCorner.jpg");
-		images["TopRightCorner"] = this.loadSingleImage("TopRightCorner.jpg");
-		images["TRight"] = this.loadSingleImage("TRight.jpg");
-		images["TTop"] = this.loadSingleImage("TTop.jpg");
-		images["RobotDownRed"] = this.loadSingleImage("RobotDownRed.png");
-		images["RobotLeftRed"] = this.loadSingleImage("RobotLeftRed.png");
-		images["RobotUpRed"] = this.loadSingleImage("RobotUpRed.png");
-		images["RobotRightRed"] = this.loadSingleImage("RobotRightRed.png");
-		images["RobotDownRedMatt"] = this.loadSingleImage("RobotDownRedMatt.png");
-		images["RobotLeftRedMatt"] = this.loadSingleImage("RobotLeftRedMatt.png");
-		images["RobotUpRedMatt"] = this.loadSingleImage("RobotUpRedMatt.png");
-		images["RobotRightRedMatt"] = this.loadSingleImage("RobotRightRedMatt.png");
-		images["RobotDownMatt"] = this.loadSingleImage("RobotDownMatt.png");
-		images["RobotUpMatt"] = this.loadSingleImage("RobotUpMatt.png");
-		images["RobotRightMatt"] = this.loadSingleImage("RobotRightMatt.png");
-		images["RobotLeftMatt"] = this.loadLastImage("RobotLeftMatt.png");
+		images["AllSides"] = this.loadSingleImage(false, "AllSides.jpg");
+		images["Bottom"] = this.loadSingleImage(false, "Bottom.jpg");
+		images["BottomRightCorner"] = this.loadSingleImage(false, "BottomRightCorner.jpg");
+		images["BottomLeftCorner"] = this.loadSingleImage(false, "BottomLeftCorner.jpg");
+		images["Left"] = this.loadSingleImage(false, "Left.jpg");
+		images["LeftAndRight"] = this.loadSingleImage(false, "LeftAndRight.jpg");
+		images["Right"] = this.loadSingleImage(false, "Right.jpg");
+		images["RobotDown"] = this.loadSingleImage(false, "RobotDown.png");
+		images["RobotUp"] = this.loadSingleImage(false, "RobotUp.png");
+		images["RobotRight"] = this.loadSingleImage(false, "RobotRight.png");
+		images["RobotLeft"] = this.loadSingleImage(false, "RobotLeft.png");
+		images["Single"] = this.loadSingleImage(false, "Single.jpg");
+		images["TBottom"] = this.loadSingleImage(false, "TBottom.jpg");
+		images["TLeft"] = this.loadSingleImage(false, "TLeft.jpg");
+		images["Top"] = this.loadSingleImage(false, "Top.jpg");
+		images["TopAndBottom"] = this.loadSingleImage(false, "TopAndBottom.jpg");
+		images["TopLeftCorner"] = this.loadSingleImage(false, "TopLeftCorner.jpg");
+		images["TopRightCorner"] = this.loadSingleImage(false, "TopRightCorner.jpg");
+		images["TRight"] = this.loadSingleImage(false, "TRight.jpg");
+		images["TTop"] = this.loadSingleImage(false, "TTop.jpg");
+		images["RobotDownRed"] = this.loadSingleImage(false, "RobotDownRed.png");
+		images["RobotLeftRed"] = this.loadSingleImage(false, "RobotLeftRed.png");
+		images["RobotUpRed"] = this.loadSingleImage(false, "RobotUpRed.png");
+		images["RobotRightRed"] = this.loadSingleImage(false, "RobotRightRed.png");
+
+		//Matt Leeke
+		images["AllSidesMatt"] = this.loadSingleImage(true, "AllSides.jpg");
+		images["BottomMatt"] = this.loadSingleImage(true, "Bottom.jpg");
+		images["BottomRightCornerMatt"] = this.loadSingleImage(true, "BottomRightCorner.jpg");
+		images["BottomLeftCornerMatt"] = this.loadSingleImage(true, "BottomLeftCorner.jpg");
+		images["LeftMatt"] = this.loadSingleImage(true, "Left.jpg");
+		images["LeftAndRightMatt"] = this.loadSingleImage(true, "LeftAndRight.jpg");
+		images["RightMatt"] = this.loadSingleImage(true, "Right.jpg");
+		images["RobotDownMatt"] = this.loadSingleImage(true, "RobotDown.png");
+		images["RobotUpMatt"] = this.loadSingleImage(true, "RobotUp.png");
+		images["RobotRightMatt"] = this.loadSingleImage(true, "RobotRight.png");
+		images["RobotLeftMatt"] = this.loadSingleImage(true, "RobotLeft.png");
+		images["SingleMatt"] = this.loadSingleImage(true, "Single.jpg");
+		images["TBottomMatt"] = this.loadSingleImage(true, "TBottom.jpg");
+		images["TLeftMatt"] = this.loadSingleImage(true, "TLeft.jpg");
+		images["TopMatt"] = this.loadSingleImage(true, "Top.jpg");
+		images["TopAndBottomMatt"] = this.loadSingleImage(true, "TopAndBottom.jpg");
+		images["TopLeftCornerMatt"] = this.loadSingleImage(true, "TopLeftCorner.jpg");
+		images["TopRightCornerMatt"] = this.loadSingleImage(true, "TopRightCorner.jpg");
+		images["TRightMatt"] = this.loadSingleImage(true, "TRight.jpg");
+		images["TTopMatt"] = this.loadSingleImage(true, "TTop.jpg");
+		images["RobotDownRedMatt"] = this.loadSingleImage(true, "RobotDownRed.png");
+		images["RobotLeftRedMatt"] = this.loadSingleImage(true, "RobotLeftRed.png");
+		images["RobotUpRedMatt"] = this.loadSingleImage(true, "RobotUpRed.png");
+		images["RobotRightRedMatt"] = this.loadLastImage(true, "RobotRightRed.png");
 	}
 
 	// Load the given image.
-	this.loadSingleImage = function(filename)
+	this.loadSingleImage = function(matt, filename)
 	{
 		var imgObj = new Image();
-		imgObj.src = "../jpgs/Maze-parts/"+filename;
+		if (matt) {
+			imgObj.src = imgLocation+"Pink"+filename;
+		} else {
+			imgObj.src = imgLocation+filename;
+		}
 		return imgObj;
 	}
 
-	this.loadLastImage = function(filename) // When last image has loaded, call drawMaze()
+	this.loadLastImage = function(matt, filename) // When last image has loaded, call drawMaze()
 	{
 		var imgObj = new Image();
-		imgObj.src = "../jpgs/Maze-parts/"+filename;
+		if (matt) {
+			imgObj.src = imgLocation+"Pink"+filename;
+		} else {
+			imgObj.src = imgLocation+filename;
+		}
+		
 		imgObj.onload = function() {
 			generator = new Generator();
 			generator.fullUpdate();
@@ -605,6 +659,5 @@ function Generator () {
 		return imgObj;
 
 	}
-
 
 }

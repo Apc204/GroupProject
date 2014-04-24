@@ -45,7 +45,7 @@
       to display the tab.
     </div>
 
-    <img src="../jpgs/banner1.jpg" class="img-test">
+    <img src="../jpgs/banner1.jpg" class="img-test" id="banner">
     <div class="maindiv">
       
       <h1 class="white-text">Maze Visualisation</h1>
@@ -321,6 +321,8 @@
                 </ul>
               </div>
               <a class="btn btn-primary" id="submit-exercise">Submit</a>
+              <br><br>
+              <a class="btn btn-danger" id="leekify">Matt Leekify</a>
 
             <!-- </div> -->
         </div>
