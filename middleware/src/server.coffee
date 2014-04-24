@@ -35,7 +35,7 @@ server.on 'connection', (ws) ->
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
 
-    load_logic = () ->
+    load_logic = (dir_path) ->
         logic = languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string)
         logic.stdout.setEncoding('utf8')
         logic.stderr.setEncoding('utf8')
@@ -90,7 +90,7 @@ server.on 'connection', (ws) ->
                     if code_recv and maze_recv
                         code_recv = false
                         maze_recv = false
-                        load_logic()
+                        load_logic(dir_path)
 
             else if /^\[CODE\].*/.test message
                 console.log 'message'
@@ -107,7 +107,7 @@ server.on 'connection', (ws) ->
                     if code_recv and maze_recv
                         code_recv = false
                         maze_recv = false
-                        load_logic()
+                        load_logic(dir_path)
 
             else if message == "STEP"
                 if maze_data.length > 0
