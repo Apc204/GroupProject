@@ -1,17 +1,13 @@
 public class RandomRobotController implements IRobotController {
 
     private IRobot robot;
-
-    public static void main(String[] args) {
-        RandomRobotController rrc = new RandomRobotController();
-        System.out.println(rrc.getDescription());
-    }
     
     /** Creates new MyRobotController */
     public RandomRobotController() {
     }
 
     public void start() throws ResetException {
+        // Pick a random direction to face and move forwards until the finish location is reached
         while(!robot.getLocation().equals(robot.getTargetLocation())) {
             int rand = (int)Math.round(Math.random()*3);
             switch (rand) {

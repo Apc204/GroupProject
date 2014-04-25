@@ -17,12 +17,14 @@ public class MazeLogic {
     public static void main(String[] args) {
         String prefix = "[" + args[2] + "]";
         MazeLogic ml = new MazeLogic(args[0],args[1],prefix);
+        // Attempt to run the controller, catching ResetException to account for reset behaviour
         try {
             ml.startController();
             System.out.println(prefix + "END OF EXECUTION");
         } catch (ResetException re) {
         }
-        ml.resetController();
+        ml.resetController(); // Reset the controller after termination of the run
+        // Generate extra lines of long output to ensure that all steps are received by the middleware
         for (int a = 0; a < 5; a++) {
             String b = prefix + "[RANDOM]";
             for (int c = 1; c <= 1000; c++) {
@@ -30,8 +32,9 @@ public class MazeLogic {
             }
             System.out.println(b);
         }
+        // Loop the above process when given rerun commands until told to stop
         String line = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // Create new BufferedReader to read lines from stdin
         while(!(line.equals("stop"))) {
             if(line.equals("rerun")) {
                 try {
@@ -59,9 +62,7 @@ public class MazeLogic {
     public MazeLogic(String jsonfile, String sourcefile, String prefix) {
         maze = loadMaze(jsonfile);
         robot = new RobotImpl(maze,prefix);
-        //robot.jsondump();
         IRobotController r = loadController(sourcefile);
-        //System.out.println(r.getDescription());
         setController(r);
     }
 
@@ -78,6 +79,7 @@ public class MazeLogic {
         controller.reset();
     }
 
+    // Create a Maze object from the information in the JSON file "jsonfile"
     public Maze loadMaze(String jsonfile) {
         Maze m = null;
         JSONParser parser = new JSONParser();
@@ -93,9 +95,7 @@ public class MazeLogic {
                 for (int j = 0; j < subListLength; j++) {
                     int val = ((Long)((JSONArray)layout.get(i)).get(j)).intValue();
                     m1[i][j] = val;
-                    //System.out.print(m1[i][j]);
                 }
-                //System.out.println();
             }
 
             int heading = ((Long)jObj.get("robot_orientation")).intValue();
@@ -127,12 +127,11 @@ public class MazeLogic {
         return m;
     }
 
+    // Create a controller instance from the Class fund within sourcefile
     public IRobotController loadController(String sourcefile) {
         IRobotController irc = null;
-        //System.out.println(sourcefile);
         File source = new File(sourcefile); 
         File file = source.getParentFile();
-        //System.out.println(file);
         try {
             URL url = file.toURI().toURL();
             URL[] urls = new URL[]{url};

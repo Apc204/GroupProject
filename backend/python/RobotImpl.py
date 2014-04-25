@@ -4,10 +4,7 @@ from IRobot import IRobot
 from Maze import Maze
 from Point import Point
 from Reset import ResetException
-import json
 import sys
-
-mode = "stepmode"
 
 class RobotImpl(object):
     start = Point(0,0)
@@ -32,6 +29,8 @@ class RobotImpl(object):
         self.heading = self.maze.heading
         self.runs = 0
 
+    # Getter and Setter methods
+
     def getLocationX(self):
         return self.location.x
     def getLocationY(self):
@@ -55,6 +54,14 @@ class RobotImpl(object):
             raise RuntimeError("The robot's heading can only be NORTH, SOUTH, EAST or WEST.")
         self.heading = newHeading
 
+    def getSteps(self):
+        return self.steps
+    def getCollisions(self):
+        return self.collisions
+    def getRuns(self):
+        return self.runs
+
+    # Turn the robot to face a new direction
     def face(self, newdir):
         if(newdir < IRobot.AHEAD or newdir > IRobot.LEFT):
             raise RuntimeError("The robot can only face AHEAD, BEHIND, LEFT and RIGHT.")
@@ -65,6 +72,7 @@ class RobotImpl(object):
         elif(newdir ==  IRobot.RIGHT):
             self.setHeading((self.heading + 1) % 4 + IRobot.NORTH)
 
+    # Inspect the adjecent tile in a given direction to find what type it is
     def look(self, direction):
         if(direction < IRobot.AHEAD or direction > IRobot.LEFT):
             raise RuntimeError("The robot can only look AHEAD, BEHIND, LEFT and RIGHT.")
@@ -85,6 +93,7 @@ class RobotImpl(object):
 
         return tileType
 
+    # Attempt to move the robot forwards
     def advance(self):
         x = self.location.x
         y = self.location.y
@@ -109,6 +118,7 @@ class RobotImpl(object):
 
         self.maze.setTile(IRobot.BEENBEFORE,self.location)
 
+    # Reset the robot and the maze to their original state
     def reset(self):
         for x in range(self.width):
             for y in range(self.height):
@@ -121,24 +131,23 @@ class RobotImpl(object):
         self.collisions = 0
         self.runs += 1
 
-    def getSteps(self):
-        return self.steps
-    def getCollisions(self):
-        return self.collisions
-    def getRuns(self):
-        return self.runs
-
+    # Output JSON representing the current state of the robot and maze to stdout
     def jsondump(self):
+        # Wait for instruction from the middleware
         line=""
-        if(mode=="stepmode"):
-            while (line != "step\n" and line != "reset\n"):
-                line = sys.stdin.readline()
+        while (line != "step\n" and line != "reset\n"):
+            line = sys.stdin.readline()
+        
         data = ''
+
+        # If a reset instruction was received, reset the robot and maze and add a reset prefix to the return string
         if line == "reset\n":
             self.reset()
             data += '[RESET]'
+
         # maze is transposed when input, so transpose back for outputting
         m = [[r[col] for r in self.maze.maze] for col in range(len(self.maze.maze[0]))]
+        # Construct a string containing JSON representing the current state of the robot and maze
         data += '{ "layout":'+str(m)+','
         data += '"start_pos":{"x":'+str(self.start.x)+',"y":'+str(self.start.y)+'},'
         data += '"finish_pos":{"x":'+str(self.target.x)+',"y":'+str(self.target.y)+'},'
@@ -148,12 +157,12 @@ class RobotImpl(object):
         data += '"collisions":'+str(self.collisions)+','
         data += '"goal_reached":'+str(self.location == self.getTargetLocation()).lower()+','
         data += '"runs":'+str(self.runs)+'}'
+
+        # Print the string prepended with the prefix
         print(self.prefix+data)
 
+        # If a reset instruction was received, adjust the number of runs to avoid increasing twice
+        # then throw a ResetException to halt execution of the current run
         if line == "reset\n":
             self.runs -= 1
             raise ResetException("RESET")
-
-
-if __name__ == '__main__':
-    robot = RobotImpl(Maze(10,8))

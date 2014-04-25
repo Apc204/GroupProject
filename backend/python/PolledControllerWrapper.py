@@ -8,18 +8,10 @@ class PolledControllerWrapper(IRobotController,object):
     def __init__(self,ctlr):
         self.controller = ctlr
         self.robot = IRobot()
-        #print(self.controller,"\n",hasattr(self.controller,'controlRobot'))
-        #print(self.controller.controlRobot)
-        #self.controlRobot = None
-        #self.ctlrReset = None
-        #if hasattr(ctlr,'controlRobot'):
-        #    self.controlRobot = getattr(ctlr,'controlRobot')
-        #if hasattr(ctlr, 'reset'):
-        #    self.ctlrReset = getattr(ctlr,'reset')
 
     def start(self):
+        # Invoke the controlRobot method until the finish location is reached
         while (self.robot.getLocation() != self.robot.getTargetLocation()):
-            #self.controlRobot(self.robot)
             self.controller.controlRobot(self.robot)
             self.robot.jsondump()
 
@@ -27,6 +19,7 @@ class PolledControllerWrapper(IRobotController,object):
         self.robot = robot
     
     def reset(self):
+        # If the controller has a reset function, call it before resetting normally
         if hasattr(self.controller,'reset'):
             self.controller.reset()
         self.robot.reset()

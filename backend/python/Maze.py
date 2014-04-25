@@ -5,10 +5,12 @@ from Point import Point
 
 class Maze(object):
     def __init__(self, mazeCol, rows=None):
+        # If both rows and columns are given create a blank maze
         if rows != None:
             self.maze = [[IRobot.WALL for row in range(rows)] for column in range(mazeCol)]
             self.height = rows
             self.width = mazeCol
+        # Else assume the single parameter is a 2D list
         else:
             # transpose incoming 2D list representation of maze
             # if maze = 123  then '6' should be maze[2][1]
@@ -22,15 +24,17 @@ class Maze(object):
             self.maze = [[r[col] for r in mazeCol] for col in range(len(mazeCol[0]))]
             self.height = len(self.maze[0])
             self.width = len(self.maze)
+        # Set default starting positions pending updates later
         self.start = Point(1,1)
         self.location = Point(1,1)
         self.target = Point(self.width - 2, self.height - 2)
         self.heading = IRobot.EAST
 
-
+    # Define the behaviour of the print function on a Maze object
     def __str__(self):
         return str(self.maze)+str((self.start, self.target, self.location, self.heading))
 
+    # Define the behaviour of the readable print function on a Maze object
     def __repr__(self):
         result = ""
         for row in range(self.height):
@@ -47,6 +51,8 @@ class Maze(object):
         result += "Location: "+str(self.location)+"\n"  
         result += "Heading: "+str(self.heading)
         return result
+
+    # Getter and Setter methods
 
     def getWidth(self):
         return self.width
@@ -96,7 +102,3 @@ class Maze(object):
         if(newHeading < IRobot.NORTH or newHeading > IRobot.WEST):
             raise RuntimeError("The robot's heading can only be NORTH, SOUTH, EAST or WEST.")
         self.heading = newHeading
-
-if __name__ == "__main__":
-    maze = Maze(5,3)
-    print(repr(maze))
