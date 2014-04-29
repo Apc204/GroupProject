@@ -1,3 +1,4 @@
+#libraries
 ws = require 'ws'
 _ = require 'underscore'
 spawn = require('child_process').spawn
@@ -10,11 +11,13 @@ server = new ws.Server({port: 8080})
 
 console.log "Server running."
 
+#language definitions
 languages = {
     'python': (maze_file, code_file, prefix_string) ->
         spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
 }
 
+#web socket server
 server.on 'connection', (ws) ->
     console.log "Connection received."
     ws.send "CONNECTED"
@@ -32,12 +35,15 @@ server.on 'connection', (ws) ->
     ws.on 'error', (err) ->
         console.log err
 
+    #make temp directory
     temp.mkdir 'connection', (err, dir_path) ->
         console.log "directory: #{dir_path}" 
         
+        #handle frontend messages
         ws.on 'message', (message) ->
             console.log message
-            
+
+            #accept maze
             if /^\[MAZE\].*/.test message
                 console.log 'message'
                 message = message[6..]
@@ -49,6 +55,7 @@ server.on 'connection', (ws) ->
                     if code_recv and maze_recv
                         code_recv = false
                         maze_recv = false
+                        #load logic
                         logic = languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string)
                         logic.stdout.setEncoding('utf8')
                         logic.stderr.setEncoding('utf8')
@@ -82,6 +89,7 @@ server.on 'connection', (ws) ->
                         logic.on 'err', (err) ->
                             console.log err
                         ws.send "READY"
+            #accept code
             else if /^\[CODE\].*/.test message
                 console.log 'message'
                 message = message[6..]
@@ -99,6 +107,7 @@ server.on 'connection', (ws) ->
                         maze_recv = false
                         console.log "MAZE LOADED"
                         console.log "#{dir_path}/maze.json"
+                        #load logic
                         logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
                         logic.stdout.setEncoding('utf8')
                         logic.stderr.setEncoding('utf8')
@@ -132,6 +141,7 @@ server.on 'connection', (ws) ->
                         logic.on 'err', (err) ->
                             console.log err
                         ws.send "READY"
+            #handle steps
             else if message == "STEP"
                 if maze_data.length > 0
                     start = false
@@ -143,6 +153,7 @@ server.on 'connection', (ws) ->
                     if logic
                         logic.stdin.write "step\n"
                     ws.send "NO_DATA"
+            #handle reset
             else if message == "RESET"
                 maze_data = []
                 reset = true

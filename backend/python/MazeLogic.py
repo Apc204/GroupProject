@@ -31,6 +31,7 @@ class MazeLogic(object):
     def resetController(self):
         self.controller.reset()
 
+    # Create a Maze object from the information in the JSON file "jsonfile"
     def loadMaze(self,jsonfile):
         with open(jsonfile) as jsondata:
             data = json.load(jsondata)
@@ -46,7 +47,7 @@ class MazeLogic(object):
             m.setHeading(heading)
         return m
 
-
+    # Create a controller instance from the Class fund within sourcefile
     def loadController(self, filename):
         fName = splitext(filename)
         if(fName[1] == ".py"):
@@ -85,17 +86,20 @@ class MazeLogic(object):
 if __name__ == '__main__':
     prefix = '['+sys.argv[3]+']'
     ml = MazeLogic(sys.argv[1],sys.argv[2],prefix)
+    # Attempt to run the controller, catching ResetException to account for reset behaviour
     try:
         ml.startController()
         print(prefix+"END OF EXECUTION")
     except ResetException as re:
         pass
-    ml.resetController()
+    ml.resetController() # Reset the controller after termination of the run
+    # Generate extra lines of long output to ensure that all steps are received by the middleware
     for a in range(5):
         b = prefix+'[RANDOM]'
         for c in range(1000):
             b+=str(c)
         print(b)
+    # Loop the above process when given rerun commands until told to stop
     line=""
     while line != "stop\n":
         if line == "rerun\n":

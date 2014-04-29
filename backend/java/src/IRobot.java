@@ -85,6 +85,7 @@ public interface IRobot {
     /** Resets the Robot **/
     public void reset();
 
+    /** Outputs JSON to stdout **/
     public void jsondump() throws ResetException;
 }
 

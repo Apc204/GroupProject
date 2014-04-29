@@ -8,20 +8,7 @@ public class Maze {
     Point target;
     Point location;
     int heading;
-    public static void main(String[] args) {
-        //if( (new Point(1,2)).equals(new Point(1,2))) { System.out.println("equal"); } else { System.out.println("not"); }
-        Maze m = new Maze(5,4);
-        m.setTile(IRobot.PASSAGE,1,1);
-        m.setTile(IRobot.PASSAGE,new Point(1,2));
-        m.setTile(IRobot.BEENBEFORE,2,2);
-        /*System.out.println(m.getHeading());
-        System.out.println(m.getStart());
-        System.out.println(m.getLocation());
-        System.out.println(m.getFinish());
-        System.out.println(m.maze.length);
-        System.out.println(m.maze[0].length);*/
-        m.printMaze();
-    }
+
     public Maze(int col, int row) {
         width = col;
         height = row;
@@ -133,6 +120,14 @@ public class Maze {
         System.out.println(result);
     }
 
+    // transpose incoming 2D list representation of maze
+    // if maze = 123  then '6' should be maze[2][1]
+    //           456
+    // coming in as [[1,2,3],  would make maze[x][y] refer to row x, col y rather
+    //               [4,5,6]]  than col x, row y as intended
+    // therefore transpose incoming to [[1,4],  so that maze[x][y] refers to
+    //                                  [2,5],  col x and row y
+    //                                  [3,6]]
     public int[][] transpose(int[][] arr) {
         int l = arr[0].length;
         int w = arr.length;

@@ -10,14 +10,12 @@ class RandomRobotController(IRobotController,object):
         self.robot = IRobot()
 
     def start(self):
+        # Pick a random direction to face and move forwards until the finish location is reached
         while (self.robot.getLocation() != self.robot.getTargetLocation()):
             direction = choice([IRobot.LEFT, IRobot.RIGHT, IRobot.AHEAD, IRobot.BEHIND])
             self.robot.face(direction)
             self.robot.advance()
             self.robot.jsondump()
-            #print(self.robot.getLocation())
-        #print("Steps: "+str(self.robot.getSteps()))
-        #print("Collisions: "+str(self.robot.getCollisions()))
 
     def setRobot(self, robot):
         self.robot = robot
