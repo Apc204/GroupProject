@@ -219,28 +219,38 @@ function checkLoginStatus()
 
 function mouseDown(event)
 {
-	// Find co-ordinates of the click position on the canvas.
-	mazeCoords = findMazeCoordinates(event);
-	var generator = new Generator();
-	var mazePosX = mazeCoords.x;
-	var mazePosY = mazeCoords.y;
+	if (!running)
+	{
+		// Find co-ordinates of the click position on the canvas.
+		mazeCoords = findMazeCoordinates(event);
+		var generator = new Generator();
+		var mazePosX = mazeCoords.x;
+		var mazePosY = mazeCoords.y;
+		console.log(mazePosX);
+		console.log(mazePosY);
+		console.log(Maze[0].length);
+		console.log(Maze.length);
 
-	if ((robotposY != mazePosX || robotposX != mazePosY) && (endposY != mazePosX || endposX != mazePosY)) // If editing maze layout and not moving robot.
-	{
-		if (Maze[mazePosX][mazePosY] == 3000)
+		if ((robotposY != mazePosX || robotposX != mazePosY) && (endposY != mazePosX || endposX != mazePosY)) // If editing maze layout and not moving robot.
 		{
-			Maze[mazePosX][mazePosY] = 3001;
+			if (mazePosX != 0 && mazePosY != 0 && mazePosX != Maze[0].length-1 && mazePosY != Maze.length-1)
+			{
+				if (Maze[mazePosX][mazePosY] == 3000)
+				{
+					Maze[mazePosX][mazePosY] = 3001;
+				}
+				else
+				{
+					Maze[mazePosX][mazePosY] = 3000;
+				}
+				generator.updateJSON();
+				generator.fullUpdate();
+			}
 		}
-		else
+		else if (robotposY == mazePosX && robotposX == mazePosY) // If clicking the robot to move it.
 		{
-			Maze[mazePosX][mazePosY] = 3000;
+			dragging = true;
 		}
-		generator.updateJSON();
-		generator.fullUpdate();
-	}
-	else if (robotposY == mazePosX && robotposX == mazePosY) // If clicking the robot to move it.
-	{
-		dragging = true;
 	}
 }
 

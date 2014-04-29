@@ -12,6 +12,7 @@ if (isset($_SESSION['username']))
 	if ($mysqli->connect_errno){
 		echo "Failed to connect to MySQL: (".$mysql->connect_errno.") ".$mysqli->connect_error;
 	}
+	// Add username, maze and layout to the database.
 	$res = $mysqli->query("INSERT INTO mazes VALUES ('$username', '$maze', '$mazehash', '$label')");
 	if(!$res)
 	{
@@ -20,6 +21,7 @@ if (isset($_SESSION['username']))
 	}
 	else
 	{
+		// If query succeeded, set success as true.
 		$success = true;
 	}
 }

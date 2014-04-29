@@ -65,6 +65,7 @@ function connectToSocket()
 		    //generator.quickUpdate(Maze,robotposX, robotposY, oldposx, oldposy, newMaze.robot_orientation);
 		    generator = new Generator();
 		    generator.fullUpdate();
+		    detectEnd(newMaze);
 	    }
 	 };
 	 ws.onclose = function()
@@ -72,6 +73,16 @@ function connectToSocket()
 	    // websocket is closed.
 	    //alert("Connection is closed..."); 
 	 };
+}
+
+function detectEnd (maze)
+{
+	if (maze.robot_pos.y == maze.finish_pos.y && maze.robot_pos.x == maze.finish_pos.x)
+	{
+		running = false;
+		alert("Goal Reached!\nRun: "+maze.runs+"\nSteps:"+maze.steps+"\nCollisions: "+maze.collisions);
+		ws.send("RESET");
+	}
 }
 
 // Check if a string starts with another string.

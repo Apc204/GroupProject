@@ -2,6 +2,7 @@
 session_start();
 $success = false;
 
+// If the user is not logged in.
 if (!isset($_SESSION['username']))
 {
 	$username = $_POST['username'];
@@ -21,6 +22,7 @@ if (!isset($_SESSION['username']))
 		echo "Query Failed";
 	}
 
+	// If the user account was found, log in the user and store their clearance level.
 	if ($res->num_rows == 1)
 	{
 		$row = $res->fetch_assoc();

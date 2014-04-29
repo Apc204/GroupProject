@@ -10,6 +10,7 @@ if (isset($_SESSION['username']))
 	$select = $_POST['select'];
 	if (isset($_POST['label'])){$label = $_POST['label'];} // If 'label' POST variable is set, save it.
 
+	// Connect to database.
 	$mysqli = new mysqli("localhost", "root","", "CS118");
 
 	if ($mysqli->connect_errno){

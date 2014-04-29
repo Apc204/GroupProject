@@ -1,5 +1,6 @@
 <?php
 
+// Load and echo the example controller
 $lines = file('../backend/python/DumboControllerReset.py');
 $code = "";
 

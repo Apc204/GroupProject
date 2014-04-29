@@ -320,7 +320,7 @@ function Generator () {
 				if(endposY == i && endposX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(posj,posi,blockSize,blockSize);
+					ctx.fillRect(posj+gap,posi+gap,blockSize-2*gap,blockSize-2*gap);
 				}
 
 				else if (Maze[j][i] == 3000)

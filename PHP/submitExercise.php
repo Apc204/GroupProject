@@ -9,6 +9,7 @@ if (isset($_SESSION['username']))
 	$code = $_POST['code'];
 
 	$mysqli = new mysqli("localhost", "root", "" ,"CS118");
+	// Add the username, exercise and code to the database. Overwrite the existing extry if one exists.
 	$res = $mysqli->query("REPLACE INTO solutions VALUES ('$username', '$exercise', '$code') ");
 	if(!$res)
 	{
