@@ -231,100 +231,120 @@
           </div>
 
           <h3>Maze Options</h3>
-            <!-- Maze controls -->
+          <!-- Maze controls -->
 
-            <div class="inner-left wide-options">
-              
-              <h4>Maze size in blocks: </h4>
-
-              <div class="inner-left" id="left-option">
-
-                Width: <br />
-                <input type="text" id="width" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                <input type="text" class="val val-width" name="width" value="10"><br /><br />
-
-              </div>
-
-              <div class="inner-left" id="right-option">
-
-                Height: <br />
-                <input type="text" id="height" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
-
-                <input type="text" class="val val-height" name="height" value="10"><br /><br />
-
-              </div>
-
-            </div> 
- 
+          <div class="inner-left wide-options">
             
-            <div class="option-row">
+            <h4>Maze size in blocks: </h4>
 
-              <div class="inner-left">
-                <h4>
-                  Maze type: 
-                  <a href='#' class="question" name="maze-type" rel="popover" data-placement="left" data-content="Prim's mazes are trees: they can't have any loops in the paths, only branches. Loopy mazes can have loops, which means there can be more than one way to get to the destination.">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                  </a>
-                </h4>
+            <div class="inner-left" id="left-option">
 
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default active prims">Prim's</button>
-                  <button type="button" class="btn btn-default loopy">Loopy</button>
-                </div>  
-              </div>  
+              Width: <br />
+              <input type="text" id="width" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
+
+              <input type="text" class="val val-width" name="width" value="10"><br /><br />
 
             </div>
 
-            
-            <br /><br />
+            <div class="inner-left" id="right-option">
 
-            <a class="btn btn-primary update-maze maze-button">Generate Maze</a>
-            <a class="btn btn-primary save-maze maze-button">Save maze</a>
-            <a class="btn btn-primary load-maze maze-button" data-toggle="modal" data-target="#maze-modal" id="load-maze">Load maze</a>
+              Height: <br />
+              <input type="text" id="height" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
-            <h3>Code Options</h3>
+              <input type="text" class="val val-height" name="height" value="10"><br /><br />
 
-            <div class="code-options-div">
-              <h4>Upload Code</h4>
-              <form name="form2">
-                <div class="below-maze-div">
-                  <div class="input-group bottom-upload">
-                    <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
-                    <input type="text" class="form-control" placeholder="No file chosen" id="upload-text">
-                  </div>
-                </div><br><br>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-language-dropdown">
-                    Choose Language 
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" class="language">Python</a></li>
-                    <li><a href="#" class="language">Java</a></li>
-                  </ul>
-                </div>
-                <a class="btn btn-primary" id="upload-code">Upload</a>
-              </form>
             </div>
 
-            <!-- <div class="code-options-div"> -->
-              <h4>Submit Exercise</h4>
+          </div> 
+
+          <div class="option-row">
+
+            <div class="inner-left">
+              <h4>
+                Maze type: 
+                <a href='#' class="question" name="maze-type" rel="popover" data-placement="left" data-content="Prim's mazes are trees: they can't have any loops in the paths, only branches. Loopy mazes can have loops, which means there can be more than one way to get to the destination.">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                </a>
+              </h4>
+
               <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-exercise-dropdown">
-                  Choose Exercise 
+                <button type="button" class="btn btn-default active prims">Prim's</button>
+                <button type="button" class="btn btn-default loopy">Loopy</button>
+              </div>  
+            </div>  
+
+          </div>
+
+          <br /><br />
+
+          <a class="btn btn-primary update-maze maze-button">Generate Maze</a>
+          <a class="btn btn-primary save-maze maze-button">Save maze</a>
+          <a class="btn btn-primary load-maze maze-button" data-toggle="modal" data-target="#maze-modal" id="load-maze">Load maze</a>
+
+          <h3>Code Options</h3>
+
+          <div class="code-options-div">
+            <h4>Upload Code</h4>
+            <form name="form2">
+              <div class="below-maze-div">
+                <div class="input-group bottom-upload">
+                  <span class="input-group-addon btn-file">Choose File <input type="file" id="uploadBox"></span>
+                  <input type="text" class="form-control" placeholder="No file chosen" id="upload-text">
+                </div>
+              </div><br><br>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-language-dropdown">
+                  Choose Language 
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="#" class="exercise">Exercise 1</a></li>
-                  <li><a href="#" class="exercise">Exercise 2</a></li>
+                  <li><a href="#" class="language">Python</a></li>
+                  <li><a href="#" class="language">Java</a></li>
                 </ul>
               </div>
-              <a class="btn btn-primary" id="submit-exercise">Submit</a>
-              <br><br>
-              <a class="btn btn-danger" id="leekify">Matt Leekify</a>
+              <a class="btn btn-primary" id="upload-code">Upload</a>
+            </form>
+          </div>
 
-            <!-- </div> -->
+          <div class="hide" id="submit-exercise-div">
+            <h4>Submit Exercise</h4>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-exercise-dropdown">
+                Choose Exercise 
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" class="exercise-dropdown">
+              </ul>
+            </div>
+            <a class="btn btn-primary" id="submit-exercise">Submit</a>
+          </div>
+
+          <div class="hide" id="submit-mark-div">
+          <!-- <div id="submit-mark-div"> -->
+            <h4>Marking Tools</h4>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-student-dropdown">
+                Choose Student 
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" id="student-dropdown">
+              </ul>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle hide" data-toggle="dropdown" id="choose-exercise-dropdown-marker">
+                Choose Exercise
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" class="exercise-dropdown">
+              </ul>
+
+            </div>
+            
+          </div>
+          <button class="btn btn-primary" class="hide" id="submit-mark">Submittest</button>
+          <br><br>
+          <a class="btn btn-danger" id="leekify">Matt Leekify</a>
+
         </div>
       </div>
 

@@ -14,7 +14,7 @@ var ex = 0;
 var mattLeeke = false;
 var loggedIn = false;
 var username = false;
-var clearance = false;
+var clearance = "student";
 var filename = "";
 var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
@@ -61,6 +61,18 @@ $().ready(function () {
 	// Check whether user is logged in and change page settings.
 	checkLoginStatus();
 	
+	console.log(clearance);
+	if (clearance == "student") {
+		console.log("Show student div");
+		console.log($('#submit-exercise-div').text());
+		$('#submit-exercise-div').show();
+		console.log("Student div shown");
+	} else if (clearance == "marker") {
+		console.log("Show marker div");
+		$('#submit-mark-div').show();
+	}
+
+	// $(".exercise-dopdown").append("test");
 
 	// Set the default robot controller.
 	$.ajax({
