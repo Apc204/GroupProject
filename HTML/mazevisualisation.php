@@ -306,7 +306,7 @@
             </form>
           </div>
 
-          <div class="hide" id="submit-exercise-div">
+          <div id="submit-exercise-div">
             <h4>Submit Exercise</h4>
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-exercise-dropdown">
@@ -319,7 +319,7 @@
             <a class="btn btn-primary" id="submit-exercise">Submit</a>
           </div>
 
-          <div class="hide" id="submit-mark-div">
+          <div id="submit-mark-div">
           <!-- <div id="submit-mark-div"> -->
             <h4>Marking Tools</h4>
             <div class="btn-group">

@@ -60,6 +60,19 @@ $().ready(function () {
 
 	// Check whether user is logged in and change page settings.
 	checkLoginStatus();
+	if (clearance == "marker")
+	{
+		$("#submit-exercise-div").hide();
+	}
+	else if (clearane == "student")
+	{
+		$("#submit-mark-div").hide();
+	}
+	else
+	{
+		$("#submit-exercise-div").hide();
+		$("#submit-mark-div").hide();
+	}
 	
 	console.log(clearance);
 	if (clearance == "student") {
