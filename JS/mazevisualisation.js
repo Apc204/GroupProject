@@ -353,12 +353,30 @@ function displayMazes(titles) {
 		for (var i = 0; i < titles.length; i++)
 		{
 			// Create buttons for each of the names given.
-			titlesDiv.append("<button type='button' class='btn btn-default maze-choice' name=\""+titles[i]+"\">"+titles[i]+"</button><br><br>");
+			titlesDiv.append("<button type='button' class='btn btn-default maze-choice' name=\""+titles[i]+"\">"+titles[i]+"</button>&nbsp");
+			titlesDiv.append("<a class='btn btn-danger remove-choice' name=\""+titles[i]+"\"> Remove <span class='glyphicon glyphicon-remove'></span></a><br><br>");
 		}
 
 		// Create handler for when the choices are clicked.
 		$('.maze-choice').click(function(){
 			loadMaze($(this).attr('name'));
+		});
+
+		$('.remove-choice').click(function(){
+			console.log("removing");
+			$('#maze-modal').modal('hide')
+			var label = $(this).attr('name');
+			request = $.ajax({
+		        url: "../PHP/deleteMaze.php",
+		        type: "post",
+		        data: {label: label}
+		    });
+
+		    request.done(function(response, textStatus, jqXHR){
+		    	console.log(response);
+		    	var res = JSON.parse(response);
+		    	console.log(res.Error)
+		    });
 		});
 
 	}
