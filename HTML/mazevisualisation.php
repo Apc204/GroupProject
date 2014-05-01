@@ -313,14 +313,14 @@
                 Choose Exercise 
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" class="exercise-dropdown">
+              <ul class="dropdown-menu" id="exercise-dropdown">
               </ul>
             </div>
             <a class="btn btn-primary" id="submit-exercise">Submit</a>
           </div>
 
           <div id="submit-mark-div">
-          <!-- <div id="submit-mark-div"> -->
+
             <h4>Marking Tools</h4>
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-student-dropdown">
@@ -328,22 +328,25 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" id="student-dropdown">
+                
               </ul>
             </div>
             <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle hide" data-toggle="dropdown" id="choose-exercise-dropdown-marker">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-exercise-dropdown-marker">
                 Choose Exercise
                 <span class="caret"></span>
               </button>
-              <ul class="dropdown-menu" class="exercise-dropdown">
+              <ul class="dropdown-menu" id="exercise-dropdown-marker">
               </ul>
-
             </div>
-            
+            <form class="form-inline" role="form" id="mark-form">
+              <input type="text" id="mark-text" class="form-control">
+              <button class="btn btn-primary" id="submit-mark">Submit</button>
+            </form>
           </div>
-          <button class="btn btn-primary" class="hide" id="submit-mark">Submittest</button>
+          
           <br><br>
-          <a class="btn btn-danger" id="leekify">Matt Leekify</a>
+          <a class="btn btn-danger" class="hide" id="leekify">Matt Leekify</a>
 
         </div>
       </div>

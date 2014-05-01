@@ -14,7 +14,7 @@ var ex = 0;
 var mattLeeke = false;
 var loggedIn = false;
 var username = false;
-var clearance = "student";
+var clearance = "marker";
 var filename = "";
 var $codeTab = $('[data-toggle="tab"][href="#code"]');
 var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
@@ -77,15 +77,57 @@ $().ready(function () {
 	console.log(clearance);
 	if (clearance == "student") {
 		console.log("Show student div");
-		console.log($('#submit-exercise-div').text());
-		$('#submit-exercise-div').show();
+		$('#submit-mark-div').hide();
 		console.log("Student div shown");
 	} else if (clearance == "marker") {
 		console.log("Show marker div");
-		$('#submit-mark-div').show();
+		$('#submit-exercise-div').hide();
+		$('#choose-exercise-dropdown-marker').hide();
+		$('#submit-mark').hide();
+		$('#mark-text').hide();
 	}
 
-	// $(".exercise-dopdown").append("test");
+	$("#student-dropdown").append("<li><a href='#' class='student'>Student 1</a></li>");
+	$("#student-dropdown").append("<li><a href='#' class='student'>Student 2</a></li>");
+
+	$('.student').click(function() {
+		console.log("student click");
+		student = $(this).text();
+		console.log(student);
+		$('#choose-student-dropdown').text(student);
+		$('#choose-student-dropdown').append(" <span class='caret'></span>");
+		$('#choose-exercise-dropdown-marker').show();
+	});
+
+	//Load exercises here
+	// $(".exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+	$("#exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+	$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+
+	// Select an exercise to submit after loading exercises.
+	$('.exercise').click(function() {
+		ex = $(this).text();
+		$('#submit-exercise').show();
+		$('#choose-exercise-dropdown').text(ex);
+		$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
+		$('#choose-exercise-dropdown-marker').text(ex);
+		$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
+		ex = parseInt(ex.substring(9));
+		$('#mark-text').show();
+		$('#submit-mark').show();
+	});
+
+	$('#submit-mark').click(function() {
+		//when the marker submits a mark.
+		mark = $('#mark-text').val();
+		alert($.isNumeric(mark));
+		if ($.isNumeric(mark)) {
+			alert("submitting mark " + mark + " for exercise " + ex + " for student " + student);
+		} else {
+			alert("Please enter a number for the mark.");
+		}
+		
+	});
 
 	// Set the default robot controller.
 	$.ajax({
@@ -100,7 +142,6 @@ $().ready(function () {
 			$('#code-code').text(code);
 		}
 	});
-
 
 	//Create canvas event listeners
 	var generator = new Generator();
@@ -119,7 +160,6 @@ $().ready(function () {
 
 	var width = $(window).innerWidth();
 	var height = $(window).innerHeight();
-
 
 	//Calculate div sizes
 	var mazeOptionsWidth = 400;
@@ -663,15 +703,7 @@ $('.save-maze').click(function(){
 	
 });
 
-// Select an exercise to submit.
-$('.exercise').click(function() {
-	ex = $(this).text();
-	$('#submit-exercise').show();
-	$('#choose-exercise-dropdown').text(ex);
-	$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
-	ex = parseInt(ex.substring(9));
-});
-
+// Choose a language
 $('.language').click(function() {
 	lang = $(this).text();
 	$('#choose-language-dropdown').text(lang);
@@ -681,6 +713,8 @@ $('.language').click(function() {
 		displaySubmit();
 	}
 });
+
+
 
 function displaySubmit() {
 	$('#upload-code').show();
@@ -737,3 +771,4 @@ $('#leekify').click(function() {
 	}
 	$('.update-maze').trigger("click");
 });
+
