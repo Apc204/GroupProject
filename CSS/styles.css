@@ -234,10 +234,6 @@ body {
 	width: 300;
 }
 
-.hide {
-	display: none;
-}
-
 .option-row {
 	height: 110px;
 }
@@ -301,4 +297,16 @@ body {
 
 #upload-code {
 	display: none;
+}
+
+.hide {
+	display: none;
+}
+
+#mark-text {
+	width: 70px;
+}
+
+#mark-form {
+	padding-top: 10px;
 }
