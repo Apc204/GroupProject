@@ -327,7 +327,6 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" id="student-dropdown">
-                
               </ul>
             </div>
             <div class="btn-group">
@@ -345,7 +344,7 @@
           </div>
           
           <br><br>
-          <a class="btn btn-danger" class="hide" id="leekify">Matt Leekify</a>
+          <a class="btn btn-danger" id="leekify">Matt Leekify</a>
 
         </div>
       </div>

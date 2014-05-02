@@ -107,7 +107,6 @@ $().ready(function () {
 	$('#submit-mark').click(function() {
 		//when the marker submits a mark.
 		mark = $('#mark-text').val();
-		alert($.isNumeric(mark));
 		if ($.isNumeric(mark)) {
 			alert("submitting mark " + mark + " for exercise " + ex + " for student " + student);
 		} else {
