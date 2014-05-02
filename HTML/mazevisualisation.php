@@ -320,6 +320,7 @@
           </div>
 
           <div id="submit-mark-div">
+
             <h4>Marking Tools</h4>
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="choose-student-dropdown">
