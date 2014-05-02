@@ -83,8 +83,7 @@ $().ready(function () {
 		console.log("Show marker div");
 		$('#submit-exercise-div').hide();
 		$('#choose-exercise-dropdown-marker').hide();
-		$('#submit-mark').hide();
-		$('#mark-text').hide();
+		$('#mark-form').hide();
 	}
 
 	$("#student-dropdown").append("<li><a href='#' class='student'>Student 1</a></li>");
@@ -113,8 +112,7 @@ $().ready(function () {
 		$('#choose-exercise-dropdown-marker').text(ex);
 		$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
 		ex = parseInt(ex.substring(9));
-		$('#mark-text').show();
-		$('#submit-mark').show();
+		$('#mark-form').show();
 	});
 
 	$('#submit-mark').click(function() {
@@ -166,8 +164,8 @@ $().ready(function () {
 
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
-	$('.console').css("height", height-300);
-	$('#instructions').css("height", height-300);
+	$('.console').css("height", height-250);
+	$('#instructions').css("height", height-250);
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
