@@ -37,7 +37,8 @@ server.on 'connection', (ws) ->
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
 
-    logic_setup = (logic) ->
+    logic_setup = (process) ->
+        logic = process
         logic.stdout.setEncoding('utf8')
         logic.stderr.setEncoding('utf8')
         logic_out = readline.createInterface({
