@@ -3,21 +3,35 @@ from IRobot import IRobot
 from random import choice
 
 class DumboControllerReset(object):
+    step = 0
+    
     def controlRobot(self,robot):
-        # Select a random direction
-        #direction = choice([IRobot.AHEAD, IRobot.RIGHT, IRobot.BEHIND, IRobot.LEFT])
-          # Face the robot in this direction
 
-        if robot.getHeading()==IRobot.NORTH:
-        	robot.face(IRobot.BEHIND)
-        elif robot.getHeading()==IRobot.EAST:
-        	robot.face(IRobot.RIGHT)
-        elif robot.getHeading()==IRobot.SOUTH:
-        	robot.face(IRobot.AHEAD)
-        elif robot.getHeading()==IRobot.WEST:
-        	robot.face(IRobot.LEFT)
+        # Select a random number
 
-        robot.advance()        # and move the robot
+        randno = choice(range(0,3))
+
+        # Convert this to a direction
+
+        if randno == 0:
+            direction = IRobot.LEFT
+        elif randno == 1:
+            direction = IRobot.RIGHT
+        elif randno == 2:
+            direction = IRobot.BEHIND
+        else:
+            direction = IRobot.AHEAD
+         
+        robot.face(direction)  # Face the robot in this direction */   
+
+        robot.advance()        # and move the robot */
+
+        self.step += 1
+        print(self.anotherFunction()+" "+str(self.step))
+        print("MADE A STEP")
 
     def reset(self):
-        print("Resetting the controller")
+        print("ASASASASASASASASASASASA")
+
+    def anotherFunction(self):
+        return "FUNCTION CALLED"
