@@ -6,6 +6,7 @@ fs = require('fs')
 temp = require('temp')
 readline = require('readline')
 randomstring = require('randomstring')
+exec = require('child_process').exec
 
 server = new ws.Server({port: 8080})
 
@@ -13,13 +14,14 @@ console.log "Server running."
 
 #language definitions
 languages = {
-    'python': (maze_file, code_file, prefix_string, callback) ->
+    'python': (maze_file, code_file, prefix_string, dir_path, callback) ->
         logic = spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
         callback(logic)
     ,
-    'java': (maze_file, code_file, prefix_string, callback) ->
-        logic = null
-        callback(logic)
+    'java': (maze_file, code_file, prefix_string, dir_path, callback) ->
+        exec "javac -cp .:../../backend/java/bin -d #{dirpath} #{codefile}", (error, stdout, stderr) ->
+            logic = spawn "java", ["-cp .:../../backend/java/bin/json-simple-1.1.1.jar", "../../backend/java/MazeLogic", maze_file, code_file[..-5], prefix_string]
+            callback(logic)
 }
 
 #web socket server
@@ -37,7 +39,8 @@ server.on 'connection', (ws) ->
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
 
-    logic_setup = (logic) ->
+    logic_setup = (process) ->
+        logic = process
         logic.stdout.setEncoding('utf8')
         logic.stderr.setEncoding('utf8')
         logic_out = readline.createInterface({
