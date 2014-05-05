@@ -98,7 +98,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
             #accept code
             else if /^\[CODE\].*/.test message
                 console.log 'message'
@@ -116,7 +116,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
             #handle steps
             else if message == "STEP"
                 if maze_data.length > 0
