@@ -60,19 +60,6 @@ $().ready(function () {
 
 	// Check whether user is logged in and change page settings.
 	checkLoginStatus();
-	if (clearance == "marker")
-	{
-		$("#submit-exercise-div").hide();
-	}
-	else if (clearane == "student")
-	{
-		$("#submit-mark-div").hide();
-	}
-	else
-	{
-		$("#submit-exercise-div").hide();
-		$("#submit-mark-div").hide();
-	}
 	
 	console.log(clearance);
 	if (clearance == "student") {
@@ -81,52 +68,44 @@ $().ready(function () {
 		console.log("Student div shown");
 	} else if (clearance == "marker") {
 		console.log("Show marker div");
+		getStudents();
 		$('#submit-exercise-div').hide();
 		$('#choose-exercise-dropdown-marker').hide();
 		$('#submit-mark').hide();
 		$('#mark-text').hide();
 	}
 
-	$("#student-dropdown").append("<li><a href='#' class='student'>Student 1</a></li>");
-	$("#student-dropdown").append("<li><a href='#' class='student'>Student 2</a></li>");
-
-	$('.student').click(function() {
-		console.log("student click");
-		student = $(this).text();
-		console.log(student);
-		$('#choose-student-dropdown').text(student);
-		$('#choose-student-dropdown').append(" <span class='caret'></span>");
-		$('#choose-exercise-dropdown-marker').show();
-	});
-
-	//Load exercises here
-	// $(".exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-	$("#exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-	$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-
-	// Select an exercise to submit after loading exercises.
-	$('.exercise').click(function() {
-		ex = $(this).text();
-		$('#submit-exercise').show();
-		$('#choose-exercise-dropdown').text(ex);
-		$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
-		$('#choose-exercise-dropdown-marker').text(ex);
-		$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
-		ex = parseInt(ex.substring(9));
-		$('#mark-text').show();
-		$('#submit-mark').show();
-	});
-
 	$('#submit-mark').click(function() {
 		//when the marker submits a mark.
 		mark = $('#mark-text').val();
-		alert($.isNumeric(mark));
-		if ($.isNumeric(mark)) {
-			alert("submitting mark " + mark + " for exercise " + ex + " for student " + student);
-		} else {
+		//ex = $('#exercise-dropdown').text();
+		if ($.isNumeric(mark)) 
+		{
+			var conf = confirm("Submitting mark '" + mark + "' for exercise '" + ex + "' for student '" + student + "'.");
+			if (conf) // Send AJAX to add the mark.
+			{
+				request = $.ajax({
+				async: "false",
+	        	url: "../PHP/executeQuery.php",
+	       		type: "post",
+	        	data: {Query : "REPLACE INTO marks VALUES('"+student+"', '"+ex+"', '"+mark+"')"}
+	   			 });
+
+	   			request.done(function(response, textStatus, jqXHR){
+	   			alert("Mark Saved");
+	    		console.log("Response: "+response);
+	    		console.log("Status: "+textStatus);
+	    		console.log("jqXHR: "+jqXHR);
+	    		var parsedResponse = JSON.parse(response);
+	    		console.log(response);
+			
+    			});
+	   		}
+		} 
+		else 
+		{
 			alert("Please enter a number for the mark.");
 		}
-		
 	});
 
 	// Set the default robot controller.
@@ -251,6 +230,100 @@ $().ready(function () {
 	});
 });
 
+function getStudents()
+{
+	var students;
+	request = $.ajax({
+		async: "false",
+        url: "../PHP/executeQuery.php",
+        type: "post",
+        data: {Query : "SELECT username FROM users"}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	console.log("Response: "+response);
+    	console.log("Status: "+textStatus);
+    	console.log("jqXHR: "+jqXHR);
+    	var parsedResponse = JSON.parse(response);
+    	console.log(response);
+    	students = parsedResponse.Results;
+		for (var i = 0; i < students.length; i++)
+		{
+			$("#student-dropdown").append("<li><a href='#' class='student'>"+students[i].username+"</a></li>");
+		}
+
+		$('.student').click(function() {
+		console.log("student click");
+		student = $(this).text();
+		console.log(student);
+		getExercises(student);
+		$('#choose-student-dropdown').text(student);
+		$('#choose-student-dropdown').append(" <span class='caret'></span>");
+		$('#choose-exercise-dropdown-marker').show();
+		});
+
+    });
+}
+
+function getExercises(student)
+{
+	var exercises;
+	request = $.ajax({
+		async: "false",
+        url: "../PHP/executeQuery.php",
+        type: "post",
+        data: {Query : "SELECT * FROM solutions WHERE username='"+student+"'"}
+    });
+
+    request.done(function(response, textStatus, jqXHR){
+    	console.log("Response: "+response);
+    	console.log("Status: "+textStatus);
+    	console.log("jqXHR: "+jqXHR);
+    	var parsedResponse = JSON.parse(response);
+    	var x = 0;
+    	console.log(response);
+    	console.log(parsedResponse.Results[1].username);
+    	exercises = parsedResponse.Results;
+    	$("#exercise-dropdown-marker").empty();
+		for (var i = 0; i < exercises.length; i++)
+		{
+			console.log(exercises[i].exercise);
+			//$("#exercise-dropdown").append("<li><a href='#' class='exercise'>"+exercises[i].exercise+"</a></li>");
+			$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>"+exercises[i].exercise+"</a></li>");
+		}
+
+		// Select an exercise to submit after loading exercises.
+		$('.exercise').click(function() {
+			ex = $(this).text();
+			for (var i = 0; i < exercises.length; i++)
+				if (exercises[i].exercise == ex)
+					x = i;
+			code = exercises[x].code;
+			$('#submit-exercise').show();
+			$('#choose-exercise-dropdown').text(ex);
+			$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
+			$('#choose-exercise-dropdown-marker').text(ex);
+			$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
+
+			$('#mark-text').show();
+			$('#submit-mark').show();
+
+			// Update console etc
+			$('#code-tab-title').text("Code - " + exercises[x].username +" Exercise: "+ exercises[x].exercise);
+			$codeTab.show();
+		    $codeTab.tab('show');
+			$('#code-code').text(code);
+			$('.display-div').show();
+			$('#code-preview').hide();
+			$('#console-preview').hide();
+			$('#upload-text-1').val("");
+			$('pre code').each(function(i, e) {hljs.highlightBlock(e)});	
+			$('#code-tab-title').text("Code - " + exercises[x].username +" "+ exercises[x].exercise);
+			$('.upload-code').hide();
+		});
+    });
+}
+
 function checkLoginStatus()
 {
 	// Display either login or logout button based on results of ajax request which checks if a user is logged in.
@@ -298,7 +371,7 @@ function mouseDown(event)
 
 		if ((robotposY != mazePosX || robotposX != mazePosY) && (endposY != mazePosX || endposX != mazePosY)) // If editing maze layout and not moving robot.
 		{
-			if (mazePosX != 0 && mazePosY != 0 && mazePosX != Maze[0].length-1 && mazePosY != Maze.length-1)
+			if (mazePosX != 0 && mazePosY != 0 && mazePosX != Maze.length-1 && mazePosY != Maze[0].length-1)
 			{
 				if (Maze[mazePosX][mazePosY] == 3000)
 				{
@@ -363,17 +436,16 @@ function findMazeCoordinates(event)
 	var blockSize = adjustments.blockSize;
 	var canvas = generator.findCanvasProperties();
 	// Convert to canvas coordinates using the canvas offset from the left and top of the screen.
-	x = (x-canvas.offsetLeft)-adjustments.xOffset;
-  	y = (y-canvas.offsetTop)-adjustments.yOffset;
+	x = (x-canvas.offsetLeft)-adjustments.yOffset;
+  	y = (y-canvas.offsetTop)-adjustments.xOffset;
   	var mazePosX = Math.ceil(x/blockSize)-1;
   	var mazePosY = Math.ceil(y/blockSize)-1;
 	//console.log(mazePosX);
 	//console.log(mazePosY);
 	//console.log(Maze[mazePosX][mazePosY]);
-	returnObject.x = mazePosX;
-	returnObject.y = mazePosY;
+	returnObject.x = mazePosY;
+	returnObject.y = mazePosX;
 	return returnObject;
-
 }
 
 // Updates the correct variable based on the name parameter.

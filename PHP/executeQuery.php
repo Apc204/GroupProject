@@ -1,18 +1,21 @@
 <?php
 session_start();
+$results = [];
 $error = "";
+$x = 0;
 
 if (isset($_SESSION['username']))
 {
 	$query = $_POST['Query'];
+
 	$username = $_SESSION['username'];
 	$mysqli = new mysqli("localhost", "root","", "CS118");
 	if ($mysqli->connect_errno){
 		echo "Failed to connect to MySQL: (".$mysql->connect_errno.") ".$mysqli->connect_error;
 	}
 
-
 	$res = $mysqli->query($query);
+	$error = $res;
 	if(!$res)
 	{
 		//echo "Query Failed";
@@ -21,11 +24,15 @@ if (isset($_SESSION['username']))
 	else
 	{
 		// Loop through results and store them in an array.
-		while ($row = $res->fetch_assoc())
+		if ($res !== true)
 		{
-			$results[$x++] = $row;
+			while ($row = $res->fetch_assoc())
+			{
+				$results[$x++] = $row;
+			}
 		}
 	}
+		
 }
 else
 {

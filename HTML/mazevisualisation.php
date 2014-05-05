@@ -239,7 +239,7 @@
 
             <div class="inner-left" id="left-option">
 
-              Width: <br />
+              Height: <br />
               <input type="text" id="width" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
               <input type="text" class="val val-width" name="width" value="10"><br /><br />
@@ -248,7 +248,7 @@
 
             <div class="inner-left" id="right-option">
 
-              Height: <br />
+              Width: <br />
               <input type="text" id="height" class="span2 slider slider-short" value="" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="10" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide"> 
 
               <input type="text" class="val val-height" name="height" value="10"><br /><br />

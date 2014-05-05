@@ -86,7 +86,7 @@ function Generator () {
 		var yOffset = adjustments.yOffset
 
 		// If there has been a collision, prepend "Red" to display the collision sprite.
-		if (oldCollisions != collisions)
+		if (oldCollisions < collisions)
 		{
 			append = "Red";
 		}
@@ -95,23 +95,23 @@ function Generator () {
 			append = append+"Matt";
 		}
 		// Clear square ready to draw robot
-		ctx.clearRect(robotposY*blockSize+xOffset, robotposX*blockSize+yOffset, blockSize, blockSize)
+		ctx.clearRect(robotposX*blockSize+yOffset, robotposY*blockSize+xOffset, blockSize, blockSize)
 		// Choose correct sprite depending on orientation
 		if (orientation == '1000')
 		{
-			this.draw("RobotLeft"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);
+			this.draw("RobotUp"+append,robotposX*blockSize+yOffset+gap, robotposY*blockSize+xOffset+gap, blockSize-2*gap, blockSize-2*gap);
 		}
 		else if (orientation == '1001')
 		{
-			this.draw("RobotDown"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
+			this.draw("RobotRight"+append,robotposX*blockSize+yOffset+gap, robotposY*blockSize+xOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 		else if (orientation == '1002')
 		{
-			this.draw("RobotRight"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
+			this.draw("RobotDown"+append,robotposX*blockSize+yOffset+gap, robotposY*blockSize+xOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 		else if (orientation == '1003')
 		{
-			this.draw("RobotUp"+append,robotposY*blockSize+xOffset+gap, robotposX*blockSize+yOffset+gap, blockSize-2*gap, blockSize-2*gap);	
+			this.draw("RobotLeft"+append,robotposX*blockSize+yOffset+gap, robotposY*blockSize+xOffset+gap, blockSize-2*gap, blockSize-2*gap);	
 		}
 	}
 
@@ -284,13 +284,13 @@ function Generator () {
 	{
 		var i = 0;
 		var neighbourWalls = [];
-		if (y < height-1  && Maze[x][y+1] == '3000')
+		if (y < height-1  && Maze[y+1][x] == '3000')
 			neighbourWalls[i++] = this.SOUTH;
-		if (y != 0 && Maze[x][y-1] == '3000')
+		if (y != 0 && Maze[y-1][x] == '3000')
 			neighbourWalls[i++] = this.NORTH;
-		if (x < width-1 && Maze[x+1][y] == '3000')
+		if (x < width-1 && Maze[y][x+1] == '3000')
 			neighbourWalls[i++] = this.EAST;
-		if (x != 0 && Maze[x-1][y] == '3000')
+		if (x != 0 && Maze[y][x-1] == '3000')
 			neighbourWalls[i++] = this.WEST;
 		return neighbourWalls;
 	}
@@ -309,44 +309,43 @@ function Generator () {
 		var xOffset = adjustments.xOffset;
 		var yOffset = adjustments.yOffset;
 
-		for (var i=0; i<Maze[0].length; i++)
+		for (var j=0; j<Maze.length; j++)
 		{
-			for (var j=0; j<Maze.length; j++)
+			for (var i=0; i<Maze[0].length; i++)
 			{
-
 				posi = i*blockSize+yOffset;
 				posj = j*blockSize+xOffset;
 				neighbours=[];
 				if(endposY == i && endposX == j)
 				{
 					ctx.fillStyle="#FF0000";
-					ctx.fillRect(posj+gap,posi+gap,blockSize-2*gap,blockSize-2*gap);
+					ctx.fillRect(posi+gap,posj+gap,blockSize-2*gap,blockSize-2*gap);
 				}
 
 				else if (Maze[j][i] == 3000)
 				{
 					// Check number of neighbours and call relevant function to draw it.
-					neighbours = this.checkTile(j,i, Maze[0].length, Maze.length);
+					neighbours = this.checkTile(i,j, Maze.length, Maze[0].length);
 					if (neighbours.length == 4){
-						this.drawMiddleBlock(posj,posi,blockSize,blockSize,neighbours);
+						this.drawMiddleBlock(posi,posj,blockSize,blockSize,neighbours);
 					}
 					else if (neighbours.length== 3){
-						this.draw3neighbours(posj,posi,blockSize,blockSize,neighbours);
+						this.draw3neighbours(posi,posj,blockSize,blockSize,neighbours);
 					}
 					else if (neighbours.length == 2){
-						this.draw2neighbours(posj,posi,blockSize,blockSize,neighbours);
+						this.draw2neighbours(posi,posj,blockSize,blockSize,neighbours);
 					}
 					else if (neighbours.length == 1){
-						this.drawSingleNeighbour(posj,posi,blockSize,blockSize,neighbours);
+						this.drawSingleNeighbour(posi,posj,blockSize,blockSize,neighbours);
 					}
 					else {
-						this.drawBlock(posj,posi,blockSize,blockSize,neighbours);
+						this.drawBlock(posi,posj,blockSize,blockSize,neighbours);
 					}
 				}
 				else if (Maze[j][i] == 4000)
 				{
 					ctx.fillStyle="#b5b5b5";
-					ctx.fillRect(posj+gap,posi+gap,blockSize-2*gap,blockSize-2*gap,Maze,neighbours);
+					ctx.fillRect(posi+gap,posj+gap,blockSize-2*gap,blockSize-2*gap,Maze,neighbours);
 				}
 			}
 		}
