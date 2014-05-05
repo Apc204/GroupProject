@@ -13,8 +13,13 @@ console.log "Server running."
 
 #language definitions
 languages = {
-    'python': (maze_file, code_file, prefix_string) ->
-        spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
+    'python': (maze_file, code_file, prefix_string, callback) ->
+        logic = spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
+        callback(logic)
+    ,
+    'java': (maze_file, code_file, prefix_string, callback) ->
+        logic = null
+        callback(logic)
 }
 
 #web socket server
@@ -31,6 +36,40 @@ server.on 'connection', (ws) ->
     reset = false
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
+
+    logic_setup = (logic) ->
+        logic.stdout.setEncoding('utf8')
+        logic.stderr.setEncoding('utf8')
+        logic_out = readline.createInterface({
+            input: logic.stdout,
+            terminal: false
+            })
+        logic_err = readline.createInterface({
+            input: logic.stderr,
+            terminal: false
+            })
+        logic_out.on 'line', (line) ->
+            if prefix_regex.test line
+                line = line[22..]
+                if !/^\[RANDOM\]/.test line
+                    if reset 
+                        if /^\[RESET\].*/.test line
+                            line = line[7..]
+                            ws.send line
+                            reset = false
+                    else
+                        maze_data = maze_data.concat line
+            else
+                ws.send "[CONSOLE]#{line}"
+        logic_err.on 'line', (line) ->
+            ws.send "[CONSOLE]#{line}"
+        logic.on 'close', (code) ->
+            logic = undefined
+            logic_err = undefined
+            logic_out = undefined 
+        logic.on 'err', (err) ->
+            console.log err
+        ws.send "READY"
 
     ws.on 'error', (err) ->
         console.log err
@@ -56,39 +95,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        logic = languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string)
-                        logic.stdout.setEncoding('utf8')
-                        logic.stderr.setEncoding('utf8')
-                        logic_out = readline.createInterface({
-                            input: logic.stdout,
-                            terminal: false
-                            })
-                        logic_err = readline.createInterface({
-                            input: logic.stderr,
-                            terminal: false
-                            })
-                        logic_out.on 'line', (line) ->
-                            if prefix_regex.test line
-                                line = line[22..]
-                                if !/^\[RANDOM\]/.test line
-                                    if reset 
-                                        if /^\[RESET\].*/.test line
-                                            line = line[7..]
-                                            ws.send line
-                                            reset = false
-                                    else
-                                        maze_data = maze_data.concat line
-                            else
-                                ws.send "[CONSOLE]#{line}"
-                        logic_err.on 'line', (line) ->
-                            ws.send "[CONSOLE]#{line}"
-                        logic.on 'close', (code) ->
-                            logic = undefined
-                            logic_err = undefined
-                            logic_out = undefined 
-                        logic.on 'err', (err) ->
-                            console.log err
-                        ws.send "READY"
+                        languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
             #accept code
             else if /^\[CODE\].*/.test message
                 console.log 'message'
@@ -105,42 +112,8 @@ server.on 'connection', (ws) ->
                     if code_recv and maze_recv
                         code_recv = false
                         maze_recv = false
-                        console.log "MAZE LOADED"
-                        console.log "#{dir_path}/maze.json"
                         #load logic
-                        logic = spawn "python", ["../../backend/python/MazeLogic.py", "#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string]
-                        logic.stdout.setEncoding('utf8')
-                        logic.stderr.setEncoding('utf8')
-                        logic_out = readline.createInterface({
-                            input: logic.stdout,
-                            terminal: false
-                            })
-                        logic_err = readline.createInterface({
-                            input: logic.stderr,
-                            terminal: false
-                            })
-                        logic_out.on 'line', (line) ->
-                            if prefix_regex.test line
-                                line = line[22..]
-                                if !/^\[RANDOM\]/.test line
-                                    if reset 
-                                        if /^\[RESET\].*/.test line
-                                            line = line[7..]
-                                            ws.send line
-                                            reset = false
-                                    else
-                                        maze_data = maze_data.concat line
-                            else
-                                ws.send "[CONSOLE]#{line}"
-                        logic_err.on 'line', (line) ->
-                            ws.send "[CONSOLE]#{line}"
-                        logic.on 'close', (code) ->
-                            logic = undefined
-                            logic_err = undefined
-                            logic_out = undefined 
-                        logic.on 'err', (err) ->
-                            console.log err
-                        ws.send "READY"
+                        languages['python']("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
             #handle steps
             else if message == "STEP"
                 if maze_data.length > 0
