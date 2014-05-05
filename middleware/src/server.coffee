@@ -38,6 +38,7 @@ server.on 'connection', (ws) ->
     reset = false
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
+    code_language = ""
 
     logic_setup = (process) ->
         logic = process
@@ -98,7 +99,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, dir_path, logic_setup)
             #accept code
             else if /^\[CODE\].*/.test message
                 console.log 'message'
@@ -107,6 +108,7 @@ server.on 'connection', (ws) ->
                 match = reg_ex.exec message
                 code_language = match[0]
                 message = message[(code_language.length)..]
+                code_language = code_language[1..-2]
                 fs.writeFile "#{dir_path}/code.py", message, (err) ->
                     if err
                         console.log err
@@ -116,7 +118,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, dir_path,logic_setup)
             #handle steps
             else if message == "STEP"
                 if maze_data.length > 0
