@@ -21,6 +21,7 @@ var $instructionsTab = $('[data-toggle="tab"][href="#instructions"]');
 var fileUploaded = false;
 var langChosen = false;
 var lang = "python";
+var firstRun = true;
 
 $codeTab.click(function(e) {      
     e.preventDefault();
@@ -559,6 +560,7 @@ function loadMaze(label) {
     request.done(function(response, textStatus, jqXHR){
     	var mazes = JSON.parse(response);
     	Maze = JSON.parse(mazes.mazeLabels[0]);
+    	firstRun = true;
     	var generator = new Generator();
     	robotposX = 1;
     	robotposY = 1;
@@ -575,7 +577,7 @@ function loadMaze(label) {
 
 // Show the uploaded code when the tab is clicked
 $('#upload-code').click(function() {
-
+	firstRun = true;
 	$('#code-tab-title').text("Code - " + filename);
 	$codeTab.show();
     $codeTab.tab('show');
@@ -599,6 +601,7 @@ $('#help-button').click(function () {
 $('.update-maze').click(function(){
 	if (running == false)
 	{
+		firstRun = true;
 		var generator = new Generator();
 		generator.generate();
 		generator.updateJSON();
@@ -649,7 +652,7 @@ $('.play').click(function() {
 	console.log("clicked play");
 	if (running == false || paused == true)
 	{
-		if(!paused) // If not paused, send the code and maze, and begin a new run.
+		if(firstRun) // If not paused, send the code and maze, and begin a new run.
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
@@ -658,6 +661,7 @@ $('.play').click(function() {
 		   	ws.send("[CODE]["+lang.toLowerCase()+"]["+filename+"]"+code);
 		   	running = true;
 		   	paused = false;
+		   	firstRun = false;
 		   	//sendSteps();
 		}
 		else // If paused, resume sending steps.
@@ -678,8 +682,17 @@ $('.pause').click(function() {
 
 // When stop is clicked, stop the run and send RESET to middleware.
 $('.stop').click(function(){
-	running = false;
-	ws.send("RESET");
+	if (running == true)
+	{
+		running = false;
+		ws.send("RESET");
+	}
+	else
+	{
+		ws.send("RERUN");
+		ws.send("STEP");
+	}
+	
 });
 
 // Send the given username and password to the database for verification when the user logs in.
