@@ -21,7 +21,7 @@ languages = {
     'java': (maze_file, code_file, prefix_string, dir_path, callback) ->
         exec "javac -cp .:../../backend/java/bin:../../backend/java/src #{code_file}", (error, stdout, stderr) ->
             console.log stderr
-            logic = spawn "java", ["-cp", ".:../../backend/java/bin/json-simple-1.1.1.jar", "../../backend/java/MazeLogic", maze_file, code_file[..-5], prefix_string]
+            logic = spawn "java", ["-cp", ".:../../backend/java/bin/json-simple-1.1.1.jar:../../backend/java/bin", "MazeLogic", maze_file, code_file[..-6], prefix_string]
             callback(logic)
 }
 
@@ -112,6 +112,8 @@ server.on 'connection', (ws) ->
                 code_file = code_data.split('][')[1]
                 code_language = code_data.split('][')[0]
                 message = message[(code_data.length)..]
+                console.log(code_file)
+                console.log(code_language)
                 code_language = code_language[1..]
                 code_file = code_file[..-2]
                 fs.writeFile "#{dir_path}/#{code_file}", message, (err) ->
