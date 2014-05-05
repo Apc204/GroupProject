@@ -16,13 +16,12 @@ console.log "Server running."
 languages = {
     'python': (maze_file, code_file, prefix_string, dir_path, callback) ->
         logic = spawn "python", ["../../backend/python/MazeLogic.py", maze_file, code_file, prefix_string]
-        callback(logic)
+        callback(logic, null)
     ,
     'java': (maze_file, code_file, prefix_string, dir_path, callback) ->
         exec "javac -cp .:../../backend/java/bin:../../backend/java/src #{code_file}", (error, stdout, stderr) ->
-            console.log stderr
             logic = spawn "java", ["-cp", ".:../../backend/java/bin/json-simple-1.1.1.jar:../../backend/java/bin", "MazeLogic", maze_file, code_file[..-6], prefix_string]
-            callback(logic)
+            callback(logic, stderr)
 }
 
 #web socket server
@@ -42,8 +41,9 @@ server.on 'connection', (ws) ->
     code_language = ""
     code_file = ""
 
-    logic_setup = (process) ->
+    logic_setup = (process, error) ->
         logic = process
+        ws.send "[CONSOLE]#{error}"
         logic.stdout.setEncoding('utf8')
         logic.stderr.setEncoding('utf8')
         logic_out = readline.createInterface({
