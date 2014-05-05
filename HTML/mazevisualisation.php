@@ -165,11 +165,6 @@
                     <p>You can change the maze by clicking on the maze to add and remove walls. The robot can also be dragged to different start locations. The maze cannot be 
                       changed while the robot is currently in a run, even if the robot is paused - you must click 'Stop' first to restart the run.
 
-                  <!-- <div class="input-group bottom-upload">
-                    <span class="input-group-addon btn-file" name="2">Choose File <input type="file" id="uploadBox2"></span>
-                    <input type="text" class="form-control" placeholder="No file chosen" class="upload-text" id="upload-text-2">
-                  </div><br>
-                  <a class="btn btn-primary upload-code" id="upload-code-2">Upload code</a><br><br> -->
               </div>
 
               <div class="tab-pane" id="console">
@@ -328,7 +323,6 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" id="student-dropdown">
-                
               </ul>
             </div>
             <div class="btn-group">
@@ -344,9 +338,9 @@
               <button class="btn btn-primary" id="submit-mark">Submit</button>
             </form>
           </div>
-          
-          <br><br>
-          <a class="btn btn-danger" class="hide" id="leekify">Matt Leekify</a>
+        
+          <br>
+          <a class="btn btn-danger" id="leekify">Matt Leekify</a>
 
         </div>
       </div>

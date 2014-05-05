@@ -73,6 +73,7 @@ $().ready(function () {
 		$('#choose-exercise-dropdown-marker').hide();
 		$('#submit-mark').hide();
 		$('#mark-text').hide();
+		$('#mark-form').hide();
 	}
 
 	$('#submit-mark').click(function() {
@@ -104,6 +105,42 @@ $().ready(function () {
 		} 
 		else 
 		{
+
+	$("#student-dropdown").append("<li><a href='#' class='student'>Student 1</a></li>");
+	$("#student-dropdown").append("<li><a href='#' class='student'>Student 2</a></li>");
+
+	$('.student').click(function() {
+		console.log("student click");
+		student = $(this).text();
+		console.log(student);
+		$('#choose-student-dropdown').text(student);
+		$('#choose-student-dropdown').append(" <span class='caret'></span>");
+		$('#choose-exercise-dropdown-marker').show();
+	});
+
+	//Load exercises here
+	// $(".exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+	$("#exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+	$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
+
+	// Select an exercise to submit after loading exercises.
+	$('.exercise').click(function() {
+		ex = $(this).text();
+		$('#submit-exercise').show();
+		$('#choose-exercise-dropdown').text(ex);
+		$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
+		$('#choose-exercise-dropdown-marker').text(ex);
+		$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
+		ex = parseInt(ex.substring(9));
+		$('#mark-form').show();
+	});
+
+	$('#submit-mark').click(function() {
+		//when the marker submits a mark.
+		mark = $('#mark-text').val();
+		if ($.isNumeric(mark)) {
+			alert("submitting mark " + mark + " for exercise " + ex + " for student " + student);
+		} else {
 			alert("Please enter a number for the mark.");
 		}
 	});
@@ -146,8 +183,8 @@ $().ready(function () {
 
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
-	$('.console').css("height", height-300);
-	$('#instructions').css("height", height-300);
+	$('.console').css("height", height-250);
+	$('#instructions').css("height", height-250);
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
