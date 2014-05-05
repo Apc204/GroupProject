@@ -679,7 +679,7 @@ $('.pause').click(function() {
 	console.log("clicked pause");
 	paused = true;
 });
-
+ 
 // When stop is clicked, stop the run and send RESET to middleware.
 $('.stop').click(function(){
 	if (running == true)
