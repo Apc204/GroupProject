@@ -60,7 +60,7 @@ $().ready(function () {
 
 	// Check whether user is logged in and change page settings.
 	checkLoginStatus();
-	
+
 	console.log(clearance);
 	if (clearance == "student") {
 		console.log("Show student div");
@@ -73,7 +73,6 @@ $().ready(function () {
 		$('#choose-exercise-dropdown-marker').hide();
 		$('#submit-mark').hide();
 		$('#mark-text').hide();
-		$('#mark-form').hide();
 	}
 
 	$('#submit-mark').click(function() {
@@ -99,48 +98,12 @@ $().ready(function () {
 	    		console.log("jqXHR: "+jqXHR);
 	    		var parsedResponse = JSON.parse(response);
 	    		console.log(response);
-			
+
     			});
 	   		}
 		} 
 		else 
 		{
-
-	$("#student-dropdown").append("<li><a href='#' class='student'>Student 1</a></li>");
-	$("#student-dropdown").append("<li><a href='#' class='student'>Student 2</a></li>");
-
-	$('.student').click(function() {
-		console.log("student click");
-		student = $(this).text();
-		console.log(student);
-		$('#choose-student-dropdown').text(student);
-		$('#choose-student-dropdown').append(" <span class='caret'></span>");
-		$('#choose-exercise-dropdown-marker').show();
-	});
-
-	//Load exercises here
-	// $(".exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-	$("#exercise-dropdown").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-	$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>Exercise 1</a></li>");
-
-	// Select an exercise to submit after loading exercises.
-	$('.exercise').click(function() {
-		ex = $(this).text();
-		$('#submit-exercise').show();
-		$('#choose-exercise-dropdown').text(ex);
-		$('#choose-exercise-dropdown').append(" <span class='caret'></span>");
-		$('#choose-exercise-dropdown-marker').text(ex);
-		$('#choose-exercise-dropdown-marker').append(" <span class='caret'></span>");
-		ex = parseInt(ex.substring(9));
-		$('#mark-form').show();
-	});
-
-	$('#submit-mark').click(function() {
-		//when the marker submits a mark.
-		mark = $('#mark-text').val();
-		if ($.isNumeric(mark)) {
-			alert("submitting mark " + mark + " for exercise " + ex + " for student " + student);
-		} else {
 			alert("Please enter a number for the mark.");
 		}
 	});
@@ -165,10 +128,10 @@ $().ready(function () {
 	canvas.addEventListener("mousedown", mouseDown, false);
 	canvas.addEventListener("mousemove", mouseMove, false);
 	canvas.addEventListener("mouseup", mouseUp, false);
-	
+
 	//Handle file upload
 	var fileInput = document.getElementById('uploadBox');
-	
+
 	fileInput.addEventListener('change', function(e) {
 		var file = fileInput.files[0];
 		uploadCode(file);
@@ -183,8 +146,8 @@ $().ready(function () {
 
 	$('#console-div').css("width", bothWidth/2);
 	$('.console').css("width", bothWidth/2);
-	$('.console').css("height", height-250);
-	$('#instructions').css("height", height-250);
+	$('.console').css("height", height-300);
+	$('#instructions').css("height", height-300);
 	$('.display-pre').css("max-height", height-320);
 
 	//Initialise sliders
@@ -194,7 +157,7 @@ $().ready(function () {
 		//get the name of the question we're working with
 		var name = $(this).attr('id');
 		//assign this value to the correct value box
-	
+
 		updateVariable(name, val);
 	});
 
@@ -219,7 +182,7 @@ $().ready(function () {
 	$('.val').keyup(function() {
 		//get the name of the question we're working with. Substring with 4 to remove the val- from the beginning.
 		var name = $(this).attr('name');
-		
+
 		var val = $(this).val();
 		$('#'+name).slider('setValue', val);
 		$('.val-'+name).val(val);
@@ -436,7 +399,7 @@ function mouseUp(event)
 
 function mouseMove(event)
 {
-	
+
 	if (dragging == true) // If dragging the robot
 	{
 		var generator = new Generator();
@@ -446,7 +409,7 @@ function mouseMove(event)
 
 		if (Maze[mazePosX][mazePosY] == 3001)
 		{
-			
+
 			if (robotposY != mazePosX || robotposX != mazePosY) // Only redraw if robot position has changed to reduce computation.
 			{
 				robotposY = mazePosX;
@@ -454,7 +417,7 @@ function mouseMove(event)
 				generator.updateJSON();
 				generator.fullUpdate();
 			}
-			
+
 		}
 
 	}
@@ -722,7 +685,7 @@ $('.stop').click(function(){
 $('.login').click(function(){
 	var username = $('.login-username').val();
 	var password = $('.login-password').val();
-	
+
 	// Send an AJAX request to verify the details.
 	request = $.ajax({
         url: "../PHP/login.php",
@@ -809,7 +772,7 @@ $('.save-maze').click(function(){
 
 	    });
 	}
-	
+
 });
 
 // Choose a language
@@ -880,4 +843,3 @@ $('#leekify').click(function() {
 	}
 	$('.update-maze').trigger("click");
 });
-
