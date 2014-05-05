@@ -293,8 +293,8 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="#" class="language">Python</a></li>
-                  <li><a href="#" class="language">Java</a></li>
+                  <li><a class="language btn-file">Python</a></li>
+                  <li><a class="language btn-file">Java</a></li>
                 </ul>
               </div>
               <a class="btn btn-primary" id="upload-code">Upload</a>

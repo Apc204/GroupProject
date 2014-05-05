@@ -249,7 +249,7 @@ function getStudents()
     	students = parsedResponse.Results;
 		for (var i = 0; i < students.length; i++)
 		{
-			$("#student-dropdown").append("<li><a href='#' class='student'>"+students[i].username+"</a></li>");
+			$("#student-dropdown").append("<li><a class='student btn-file'>"+students[i].username+"</a></li>");
 		}
 
 		$('.student').click(function() {
@@ -289,7 +289,7 @@ function getExercises(student)
 		{
 			console.log(exercises[i].exercise);
 			//$("#exercise-dropdown").append("<li><a href='#' class='exercise'>"+exercises[i].exercise+"</a></li>");
-			$("#exercise-dropdown-marker").append("<li><a href='#' class='exercise'>"+exercises[i].exercise+"</a></li>");
+			$("#exercise-dropdown-marker").append("<li><a class='exercise btn-file'>"+exercises[i].exercise+"</a></li>");
 		}
 
 		// Select an exercise to submit after loading exercises.
