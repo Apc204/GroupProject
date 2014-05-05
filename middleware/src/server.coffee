@@ -19,8 +19,9 @@ languages = {
         callback(logic)
     ,
     'java': (maze_file, code_file, prefix_string, dir_path, callback) ->
-        exec "javac -cp .:../../backend/java/bin -d #{dirpath} #{codefile}", (error, stdout, stderr) ->
-            logic = spawn "java", ["-cp .:../../backend/java/bin/json-simple-1.1.1.jar", "../../backend/java/MazeLogic", maze_file, code_file[..-5], prefix_string]
+        exec "javac -cp .:../../backend/java/bin:../../backend/java/src #{code_file}", (error, stdout, stderr) ->
+            console.log stderr
+            logic = spawn "java", ["-cp", ".:../../backend/java/bin/json-simple-1.1.1.jar", "../../backend/java/MazeLogic", maze_file, code_file[..-5], prefix_string]
             callback(logic)
 }
 
@@ -39,6 +40,7 @@ server.on 'connection', (ws) ->
     prefix_string = randomstring.generate(20)
     prefix_regex = RegExp("^\\[#{prefix_string}\\]")
     code_language = ""
+    code_file = ""
 
     logic_setup = (process) ->
         logic = process
@@ -99,17 +101,20 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, dir_path, logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/#{code_file}", prefix_string, dir_path, logic_setup)
             #accept code
             else if /^\[CODE\].*/.test message
                 console.log 'message'
                 message = message[6..]
                 reg_ex = /(\[.*\])/
                 match = reg_ex.exec message
-                code_language = match[0]
-                message = message[(code_language.length)..]
-                code_language = code_language[1..-2]
-                fs.writeFile "#{dir_path}/code.py", message, (err) ->
+                code_data = match[0]
+                code_file = code_data.split('][')[1]
+                code_language = code_data.split('][')[0]
+                message = message[(code_data.length)..]
+                code_language = code_language[1..]
+                code_file = code_file[..-2]
+                fs.writeFile "#{dir_path}/#{code_file}", message, (err) ->
                     if err
                         console.log err
                     else
@@ -118,7 +123,7 @@ server.on 'connection', (ws) ->
                         code_recv = false
                         maze_recv = false
                         #load logic
-                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/code.py", prefix_string, dir_path,logic_setup)
+                        languages[code_language]("#{dir_path}/maze.json", "#{dir_path}/#{code_file}", prefix_string, dir_path,logic_setup)
             #handle steps
             else if message == "STEP"
                 if maze_data.length > 0
