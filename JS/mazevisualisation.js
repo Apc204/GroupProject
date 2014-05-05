@@ -115,6 +115,7 @@ $().ready(function () {
 		'url':'../PHP/getDefaultController.php',
 		'success':function(resp){
 			code = resp;
+			filename = "dumboControllerReset.py"
 			console.log(code);
 			$('.display-div').show();
 			$('#code-preview').hide();
@@ -652,9 +653,9 @@ $('.play').click(function() {
 		{
 			console.log("Starting with new Maze");
 		   	ws.send(json);
-		   	console.log("[CODE]["+lang+"]"+code);
+		   	console.log("[CODE]["+lang.toLowerCase()+"]["+filename+"]"+code);
 		   	//ws.send("[CODE]"+code);
-		   	ws.send("[CODE]["+lang.toLowerCase()+"]"+code);
+		   	ws.send("[CODE]["+lang.toLowerCase()+"]["+filename+"]"+code);
 		   	running = true;
 		   	paused = false;
 		   	//sendSteps();
@@ -713,7 +714,6 @@ $('.login').click(function(){
     	//$('#help-button').show();
 
     });
-
 });
 
 // Send an AJAX request to log the user out when "logout" is clicked.
