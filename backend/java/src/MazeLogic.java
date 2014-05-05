@@ -19,6 +19,7 @@ public class MazeLogic {
         MazeLogic ml = new MazeLogic(args[0],args[1],prefix);
         // Attempt to run the controller, catching ResetException to account for reset behaviour
         try {
+            //System.out.println("HELLO");
             ml.startController();
             System.out.println(prefix + "END OF EXECUTION");
         } catch (ResetException re) {
@@ -38,6 +39,7 @@ public class MazeLogic {
         while(!(line.equals("stop"))) {
             if(line.equals("rerun")) {
                 try {
+                    ml.robot.jsondump();
                     ml.startController();
                     System.out.println(prefix + "END OF EXECUTION");
                 } catch (ResetException re) {

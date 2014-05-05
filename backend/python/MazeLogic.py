@@ -90,7 +90,6 @@ if __name__ == '__main__':
     try:
         ml.startController()
         print(prefix+"END OF EXECUTION")
-        ml.robot.jsondump()
     except ResetException as re:
         pass
     ml.resetController() # Reset the controller after termination of the run
@@ -105,9 +104,9 @@ if __name__ == '__main__':
     while line != "stop\n":
         if line == "rerun\n":
             try:
+                ml.robot.jsondump()
                 ml.startController()
                 print(prefix+"END OF EXECUTION")
-                ml.robot.jsondump()
             except ResetException as re:
                 pass
             for a in range(5):
